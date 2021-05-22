@@ -28,6 +28,8 @@ public class CategoriaController {
 	@GetMapping("/category")
 	public List<Categoria> getCategorias(){
 		List<Categoria> categorias = categoriarespository.findAll();
+		System.out.println("Hola");
+	
 		return categorias;
 	}
 	
@@ -60,6 +62,7 @@ public class CategoriaController {
 				.body("{\"mensaje\": \"La categoria se ha actualizado correctamente " + id + "\"}");
 	}
 	
+	
 	@DeleteMapping("/category/{id}")
 	public ResponseEntity<String> deleteCategoria(@PathVariable Long id){
 		
@@ -68,5 +71,10 @@ public class CategoriaController {
 		return ResponseEntity.ok().header("Content-Type", "application/json")
 		.body("{\"mensaje\": \"La categoria se ha eliminado correctamente " + id + "\"}");
 	}
+	
+
+	
+
+
 
 }
