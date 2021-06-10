@@ -30,7 +30,7 @@ public class ProductosController {
 		return productos;
 	}
 	
-	@GetMapping("/productos/{id}")
+	@GetMapping("/products/{id}")
 	public Optional<Productos> getProducto(@PathVariable Long id)
 	throws ResourceNotFoundException{
 		

@@ -28,7 +28,7 @@ public class CategoriaController {
 	@GetMapping("/category")
 	public List<Categoria> getCategorias(){
 		List<Categoria> categorias = categoriarespository.findAll();
-		System.out.println("Hola");
+		
 	
 		return categorias;
 	}
