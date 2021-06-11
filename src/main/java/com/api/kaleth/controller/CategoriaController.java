@@ -72,9 +72,4 @@ public class CategoriaController {
 		.body("{\"mensaje\": \"La categoria se ha eliminado correctamente " + id + "\"}");
 	}
 	
-
-	
-
-
-
 }
