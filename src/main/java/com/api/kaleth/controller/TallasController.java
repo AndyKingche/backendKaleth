@@ -15,52 +15,53 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.api.kaleth.domain.Tallas;
+import com.api.kaleth.domain.CatTalla;
 import com.api.kaleth.respository.TallasRepository;
 
 @RestController
 @RequestMapping("/api")
 public class TallasController {
 	@Autowired
-	TallasRepository tallasrepository;
+	TallasRepository CatTallarepository;
 	
 	@GetMapping("/size")
-	public List<Tallas> getTallas(){
-		List<Tallas> tallas = tallasrepository.findAll();
-		return tallas;
+	public List<CatTalla> getCatTalla(){
+		List<CatTalla> CatTalla = CatTallarepository.findAll();
+		return CatTalla;
 	}
 	
 	@GetMapping("/size/{id}")
-	public Optional<Tallas> getTalla(@PathVariable Long id)throws ResourceNotFoundException{
+	public Optional<CatTalla> getTalla(@PathVariable Long id)throws ResourceNotFoundException{
 		
-		Optional<Tallas> talla = tallasrepository.findById(id);
+		Optional<CatTalla> talla = CatTallarepository.findById(id);
 		return talla;
 	}
 	
 	@PostMapping("/size")
-	public Tallas createTallas(@RequestBody Tallas talla) {
+	public CatTalla createCatTalla(@RequestBody CatTalla talla) {
 		
-		Tallas newtalla = tallasrepository.save(talla);
+		CatTalla newtalla = CatTallarepository.save(talla);
 		return newtalla;
 	}
 	
 	@PutMapping("/size/{id}")
-	public ResponseEntity<String> updateTallas(@RequestBody Tallas talla, @PathVariable Long id)
+	public ResponseEntity<String> updateCatTalla(@RequestBody CatTalla talla, @PathVariable Long id)
 			throws ResourceNotFoundException{
 		
-		Tallas findTalla = tallasrepository.findById(id).orElseThrow(()->new ResourceNotFoundException("No encontramos ninguna talla"));
-		findTalla.setNombre(talla.getNombre());
+		CatTalla findTalla = CatTallarepository.findById(id).orElseThrow(()->new ResourceNotFoundException("No encontramos ninguna talla"));
+		findTalla.setMedida(talla.getMedida());
 		findTalla.setDescripcion(talla.getDescripcion());
+		findTalla.setTipo(talla.getTipo());
 		
-		Tallas updateTalla = tallasrepository.save(findTalla);
+		CatTalla updateTalla = CatTallarepository.save(findTalla);
 		return ResponseEntity.ok().header("Content-Type", "application/json")
 				.body("{\"mensaje\": \"La talla se ha actualizado correctamente " + "" + "\"}");
 		
 	}
 	
 	@DeleteMapping("/size/{id}")
-	public ResponseEntity<String> deleteTallas(@PathVariable Long id)throws ResourceNotFoundException{
-		tallasrepository.deleteById(id);
+	public ResponseEntity<String> deleteCatTalla(@PathVariable Long id)throws ResourceNotFoundException{
+		CatTallarepository.deleteById(id);
 		return ResponseEntity.ok().header("Content-Type", "application/json")
 				.body("{\"mensaje\": \"La talla se ha eliminado correctamente " + "" + "\"}");
 		
