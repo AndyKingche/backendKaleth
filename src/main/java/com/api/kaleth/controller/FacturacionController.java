@@ -3,7 +3,7 @@ package com.api.kaleth.controller;
 import java.util.List;
 import java.util.Optional;
 
-import com.api.kaleth.domain.Facturacion;
+import com.api.kaleth.domain.VenCabezaFactura;
 import com.api.kaleth.respository.FacturacionRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,39 +23,41 @@ import org.springframework.web.bind.annotation.RestController;
 
 public class FacturacionController {
     @Autowired
-    FacturacionRepository facturacionrepository;
+    FacturacionRepository VenCabezaFacturarepository;
 
     @GetMapping("/bill")
-    public List<Facturacion> getFacturaciones(){
-        List<Facturacion> facturaciones = facturacionrepository.findAll();
-        return facturaciones;
+    public List<VenCabezaFactura> getVenCabezaFacturaes(){
+        List<VenCabezaFactura> VenCabezaFacturaes = VenCabezaFacturarepository.findAll();
+        return VenCabezaFacturaes;
     }
 
     @GetMapping("/bill/{id}")
-    public Optional<Facturacion> getFacturacion(@PathVariable Long id)
+    public Optional<VenCabezaFactura> getVenCabezaFactura(@PathVariable Long id)
     throws ResourceNotFoundException{
-        Optional<Facturacion> facturacion = facturacionrepository.findById(id);
-        return facturacion;
+        Optional<VenCabezaFactura> VenCabezaFactura = VenCabezaFacturarepository.findById(id);
+        return VenCabezaFactura;
     }
 
     @PostMapping("/bill")
-    public Facturacion createFacturacion(@RequestBody Facturacion facturacion){
-        Facturacion newFacturacion = facturacionrepository.save(facturacion);
+    public VenCabezaFactura createVenCabezaFactura(@RequestBody VenCabezaFactura VenCabezaFactura){
+        VenCabezaFactura newVenCabezaFactura = VenCabezaFacturarepository.save(VenCabezaFactura);
 
-        return newFacturacion;
+        return newVenCabezaFactura;
 
     }
 
     @PutMapping("/bill/{id}")
-    public ResponseEntity<String> updateFacturacion(@RequestBody Facturacion facturacion,@PathVariable Long id )
+    public ResponseEntity<String> updateVenCabezaFactura(@RequestBody VenCabezaFactura VenCabezaFactura,@PathVariable Long id )
     throws ResourceNotFoundException{
         
-        Facturacion findfacturacion = facturacionrepository.findById(id).orElseThrow(()-> new ResourceNotFoundException("No encontramos nada"));
+        VenCabezaFactura findVenCabezaFactura = VenCabezaFacturarepository.findById(id).orElseThrow(()-> new ResourceNotFoundException("No encontramos nada"));
 
-        findfacturacion.setFecha(facturacion.getFecha());
-        findfacturacion.setIva(facturacion.getIva());
+        findVenCabezaFactura.setFechaFactu(VenCabezaFactura.getFechaFactu());
+        findVenCabezaFactura.setIva(VenCabezaFactura.getIva());
+        findVenCabezaFactura.setTotal(VenCabezaFactura.getTotal());
+        findVenCabezaFactura.setEstado(VenCabezaFactura.getEstado());
         
-        final Facturacion updatefactura = facturacionrepository.save(findfacturacion);
+        final VenCabezaFactura updatefactura = VenCabezaFacturarepository.save(findVenCabezaFactura);
         return ResponseEntity.ok().header("Content-Type", "application/json")
 				.body("{\"mensaje\": \"La factua se actualizo correctamente " + "" + "\"}");
 
@@ -63,7 +65,7 @@ public class FacturacionController {
 
     @DeleteMapping("/bill/{id}")
     public  ResponseEntity<String> deleteFactura(@PathVariable Long id)throws ResourceNotFoundException{
-        facturacionrepository.deleteById(id);
+        VenCabezaFacturarepository.deleteById(id);
         return ResponseEntity.ok().header("Content-Type", "application/json")
         .body("{\"mensaje\": \"La factua se elimino correctamente " + "" + "\"}");
 

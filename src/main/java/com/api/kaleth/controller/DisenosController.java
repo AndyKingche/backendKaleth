@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.api.kaleth.domain.Disenos;
+import com.api.kaleth.domain.CatDiseno;
 import com.api.kaleth.respository.DisenosRepository;
 
 
@@ -24,37 +24,37 @@ import com.api.kaleth.respository.DisenosRepository;
 @RequestMapping("/api")
 public class DisenosController {
 	@Autowired
-	DisenosRepository disenosrespository;
+	DisenosRepository CatDisenorespository;
 	
 	@GetMapping("/desing")
-	public List<Disenos> getDisenos(){
-		List<Disenos> disenos = disenosrespository.findAll();
-		return disenos;
+	public List<CatDiseno> getCatDiseno(){
+		List<CatDiseno> CatDiseno = CatDisenorespository.findAll();
+		return CatDiseno;
 		
 	}
 	
 	@GetMapping("/desing/{id}")
-	public Optional<Disenos> getDiseno(@PathVariable Long id) 
+	public Optional<CatDiseno> getDiseno(@PathVariable Long id) 
 			throws ResourceNotFoundException{
-		Optional<Disenos> diseno = disenosrespository.findById(id);
+		Optional<CatDiseno> diseno = CatDisenorespository.findById(id);
 		return diseno;
 	}
 	
 	@PostMapping("/desing")
-	public Disenos createDiseno(@RequestBody Disenos disenos) {
+	public CatDiseno createDiseno(@RequestBody CatDiseno CatDiseno) {
 		
-		Disenos newdisenos = disenosrespository.save(disenos);
-		return newdisenos;
+		CatDiseno newCatDiseno = CatDisenorespository.save(CatDiseno);
+		return newCatDiseno;
 	}
 	
 	@PutMapping("/desing/{id}")
-	public ResponseEntity<String> updateDisenos(@RequestBody Disenos disenos, @PathVariable Long id)
+	public ResponseEntity<String> updateCatDiseno(@RequestBody CatDiseno CatDiseno, @PathVariable Long id)
 	throws ResourceNotFoundException{
 		
-		Disenos findDisenos = disenosrespository.findById(id).orElseThrow(()->new ResourceNotFoundException("No encuentro ningun disenos que pidio"));
-		findDisenos.setNombre(disenos.getNombre());
+		CatDiseno findCatDiseno = CatDisenorespository.findById(id).orElseThrow(()->new ResourceNotFoundException("No encuentro ningun CatDiseno que pidio"));
+		findCatDiseno.setNombre(CatDiseno.getNombre());
 		
-		Disenos updateDisenos = disenosrespository.save(findDisenos);
+		CatDiseno updateCatDiseno = CatDisenorespository.save(findCatDiseno);
 		
 		return ResponseEntity.ok().header("Content-Type", "application/json")
 				.body("{\"mensaje\": \"El diseno se ha actualizado correctamente " + id + "\"}");
@@ -62,10 +62,10 @@ public class DisenosController {
 	}
 	
 	@DeleteMapping("/desing/{id}")
-	public ResponseEntity<String> deleteDisenos(@PathVariable Long id)
+	public ResponseEntity<String> deleteCatDiseno(@PathVariable Long id)
 	throws ResourceNotFoundException{
 		
-		disenosrespository.deleteById(id);
+		CatDisenorespository.deleteById(id);
 		return ResponseEntity.ok().header("Content-Type", "application/json")
 				.body("{\"mensaje\": \"El diseno se ha eliminado correctamente " + id + "\"}");
 		

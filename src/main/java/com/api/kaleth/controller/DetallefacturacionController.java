@@ -3,7 +3,7 @@ package com.api.kaleth.controller;
 import java.util.List;
 import java.util.Optional;
 
-import com.api.kaleth.domain.Detallefacturacion;
+import com.api.kaleth.domain.VenDetalleFactura;
 import com.api.kaleth.respository.DetallefacturacionRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,34 +25,34 @@ public class DetallefacturacionController {
     DetallefacturacionRepository detallerepository;
 
     @GetMapping("/detail-fac")
-    public List<Detallefacturacion> getDetallesfac(){
-        List<Detallefacturacion> detalles = detallerepository.findAll();
+    public List<VenDetalleFactura> getDetallesfac(){
+        List<VenDetalleFactura> detalles = detallerepository.findAll();
         return detalles;
     }
 
     @GetMapping("/detail-fac/{id}")
-    public Optional <Detallefacturacion> getDetallefac(@PathVariable Long id)
+    public Optional <VenDetalleFactura> getDetallefac(@PathVariable Long id)
     throws ResourceNotFoundException {
-        Optional<Detallefacturacion> detalle = detallerepository.findById(id);
+        Optional<VenDetalleFactura> detalle = detallerepository.findById(id);
         return detalle;
     }
 
     @PostMapping("/detail-fac")
-    public Detallefacturacion createDetalle(@RequestBody Detallefacturacion detalle){
-        Detallefacturacion newDetalle = detallerepository.save(detalle);
+    public VenDetalleFactura createDetalle(@RequestBody VenDetalleFactura detalle){
+        VenDetalleFactura newDetalle = detallerepository.save(detalle);
         return newDetalle;
     }
     
     @PutMapping("/detail-fac/{id}")
-    public ResponseEntity<String> updatedetalle(@RequestBody Detallefacturacion detalle, @PathVariable Long id )throws ResourceNotFoundException{
-        Detallefacturacion findDetalle = detallerepository.findById(id).orElseThrow(()-> new ResourceNotFoundException("No se encontro ningun dato"));
+    public ResponseEntity<String> updatedetalle(@RequestBody VenDetalleFactura detalle, @PathVariable Long id )throws ResourceNotFoundException{
+        VenDetalleFactura findDetalle = detallerepository.findById(id).orElseThrow(()-> new ResourceNotFoundException("No se encontro ningun dato"));
+//
+//        findDetalle.setFecha(detalle.getFecha());
+//        findDetalle.setCantidad(detalle.getCantidad());
+//        findDetalle.setTotal(detalle.getTotal());
+//        findDetalle.setProductos(detalle.getProductos());
 
-        findDetalle.setFecha(detalle.getFecha());
-        findDetalle.setCantidad(detalle.getCantidad());
-        findDetalle.setTotal(detalle.getTotal());
-        findDetalle.setProductos(detalle.getProductos());
-
-        Detallefacturacion updateDetalle = detallerepository.save(findDetalle);
+        VenDetalleFactura updateDetalle = detallerepository.save(findDetalle);
 
         return ResponseEntity.ok().header("Content-Type", "application/json")
         .body("{\"mensaje\": \"El detalle se ha actualizado correctamente " + id + "\"}");
