@@ -49,7 +49,7 @@ public class EstadoCivilController {
 		
 		UsEstadocivil findestado = UsEstadocivilrepository.findById(id).orElseThrow(()->new ResourceNotFoundException("No se encontro ningun id"));
 		findestado.setNombre(UsEstadocivil.getNombre());
-		
+		System.out.println(findestado);
 		UsEstadocivil actualizarestado = UsEstadocivilrepository.save(findestado);
 		
 		return ResponseEntity.ok().header("Content-Type", "application/json")

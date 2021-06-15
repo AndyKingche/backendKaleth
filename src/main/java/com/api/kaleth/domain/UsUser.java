@@ -19,7 +19,7 @@ public class UsUser implements Serializable {
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	@Column(name="ID_USUARIO")
-	private int idUsuario;
+	private Long idUsuario;
 
 	private String apellido;
 
@@ -43,38 +43,22 @@ public class UsUser implements Serializable {
 	//bi-directional many-to-one association to UsEstadocivil
 	@ManyToOne
 	@JoinColumn(name="ID_ESTADOCIVIL")
-	private UsEstadocivil usEstadocivil;
+	private UsEstadocivil estadocivil;
 
 	//bi-directional many-to-one association to UsGenero
 	@ManyToOne
 	@JoinColumn(name="ID_GENERO")
-	private UsGenero usGenero;
+	private UsGenero genero;
 
-	//bi-directional many-to-many association to UsRole
-	@ManyToMany
-	@JoinTable(
-		name="us_rolesxusuarios"
-		, joinColumns={
-			@JoinColumn(name="ID_USUARIO")
-			}
-		, inverseJoinColumns={
-			@JoinColumn(name="ID_ROLES")
-			}
-		)
-	private List<UsRole> usRoles;
-
-	//bi-directional many-to-one association to VenCabezaFactura
-	@OneToMany(mappedBy="usUser")
-	private List<VenCabezaFactura> venCabezaFacturas;
 
 	public UsUser() {
 	}
-
-	public int getIdUsuario() {
-		return this.idUsuario;
+	
+	public Long getIdUsuario() {
+		return idUsuario;
 	}
 
-	public void setIdUsuario(int idUsuario) {
+	public void setIdUsuario(Long idUsuario) {
 		this.idUsuario = idUsuario;
 	}
 
@@ -149,51 +133,44 @@ public class UsUser implements Serializable {
 	public void setTelefono(String telefono) {
 		this.telefono = telefono;
 	}
-
-	public UsEstadocivil getUsEstadocivil() {
-		return this.usEstadocivil;
+	public UsEstadocivil getEstadocivil() {
+		return estadocivil;
 	}
 
-	public void setUsEstadocivil(UsEstadocivil usEstadocivil) {
-		this.usEstadocivil = usEstadocivil;
+	public void setEstadocivil(UsEstadocivil estadocivil) {
+		this.estadocivil = estadocivil;
 	}
 
-	public UsGenero getUsGenero() {
-		return this.usGenero;
+	public UsGenero getGenero() {
+		return genero;
 	}
 
-	public void setUsGenero(UsGenero usGenero) {
-		this.usGenero = usGenero;
+	public void setGenero(UsGenero genero) {
+		this.genero = genero;
 	}
 
-	public List<UsRole> getUsRoles() {
-		return this.usRoles;
-	}
-
-	public void setUsRoles(List<UsRole> usRoles) {
-		this.usRoles = usRoles;
-	}
-
-	public List<VenCabezaFactura> getVenCabezaFacturas() {
-		return this.venCabezaFacturas;
-	}
-
-	public void setVenCabezaFacturas(List<VenCabezaFactura> venCabezaFacturas) {
-		this.venCabezaFacturas = venCabezaFacturas;
-	}
-
-	public VenCabezaFactura addVenCabezaFactura(VenCabezaFactura venCabezaFactura) {
-		getVenCabezaFacturas().add(venCabezaFactura);
-		venCabezaFactura.setUsUser(this);
-
-		return venCabezaFactura;
-	}
-
-	public VenCabezaFactura removeVenCabezaFactura(VenCabezaFactura venCabezaFactura) {
-		getVenCabezaFacturas().remove(venCabezaFactura);
-		venCabezaFactura.setUsUser(null);
-
-		return venCabezaFactura;
-	}
+	/*
+	 * public List<UsRole> getUsRoles() { return this.usRoles; }
+	 * 
+	 * public void setUsRoles(List<UsRole> usRoles) { this.usRoles = usRoles; }
+	 * 
+	 * public List<VenCabezaFactura> getVenCabezaFacturas() { return
+	 * this.venCabezaFacturas; }
+	 * 
+	 * public void setVenCabezaFacturas(List<VenCabezaFactura> venCabezaFacturas) {
+	 * this.venCabezaFacturas = venCabezaFacturas; }
+	 * 
+	 * public VenCabezaFactura addVenCabezaFactura(VenCabezaFactura
+	 * venCabezaFactura) { getVenCabezaFacturas().add(venCabezaFactura);
+	 * venCabezaFactura.setUsUser(this);
+	 * 
+	 * return venCabezaFactura; }
+	 * 
+	 * public VenCabezaFactura removeVenCabezaFactura(VenCabezaFactura
+	 * venCabezaFactura) { getVenCabezaFacturas().remove(venCabezaFactura);
+	 * venCabezaFactura.setUsUser(null);
+	 * 
+	 * return venCabezaFactura; }
+	 */
 
 }

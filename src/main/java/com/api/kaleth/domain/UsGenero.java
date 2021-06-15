@@ -18,26 +18,28 @@ public class UsGenero implements Serializable {
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	@Column(name="ID_GENERO")
-	private int idGenero;
+	private Long idGenero;
 
 	private String genero;
 
 	private String nombre;
 
-	//bi-directional many-to-one association to UsUser
-	@OneToMany(mappedBy="usGenero")
-	private List<UsUser> usUsers;
-
 	public UsGenero() {
 	}
 
-	public int getIdGenero() {
-		return this.idGenero;
+	
+
+	public Long getIdGenero() {
+		return idGenero;
 	}
 
-	public void setIdGenero(int idGenero) {
+
+
+	public void setIdGenero(Long idGenero) {
 		this.idGenero = idGenero;
 	}
+
+
 
 	public String getGenero() {
 		return this.genero;
@@ -55,26 +57,5 @@ public class UsGenero implements Serializable {
 		this.nombre = nombre;
 	}
 
-	public List<UsUser> getUsUsers() {
-		return this.usUsers;
-	}
-
-	public void setUsUsers(List<UsUser> usUsers) {
-		this.usUsers = usUsers;
-	}
-
-	public UsUser addUsUser(UsUser usUser) {
-		getUsUsers().add(usUser);
-		usUser.setUsGenero(this);
-
-		return usUser;
-	}
-
-	public UsUser removeUsUser(UsUser usUser) {
-		getUsUsers().remove(usUser);
-		usUser.setUsGenero(null);
-
-		return usUser;
-	}
 
 }
