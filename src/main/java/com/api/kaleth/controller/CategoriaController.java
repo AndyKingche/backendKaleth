@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.api.kaleth.domain.Categoria;
+import com.api.kaleth.domain.CatCategoria;
 import com.api.kaleth.respository.CategoriaRepository;
 
 @RestController
@@ -23,53 +23,53 @@ import com.api.kaleth.respository.CategoriaRepository;
 
 public class CategoriaController {
 	@Autowired
-	CategoriaRepository categoriarespository;
+	CategoriaRepository CatCategoriarespository;
 	
 	@GetMapping("/category")
-	public List<Categoria> getCategorias(){
-		List<Categoria> categorias = categoriarespository.findAll();
+	public List<CatCategoria> getCatCategorias(){
+		List<CatCategoria> CatCategorias = CatCategoriarespository.findAll();
 		
 	
-		return categorias;
+		return CatCategorias;
 	}
 	
 	@GetMapping("/category/{id}")
-	public Optional<Categoria> getCategoria(@PathVariable Long id)throws ResourceNotFoundException{
+	public Optional<CatCategoria> getCatCategoria(@PathVariable Long id)throws ResourceNotFoundException{
 		
-		Optional<Categoria> categoria = categoriarespository.findById(id);
-		return categoria;
+		Optional<CatCategoria> CatCategoria = CatCategoriarespository.findById(id);
+		return CatCategoria;
 				
 	}
 	
 	@PostMapping("/category")
-	public Categoria createCategoria(@RequestBody Categoria categoria) {
-		Categoria newCategoria = categoriarespository.save(categoria);
+	public CatCategoria createCatCategoria(@RequestBody CatCategoria CatCategoria) {
+		CatCategoria newCatCategoria = CatCategoriarespository.save(CatCategoria);
 		
-		return newCategoria;
+		return newCatCategoria;
 	}
 	
 	@PutMapping("/category/{id}")
-	public ResponseEntity<String> updateCategoria(@RequestBody Categoria categoria, @PathVariable Long id)
+	public ResponseEntity<String> updateCatCategoria(@RequestBody CatCategoria CatCategoria, @PathVariable Long id)
 	throws ResourceNotFoundException{
-		Categoria findcategoria = categoriarespository.findById(id).orElseThrow(()-> new ResourceNotFoundException("No encontramos ningun id"));
+		CatCategoria findCatCategoria = CatCategoriarespository.findById(id).orElseThrow(()-> new ResourceNotFoundException("No encontramos ningun id"));
 		
-		findcategoria.setNombre(categoria.getNombre());
-		findcategoria.setDescripcion(categoria.getDescripcion());
+		findCatCategoria.setNombreCategoria(CatCategoria.getNombreCategoria());
+		findCatCategoria.setDescripcion(CatCategoria.getDescripcion());
 		
-		Categoria updatecategoria = categoriarespository.save(findcategoria);
+		CatCategoria updateCatCategoria = CatCategoriarespository.save(findCatCategoria);
 		
 		return ResponseEntity.ok().header("Content-Type", "application/json")
-				.body("{\"mensaje\": \"La categoria se ha actualizado correctamente " + id + "\"}");
+				.body("{\"mensaje\": \"La CatCategoria se ha actualizado correctamente " + id + "\"}");
 	}
 	
 	
 	@DeleteMapping("/category/{id}")
-	public ResponseEntity<String> deleteCategoria(@PathVariable Long id){
+	public ResponseEntity<String> deleteCatCategoria(@PathVariable Long id){
 		
-		categoriarespository.deleteById(id);
+		CatCategoriarespository.deleteById(id);
 		
 		return ResponseEntity.ok().header("Content-Type", "application/json")
-		.body("{\"mensaje\": \"La categoria se ha eliminado correctamente " + id + "\"}");
+		.body("{\"mensaje\": \"La CatCategoria se ha eliminado correctamente " + id + "\"}");
 	}
 	
 }

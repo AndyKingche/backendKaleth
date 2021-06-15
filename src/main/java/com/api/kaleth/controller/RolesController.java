@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.api.kaleth.domain.Roles;
+import com.api.kaleth.domain.UsRole;
 import com.api.kaleth.respository.RolesRepository;
 
 
@@ -23,33 +23,33 @@ import com.api.kaleth.respository.RolesRepository;
 @RequestMapping("/api")
 public class RolesController {
 	@Autowired
-	RolesRepository rolesrespository;
+	RolesRepository UsRolerespository;
 	
 	@GetMapping("/roles")
-	public List<Roles> getRoles(){
-		List<Roles> roles = rolesrespository.findAll();
-		return roles;
+	public List<UsRole> getUsRole(){
+		List<UsRole> UsRole = UsRolerespository.findAll();
+		return UsRole;
 	}
 	
 	@GetMapping("/roles/{id}")
-	public Optional<Roles> getRol(@PathVariable Long id) throws ResourceNotFoundException{
-		Optional<Roles> rol = rolesrespository.findById(id);
+	public Optional<UsRole> getRol(@PathVariable Long id) throws ResourceNotFoundException{
+		Optional<UsRole> rol = UsRolerespository.findById(id);
 		return rol;
 	}
 	
 	@PostMapping("/roles")
-	public Roles createRole(@RequestBody Roles rol) {
-		return rolesrespository.save(rol);
+	public UsRole createRole(@RequestBody UsRole rol) {
+		return UsRolerespository.save(rol);
 	}
 	
 	@PutMapping("/roles/{id}")
-	public ResponseEntity<String> updateRol(@RequestBody Roles rol, @PathVariable Long id)throws ResourceNotFoundException{
-		Roles findRol = getRol(id).orElseThrow(()-> new ResourceNotFoundException("No se encontro el id"));
+	public ResponseEntity<String> updateRol(@RequestBody UsRole rol, @PathVariable Long id)throws ResourceNotFoundException{
+		UsRole findRol = getRol(id).orElseThrow(()-> new ResourceNotFoundException("No se encontro el id"));
 		findRol.setNombre(rol.getNombre());
 		findRol.setRol(rol.getRol());
 		findRol.setDescripcion(rol.getDescripcion());
 		
-		Roles actualizarRol = rolesrespository.save(findRol);
+		UsRole actualizarRol = UsRolerespository.save(findRol);
 		
 		return ResponseEntity.ok().header("Content-Type", "application/json")
 				.body("{\"mensaje\": \"El Rol se ha actualizado correctamente " + "" + "\"}");
@@ -59,7 +59,7 @@ public class RolesController {
 	@DeleteMapping("/roles/{id}")
 	public ResponseEntity<String> delteRol(@PathVariable Long id)throws ResourceNotFoundException{
 		
-		rolesrespository.deleteById(id);
+		UsRolerespository.deleteById(id);
 		
 		return ResponseEntity.ok().header("Content-Type", "application/json")
 				.body("{\"mensaje\": \"El Rol se ha eliminado correctamente " + id + "\"}");

@@ -15,48 +15,49 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.api.kaleth.domain.Genero;
+import com.api.kaleth.domain.UsGenero;
 import com.api.kaleth.respository.GeneroRepository;
 
 @RestController
 @RequestMapping("/api")
 public class GeneroController {
 	@Autowired
-	GeneroRepository generorespository;
+	GeneroRepository UsGenerorespository;
 	
 	@GetMapping("/gender")
-	public List<Genero> getGenders(){
-		List<Genero> genders=generorespository.findAll();
+	public List<UsGenero> getGenders(){
+		List<UsGenero> genders=UsGenerorespository.findAll();
 		return genders;
 	}
 	
 	@GetMapping("/gender/{id}")
-	public Optional<Genero> getGender(@PathVariable Long id)throws ResourceNotFoundException{
-		Optional<Genero> gender = generorespository.findById(id);
+	public Optional<UsGenero> getGender(@PathVariable Long id)throws ResourceNotFoundException{
+		Optional<UsGenero> gender = UsGenerorespository.findById(id);
 		return gender;
 	}
 	
 	@PostMapping("/gender")
-	public Genero createGender(@RequestBody Genero genero){
-		return generorespository.save(genero);
+	public UsGenero createGender(@RequestBody UsGenero UsGenero){
+		return UsGenerorespository.save(UsGenero);
 	}
 	
 	@PutMapping("/gender/{id}")
-	public ResponseEntity<String> updateGender(@RequestBody Genero genero,@PathVariable Long id)
+	public ResponseEntity<String> updateGender(@RequestBody UsGenero UsGenero,@PathVariable Long id)
 	throws ResourceNotFoundException{
-		Genero findgender = generorespository.findById(id).orElseThrow(()-> new ResourceNotFoundException());
-		findgender.setNombre(genero.getNombre());
+		UsGenero findgender = UsGenerorespository.findById(id).orElseThrow(()-> new ResourceNotFoundException());
+		findgender.setNombre(UsGenero.getNombre());
+		findgender.setGenero(UsGenero.getGenero());
 		
-		Genero actualizargenero = generorespository.save(findgender);
+		UsGenero actualizarUsGenero = UsGenerorespository.save(findgender);
 		return ResponseEntity.ok().header("Content-Type", "application/json")
-				.body("{\"mensaje\": \"El genero se ha actualizado correctamente " + id + "\"}");
+				.body("{\"mensaje\": \"El UsGenero se ha actualizado correctamente " + id + "\"}");
 		
 	}
 	
 	@DeleteMapping("/gender/{id}")
 	public ResponseEntity<String> deleteGender(@PathVariable Long id)throws ResourceNotFoundException{
-		generorespository.deleteById(id);
+		UsGenerorespository.deleteById(id);
 		return ResponseEntity.ok().header("Content-Type", "application/json")
-				.body("{\"mensaje\": \"El genero se ha eliminado correctamente " + id + "\"}");
+				.body("{\"mensaje\": \"El UsGenero se ha eliminado correctamente " + id + "\"}");
 	}
 }

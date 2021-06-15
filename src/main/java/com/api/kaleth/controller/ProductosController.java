@@ -15,62 +15,61 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.api.kaleth.domain.Productos;
+import com.api.kaleth.domain.CatProducto;
 import com.api.kaleth.respository.ProductosRepository;
 
 @RestController
 @RequestMapping("/api")
 public class ProductosController {
 	@Autowired
-	ProductosRepository productosrepository;
-	
+	ProductosRepository CatProductorepository;
+
 	@GetMapping("/products")
-	public List<Productos> getProductos(){
-		List<Productos> productos = productosrepository.findAll();
-		return productos;
+	public List<CatProducto> getCatProducto() {
+		List<CatProducto> CatProducto = CatProductorepository.findAll();
+		return CatProducto;
 	}
-	
+
 	@GetMapping("/products/{id}")
-	public Optional<Productos> getProducto(@PathVariable Long id)
-	throws ResourceNotFoundException{
-		
-		Optional<Productos> producto = productosrepository.findById(id);
-		
+	public Optional<CatProducto> getProducto(@PathVariable Long id) throws ResourceNotFoundException {
+
+		Optional<CatProducto> producto = CatProductorepository.findById(id);
+
 		return producto;
-		
+
 	}
-	
+
 	@PostMapping("/products")
-	public Productos createProductos(@RequestBody Productos productos) {
-		
-		Productos newProducto = productosrepository.save(productos);
-		
+	public CatProducto createCatProducto(@RequestBody CatProducto CatProducto) {
+
+		CatProducto newProducto = CatProductorepository.save(CatProducto);
+
 		return newProducto;
 	}
-	
+
 	@PutMapping("/products/{id}")
-	public ResponseEntity<String> updateProductos(@RequestBody Productos productos, @PathVariable Long id)
-	throws ResourceNotFoundException{
-		
-		Productos findproducto = productosrepository.findById(id).orElseThrow(()-> new ResourceNotFoundException("No encontramos el producto"));
-		
-		findproducto.setCategoria(productos.getCategoria());
-		findproducto.setDisenos(productos.getDisenos());
-		findproducto.setTallas(productos.getTallas());
-		
-		Productos updateProductos = productosrepository.save(findproducto);
-		
+	public ResponseEntity<String> updateCatProducto(@RequestBody CatProducto CatProducto, @PathVariable Long id)
+			throws ResourceNotFoundException {
+
+		CatProducto findproducto = CatProductorepository.findById(id)
+				.orElseThrow(() -> new ResourceNotFoundException("No encontramos el producto"));
+
+		findproducto.setCatCategoria(CatProducto.getCatCategoria());
+		findproducto.setCatDiseno(CatProducto.getCatDiseno());
+		findproducto.setCatTalla(CatProducto.getCatTalla());
+
+		CatProducto updateCatProducto = CatProductorepository.save(findproducto);
+
 		return ResponseEntity.ok().header("Content-Type", "application/json")
 				.body("{\"mensaje\": \"El producto se ha actualizado correctamente " + id + "\"}");
 	}
-	
+
 	@DeleteMapping("/products/{id}")
-	public ResponseEntity<String> deleteProductos(@PathVariable Long id)
-	throws ResourceNotFoundException{
-		
-		productosrepository.deleteById(id);
+	public ResponseEntity<String> deleteCatProducto(@PathVariable Long id) throws ResourceNotFoundException {
+
+		CatProductorepository.deleteById(id);
 		return ResponseEntity.ok().header("Content-Type", "application/json")
-		.body("{\"mensaje\": \"El producto se ha eliminado correctamente " + id + "\"}");
-		
+				.body("{\"mensaje\": \"El producto se ha eliminado correctamente " + id + "\"}");
+
 	}
 }

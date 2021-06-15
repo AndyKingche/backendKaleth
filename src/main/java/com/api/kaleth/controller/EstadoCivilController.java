@@ -15,42 +15,42 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.api.kaleth.domain.EstadoCivil;
+import com.api.kaleth.domain.UsEstadocivil;
 import com.api.kaleth.respository.EstadoCivilRepository;
 
 @RestController
 @RequestMapping("/api")
 public class EstadoCivilController {
 	@Autowired
-	EstadoCivilRepository estadocivilrepository;
+	EstadoCivilRepository UsEstadocivilrepository;
 	
 	@GetMapping("/civil-status")
-	public List<EstadoCivil> getEstadoCiviles(){
-		List<EstadoCivil> estadosciviles = estadocivilrepository.findAll();
+	public List<UsEstadocivil> getUsEstadociviles(){
+		List<UsEstadocivil> estadosciviles = UsEstadocivilrepository.findAll();
 		
 		return estadosciviles;
 	}
 	
 	@GetMapping("/civil-status/{id}")
-	public Optional<EstadoCivil> getEstadoCivil(@PathVariable Long id) {
-		Optional<EstadoCivil> estadocivil = estadocivilrepository.findById(id);
-		return estadocivil;
+	public Optional<UsEstadocivil> getUsEstadocivil(@PathVariable Long id) {
+		Optional<UsEstadocivil> UsEstadocivil = UsEstadocivilrepository.findById(id);
+		return UsEstadocivil;
 	}
 	
 	@PostMapping("/civil-status")
-	public EstadoCivil createEcivil(@RequestBody EstadoCivil estadocivil) {
-		EstadoCivil newestado = estadocivilrepository.save(estadocivil);
+	public UsEstadocivil createEcivil(@RequestBody UsEstadocivil UsEstadocivil) {
+		UsEstadocivil newestado = UsEstadocivilrepository.save(UsEstadocivil);
 		return newestado;
 	}
 	
 	@PutMapping("/civil-status/{id}")
-	public ResponseEntity<String> updateECivil(@RequestBody EstadoCivil estadocivil,@PathVariable Long id) 
+	public ResponseEntity<String> updateECivil(@RequestBody UsEstadocivil UsEstadocivil,@PathVariable Long id) 
 	throws ResourceNotFoundException{
 		
-		EstadoCivil findestado = estadocivilrepository.findById(id).orElseThrow(()->new ResourceNotFoundException("No se encontro ningun id"));
-		findestado.setNombre(estadocivil.getNombre());
-		
-		EstadoCivil actualizarestado = estadocivilrepository.save(findestado);
+		UsEstadocivil findestado = UsEstadocivilrepository.findById(id).orElseThrow(()->new ResourceNotFoundException("No se encontro ningun id"));
+		findestado.setNombre(UsEstadocivil.getNombre());
+		System.out.println(findestado);
+		UsEstadocivil actualizarestado = UsEstadocivilrepository.save(findestado);
 		
 		return ResponseEntity.ok().header("Content-Type", "application/json")
 				.body("{\"mensaje\": \"El estado se ha actualizado correctamente " + id + "\"}");
@@ -61,7 +61,7 @@ public class EstadoCivilController {
 	public ResponseEntity<String> deleteECivil(@PathVariable Long id) 
 			throws ResourceNotFoundException{
 		
-		estadocivilrepository.deleteById(id);
+		UsEstadocivilrepository.deleteById(id);
 		
 		return ResponseEntity.ok().header("Content-Type", "application/json")
 				.body("{\"mensaje\": \"El estado se ha eliminado correctamente " + id + "\"}");

@@ -15,41 +15,41 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.api.kaleth.domain.Usuarios;
+import com.api.kaleth.domain.UsUser;
 import com.api.kaleth.respository.UsuariosRepository;
 
 @RestController
 @RequestMapping("/api")
 public class UsuariosController {
 	@Autowired
-	UsuariosRepository usuariosrepository;
+	UsuariosRepository UsUserrepository;
 	
 	@GetMapping("/user")
-	public List<Usuarios> getUsers(){
+	public List<UsUser> getUsers(){
 		
-		List<Usuarios> user = usuariosrepository.findAll();
+		List<UsUser> user = UsUserrepository.findAll();
 		
 		return user;
 				}
 	
 	@GetMapping("/user/{id}")
-	public Optional<Usuarios> getUser(@PathVariable Long id) throws ResourceNotFoundException{
-		Optional<Usuarios> user = usuariosrepository.findById(id);
+	public Optional<UsUser> getUser(@PathVariable Long id) throws ResourceNotFoundException{
+		Optional<UsUser> user = UsUserrepository.findById(id);
 		
 		return user;
 	}
 	
 	@PostMapping("/user")
-	public Usuarios createUser(@RequestBody Usuarios user) {
+	public UsUser createUser(@RequestBody UsUser user) {
 		
-		return usuariosrepository.save(user);
+		return UsUserrepository.save(user);
 	}
 	
 	@PutMapping("/user/{id}")
-	public ResponseEntity<String> updateUser(@RequestBody Usuarios user, @PathVariable Long id)
+	public ResponseEntity<String> updateUser(@RequestBody UsUser user, @PathVariable Long id)
 		throws ResourceNotFoundException{
 		
-		Usuarios findUser = usuariosrepository.findById(id).orElseThrow(()->new ResourceNotFoundException("No se encuentra el id"));
+		UsUser findUser = UsUserrepository.findById(id).orElseThrow(()->new ResourceNotFoundException("No se encuentra el id"));
 	
 		findUser.setNombre(user.getNombre());
 		findUser.setApellido(user.getApellido());
@@ -58,11 +58,12 @@ public class UsuariosController {
 		findUser.setEmail(user.getEmail());
 		findUser.setPassword(user.getPassword());
 		findUser.setEstado(user.getEstado());
-		findUser.setFecha_nacimiento(user.getFecha_nacimiento());
+		findUser.setFechanacimiento(user.getFechanacimiento());
 		findUser.setDireccion(user.getDireccion());
 		findUser.setGenero(user.getGenero());
+		findUser.setEstadocivil(user.getEstadocivil());
 		
-		Usuarios updateUser = usuariosrepository.save(findUser);
+		UsUser updateUser = UsUserrepository.save(findUser);
 		return ResponseEntity.ok().header("Content-Type", "application/json")
 				.body("{\"mensaje\": \"El Usuario se ha actualizado correctamente " + "" + "\"}");
 	}
@@ -70,8 +71,8 @@ public class UsuariosController {
 	@DeleteMapping("/user/{id}")
 	public ResponseEntity<String> deleteuser(@PathVariable Long id)throws ResourceNotFoundException{
 		
-		Usuarios findUser = usuariosrepository.findById(id).orElseThrow(()->new ResourceNotFoundException("No se encontro el id"));
-		usuariosrepository.deleteById(id);
+		UsUser findUser = UsUserrepository.findById(id).orElseThrow(()->new ResourceNotFoundException("No se encontro el id"));
+		UsUserrepository.deleteById(id);
 		
 		return ResponseEntity.ok().header("Content-Type", "application/json")
 				.body("{\"mensaje\": \"El Usuario se ha eliminado correctamente " + id + "\"}");
