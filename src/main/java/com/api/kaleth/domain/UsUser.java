@@ -3,7 +3,9 @@ package com.api.kaleth.domain;
 import java.io.Serializable;
 import javax.persistence.*;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 
 /**
@@ -35,7 +37,9 @@ public class UsUser implements Serializable {
 	private Date fechanacimiento;
 
 	private String nombre;
-
+	
+	private String nombreUsuario;
+	
 	private String password;
 
 	private String telefono;
@@ -50,13 +54,53 @@ public class UsUser implements Serializable {
 	@JoinColumn(name="ID_GENERO")
 	private UsGenero genero;
 
-
+	//bi-directional many-to-many association to UsRole
+		@ManyToMany
+		@JoinTable(
+			name="us_rolesxusuarios"
+			, joinColumns={
+				@JoinColumn(name="ID_USUARIO")
+				}
+			, inverseJoinColumns={
+				@JoinColumn(name="ID_ROLES")
+				}
+			)
+		private Set<UsRole> roles = new HashSet<>();
+		
 	public UsUser() {
 	}
 	
+
+	/*
+	 * public UsUser(String apellido, String cedula, String direccion, String email,
+	 * Boolean estado, Date fechanacimiento, String nombre, String password, String
+	 * telefono) { super(); this.apellido = apellido; this.cedula = cedula;
+	 * this.direccion = direccion; this.email = email; this.estado = estado;
+	 * this.fechanacimiento = fechanacimiento; this.nombre = nombre; this.password =
+	 * password; this.telefono = telefono; }
+	 */
+	
+	
+
 	public Long getIdUsuario() {
 		return idUsuario;
 	}
+
+	public UsUser(String apellido, String cedula, String direccion, String email, Boolean estado, Date fechanacimiento,
+			String nombre, String nombreUsuario, String password, String telefono) {
+		super();
+		this.apellido = apellido;
+		this.cedula = cedula;
+		this.direccion = direccion;
+		this.email = email;
+		this.estado = estado;
+		this.fechanacimiento = fechanacimiento;
+		this.nombre = nombre;
+		this.nombreUsuario = nombreUsuario;
+		this.password = password;
+		this.telefono = telefono;
+	}
+
 
 	public void setIdUsuario(Long idUsuario) {
 		this.idUsuario = idUsuario;
@@ -149,28 +193,24 @@ public class UsUser implements Serializable {
 		this.genero = genero;
 	}
 
-	/*
-	 * public List<UsRole> getUsRoles() { return this.usRoles; }
-	 * 
-	 * public void setUsRoles(List<UsRole> usRoles) { this.usRoles = usRoles; }
-	 * 
-	 * public List<VenCabezaFactura> getVenCabezaFacturas() { return
-	 * this.venCabezaFacturas; }
-	 * 
-	 * public void setVenCabezaFacturas(List<VenCabezaFactura> venCabezaFacturas) {
-	 * this.venCabezaFacturas = venCabezaFacturas; }
-	 * 
-	 * public VenCabezaFactura addVenCabezaFactura(VenCabezaFactura
-	 * venCabezaFactura) { getVenCabezaFacturas().add(venCabezaFactura);
-	 * venCabezaFactura.setUsUser(this);
-	 * 
-	 * return venCabezaFactura; }
-	 * 
-	 * public VenCabezaFactura removeVenCabezaFactura(VenCabezaFactura
-	 * venCabezaFactura) { getVenCabezaFacturas().remove(venCabezaFactura);
-	 * venCabezaFactura.setUsUser(null);
-	 * 
-	 * return venCabezaFactura; }
-	 */
+	public Set<UsRole> getRoles() {
+		return roles;
+	}
+
+	public void setRoles(Set<UsRole> roles) {
+		this.roles = roles;
+	}
+
+
+	public String getNombreUsuario() {
+		return nombreUsuario;
+	}
+
+
+	public void setNombreUsuario(String nombreUsuario) {
+		this.nombreUsuario = nombreUsuario;
+	}
+
+	 
 
 }

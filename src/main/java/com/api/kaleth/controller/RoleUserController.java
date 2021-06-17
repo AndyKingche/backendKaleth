@@ -14,31 +14,25 @@ import org.springframework.web.bind.annotation.RestController;
 
 
 import com.api.kaleth.domain.UsRoleUser;
-import com.api.kaleth.domain.UsRoleUserPk;
+
 import com.api.kaleth.respository.RoleUserRepository;
 
-@RestController
-@RequestMapping("/api")
+
 public class RoleUserController {
-	@Autowired
-	RoleUserRepository roleuserRepository;
-	
-	@GetMapping("/rol-user")
-	public List<UsRoleUser> getUsRole(){
-		List<UsRoleUser> UsRole = roleuserRepository.findAll();
-		return UsRole;
-	}
-	
-	@GetMapping("/rol-user/{id}")
-	public List<UsRoleUser> getRoluser(@PathVariable Integer id) throws ResourceNotFoundException{
-		
-		List<UsRoleUser> roluser = roleuserRepository.findByIdUsuario(id);
-	
-		return roluser;
-	}
-	
-	@PostMapping("/rol-user")
-	public UsRoleUser createRole(@RequestBody UsRoleUser rol) {
-		return roleuserRepository.save(rol);
-	}
+	/*
+	 * @Autowired RoleUserRepository roleuserRepository;
+	 * 
+	 * @GetMapping("/rol-user") public List<UsRoleUser> getUsRole(){
+	 * List<UsRoleUser> UsRole = roleuserRepository.findAll(); return UsRole; }
+	 * 
+	 * @GetMapping("/rol-user/{id}") public List<UsRoleUser>
+	 * getRoluser(@PathVariable Integer id) throws ResourceNotFoundException{
+	 * 
+	 * List<UsRoleUser> roluser = roleuserRepository.findByIdUsuario(id);
+	 * 
+	 * return roluser; }
+	 * 
+	 * @PostMapping("/rol-user") public UsRoleUser createRole(@RequestBody
+	 * UsRoleUser rol) { return roleuserRepository.save(rol); }
+	 */
 }

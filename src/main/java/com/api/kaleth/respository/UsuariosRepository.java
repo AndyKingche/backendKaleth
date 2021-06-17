@@ -10,5 +10,5 @@ import com.api.kaleth.domain.UsUser;
 @RestController
 @RequestMapping("/api")
 public interface UsuariosRepository extends JpaRepository<UsUser, Long>{
-
+	
 }

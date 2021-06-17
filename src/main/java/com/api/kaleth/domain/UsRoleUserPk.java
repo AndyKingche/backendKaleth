@@ -10,7 +10,7 @@ import javax.persistence.Id;
 
 import org.hibernate.annotations.GenericGenerator;
 
-@Embeddable
+
 public class UsRoleUserPk implements Serializable{
 
 	

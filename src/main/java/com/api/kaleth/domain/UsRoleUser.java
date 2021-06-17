@@ -12,13 +12,12 @@ import javax.persistence.Table;
 
 import org.hibernate.annotations.GenericGenerator;
 
-@Entity
-@Table(name="us_rolesxu")
+
 public class UsRoleUser implements Serializable {
 	
 	
 	@EmbeddedId
-	private UsRoleUserPk id;
+	//private UsRoleUserPk id;
 	
 	//bi-directional many-to-one association to CatProducto
 	@ManyToOne
@@ -34,13 +33,11 @@ public class UsRoleUser implements Serializable {
 			// TODO Auto-generated constructor stub
 	}
 
-	public UsRoleUserPk getId() {
-			return id;
-	}
-
-	public void setId(UsRoleUserPk id) {
-			this.id = id;
-	}
+	/*
+	 * public UsRoleUserPk getId() { return id; }
+	 * 
+	 * public void setId(UsRoleUserPk id) { this.id = id; }
+	 */
 
 	public UsUser getUsUser() {
 			return usUser;

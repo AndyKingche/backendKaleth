@@ -2,6 +2,10 @@ package com.api.kaleth.domain;
 
 import java.io.Serializable;
 import javax.persistence.*;
+
+import com.api.kaleth.security.enums.RolNombre;
+import com.sun.istack.NotNull;
+
 import java.util.List;
 
 
@@ -11,7 +15,7 @@ import java.util.List;
  */
 @Entity
 @Table(name="us_roles")
-@NamedQuery(name="UsRole.findAll", query="SELECT u FROM UsRole u")
+
 public class UsRole implements Serializable {
 	private static final long serialVersionUID = 1L;
 
@@ -26,10 +30,27 @@ public class UsRole implements Serializable {
 
 	private String rol;
 
-	
+	 @NotNull
+	    @Enumerated(EnumType.STRING)
+	    private RolNombre rolNombre;
 
 	public UsRole() {
 	}
+
+	public UsRole(RolNombre rolNombre) {
+		super();
+		this.rolNombre = rolNombre;
+	}
+
+	public RolNombre getRolNombre() {
+		return rolNombre;
+	}
+
+	public void setRolNombre(RolNombre rolNombre) {
+		this.rolNombre = rolNombre;
+	}
+
+
 
 	public Long getIdRoles() {
 		return idRoles;
