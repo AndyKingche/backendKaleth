@@ -51,7 +51,7 @@ public class cat_stockController {
 	@RequestMapping(value="/stock/number/{id_producto}/{id_puntoventa}",produces = {"application/json"},method= RequestMethod.GET)
 	public int encontrarStock(@PathVariable("id_producto") Integer id_producto, @PathVariable("id_puntoventa") Integer id_puntoventa) {
 		int numeroTipo= cat_stockRepository.encontrarStock(id_producto, id_puntoventa);
-		
+		System.out.println(numeroTipo);
 		return numeroTipo;
 	}
 
