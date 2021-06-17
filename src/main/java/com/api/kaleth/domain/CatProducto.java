@@ -18,8 +18,11 @@ public class CatProducto implements Serializable {
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	@Column(name="ID_PRODUCTOS")
-	private int idProductos;
+	private Long idProductos;
 
+	@Column(name="COD_PRODUCTO", unique=true)
+	private Long codProducto;
+	
 	//bi-directional many-to-one association to CatCategoria
 	@ManyToOne
 	@JoinColumn(name="ID_CATEGORIA")
@@ -35,18 +38,15 @@ public class CatProducto implements Serializable {
 	@JoinColumn(name="ID_TALLAS")
 	private CatTalla catTalla;
 
-	//bi-directional many-to-one association to CatStock
-	@OneToMany(mappedBy="catProducto")
-	private List<CatStock> catStocks;
-
+	
 	public CatProducto() {
 	}
 
-	public int getIdProductos() {
+	public Long getIdProductos() {
 		return this.idProductos;
 	}
 
-	public void setIdProductos(int idProductos) {
+	public void setIdProductos(Long idProductos) {
 		this.idProductos = idProductos;
 	}
 
@@ -74,26 +74,15 @@ public class CatProducto implements Serializable {
 		this.catTalla = catTalla;
 	}
 
-	public List<CatStock> getCatStocks() {
-		return this.catStocks;
+	public Long getCodProducto() {
+		return codProducto;
 	}
 
-	public void setCatStocks(List<CatStock> catStocks) {
-		this.catStocks = catStocks;
+	public void setCodProducto(Long codProducto) {
+		this.codProducto = codProducto;
 	}
 
-	public CatStock addCatStock(CatStock catStock) {
-		getCatStocks().add(catStock);
-		catStock.setCatProducto(this);
 
-		return catStock;
-	}
 
-	public CatStock removeCatStock(CatStock catStock) {
-		getCatStocks().remove(catStock);
-		catStock.setCatProducto(null);
-
-		return catStock;
-	}
 
 }

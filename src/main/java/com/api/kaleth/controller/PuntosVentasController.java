@@ -30,13 +30,11 @@ public class PuntosVentasController {
 	public List<CatPuntosVenta> getCatPuntosVenta(){
 		List<CatPuntosVenta> CatPuntosVenta = CatPuntosVentarepository.findAll();
 		return CatPuntosVenta;
-		
-		
-		
+
 	}
 	
 	@GetMapping("/sales-points/{id}")
-	public Optional<CatPuntosVenta> getCatPuntosVenta(@PathVariable int id) 
+	public Optional<CatPuntosVenta> getCatPuntosVenta(@PathVariable Long id) 
 			throws ResourceNotFoundException{
 		Optional<CatPuntosVenta> CatPuntosVenta = CatPuntosVentarepository.findById(id);
 		return CatPuntosVenta;
@@ -50,7 +48,7 @@ public class PuntosVentasController {
 	}
 	
 	@PutMapping("/sales-points/{id}")
-	public ResponseEntity<String> updateCatPuntosVenta(@RequestBody CatPuntosVenta CatPuntosVenta, @PathVariable int id)
+	public ResponseEntity<String> updateCatPuntosVenta(@RequestBody CatPuntosVenta CatPuntosVenta, @PathVariable Long id)
 	throws ResourceNotFoundException{
 		
 		CatPuntosVenta findCatPuntosVenta = CatPuntosVentarepository.findById(id).orElseThrow(()->new ResourceNotFoundException("No encuentro ningun disenos que pidio"));
@@ -67,7 +65,7 @@ public class PuntosVentasController {
 	}
 	
 	@DeleteMapping("/sales-points/{id}")
-	public ResponseEntity<String> deleteCatPuntosVenta(@PathVariable int id)
+	public ResponseEntity<String> deleteCatPuntosVenta(@PathVariable Long id)
 	throws ResourceNotFoundException{
 		
 		CatPuntosVentarepository.deleteById(id);

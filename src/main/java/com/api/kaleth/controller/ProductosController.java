@@ -27,6 +27,7 @@ public class ProductosController {
 	@GetMapping("/products")
 	public List<CatProducto> getCatProducto() {
 		List<CatProducto> CatProducto = CatProductorepository.findAll();
+		System.out.println(CatProducto);
 		return CatProducto;
 	}
 

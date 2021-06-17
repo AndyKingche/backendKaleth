@@ -22,8 +22,8 @@ public class CatStock implements Serializable {
 
 	private String existe;
 
-	@Column(name="PRECIO_DISRTIBUIDOR")
-	private float precioDisrtibuidor;
+	@Column(name="PRECIO_DISTRIBUIDOR")
+	private float precioDistribuidor;
 
 	@Column(name="PRECIO_MAYOR")
 	private float precioMayor;
@@ -47,9 +47,7 @@ public class CatStock implements Serializable {
 	@JoinColumn(name="ID_PUNTOS_VENTA", insertable=false, updatable=false)
 	private CatPuntosVenta catPuntosVenta;
 
-	//bi-directional many-to-one association to VenDetalleFactura
-	@OneToMany(mappedBy="catStock")
-	private List<VenDetalleFactura> venDetalleFacturas;
+
 
 	public CatStock() {
 	}
@@ -78,12 +76,14 @@ public class CatStock implements Serializable {
 		this.existe = existe;
 	}
 
-	public float getPrecioDisrtibuidor() {
-		return this.precioDisrtibuidor;
+
+
+	public float getPrecioDistribuidor() {
+		return precioDistribuidor;
 	}
 
-	public void setPrecioDisrtibuidor(float precioDisrtibuidor) {
-		this.precioDisrtibuidor = precioDisrtibuidor;
+	public void setPrecioDistribuidor(float precioDistribuidor) {
+		this.precioDistribuidor = precioDistribuidor;
 	}
 
 	public float getPrecioMayor() {
@@ -134,26 +134,6 @@ public class CatStock implements Serializable {
 		this.catPuntosVenta = catPuntosVenta;
 	}
 
-	public List<VenDetalleFactura> getVenDetalleFacturas() {
-		return this.venDetalleFacturas;
-	}
 
-	public void setVenDetalleFacturas(List<VenDetalleFactura> venDetalleFacturas) {
-		this.venDetalleFacturas = venDetalleFacturas;
-	}
-
-	public VenDetalleFactura addVenDetalleFactura(VenDetalleFactura venDetalleFactura) {
-		getVenDetalleFacturas().add(venDetalleFactura);
-		venDetalleFactura.setCatStock(this);
-
-		return venDetalleFactura;
-	}
-
-	public VenDetalleFactura removeVenDetalleFactura(VenDetalleFactura venDetalleFactura) {
-		getVenDetalleFacturas().remove(venDetalleFactura);
-		venDetalleFactura.setCatStock(null);
-
-		return venDetalleFactura;
-	}
-
+	
 }

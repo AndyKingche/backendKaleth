@@ -18,25 +18,23 @@ public class CatCategoria implements Serializable {
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	@Column(name="ID_CATEGORIA")
-	private int idCategoria;
+	private Long idCategoria;
 
 	private String descripcion;
 
 	@Column(name="NOMBRE_CATEGORIA")
 	private String nombreCategoria;
 
-	//bi-directional many-to-one association to CatProducto
-	@OneToMany(mappedBy="catCategoria")
-	private List<CatProducto> catProductos;
+	
 
 	public CatCategoria() {
 	}
 
-	public int getIdCategoria() {
+	public Long getIdCategoria() {
 		return this.idCategoria;
 	}
 
-	public void setIdCategoria(int idCategoria) {
+	public void setIdCategoria(Long idCategoria) {
 		this.idCategoria = idCategoria;
 	}
 
@@ -56,26 +54,6 @@ public class CatCategoria implements Serializable {
 		this.nombreCategoria = nombreCategoria;
 	}
 
-	public List<CatProducto> getCatProductos() {
-		return this.catProductos;
-	}
 
-	public void setCatProductos(List<CatProducto> catProductos) {
-		this.catProductos = catProductos;
-	}
-
-	public CatProducto addCatProducto(CatProducto catProducto) {
-		getCatProductos().add(catProducto);
-		catProducto.setCatCategoria(this);
-
-		return catProducto;
-	}
-
-	public CatProducto removeCatProducto(CatProducto catProducto) {
-		getCatProductos().remove(catProducto);
-		catProducto.setCatCategoria(null);
-
-		return catProducto;
-	}
 
 }

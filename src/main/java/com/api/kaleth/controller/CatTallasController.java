@@ -16,13 +16,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.api.kaleth.domain.CatTalla;
-import com.api.kaleth.respository.TallasRepository;
+import com.api.kaleth.respository.CatTallasRepository;
 
 @RestController
 @RequestMapping("/api")
-public class TallasController {
+public class CatTallasController {
 	@Autowired
-	TallasRepository CatTallarepository;
+	CatTallasRepository CatTallarepository;
 	
 	@GetMapping("/size")
 	public List<CatTalla> getCatTalla(){

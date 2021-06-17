@@ -22,10 +22,7 @@ public class CatDiseno implements Serializable {
 
 	private String nombre;
 
-	//bi-directional many-to-one association to CatProducto
-	@OneToMany(mappedBy="catDiseno")
-	private List<CatProducto> catProductos;
-
+	
 	public CatDiseno() {
 	}
 
@@ -48,26 +45,6 @@ public class CatDiseno implements Serializable {
 		this.nombre = nombre;
 	}
 
-	public List<CatProducto> getCatProductos() {
-		return this.catProductos;
-	}
 
-	public void setCatProductos(List<CatProducto> catProductos) {
-		this.catProductos = catProductos;
-	}
-
-	public CatProducto addCatProducto(CatProducto catProducto) {
-		getCatProductos().add(catProducto);
-		catProducto.setCatDiseno(this);
-
-		return catProducto;
-	}
-
-	public CatProducto removeCatProducto(CatProducto catProducto) {
-		getCatProductos().remove(catProducto);
-		catProducto.setCatDiseno(null);
-
-		return catProducto;
-	}
 
 }

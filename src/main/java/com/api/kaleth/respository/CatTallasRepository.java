@@ -11,6 +11,6 @@ import com.api.kaleth.domain.CatTalla;
 
 @RestController
 @RequestMapping("/api")
-public interface TallasRepository extends JpaRepository<CatTalla, Long>{
+public interface CatTallasRepository extends JpaRepository<CatTalla, Long>{
 
 }

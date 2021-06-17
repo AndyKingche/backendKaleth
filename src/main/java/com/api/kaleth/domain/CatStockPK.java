@@ -13,25 +13,34 @@ public class CatStockPK implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Column(name="ID_PRODUCTOS", insertable=false, updatable=false)
-	private int idProductos;
+	private Long idProductos;
 
 	@Column(name="ID_PUNTOS_VENTA", insertable=false, updatable=false)
-	private int idPuntosVenta;
+	private Long idPuntosVenta;
 
 	public CatStockPK() {
 	}
-	public int getIdProductos() {
-		return this.idProductos;
+	
+
+	public Long getIdProductos() {
+		return idProductos;
 	}
-	public void setIdProductos(int idProductos) {
+
+
+	public void setIdProductos(Long idProductos) {
 		this.idProductos = idProductos;
 	}
-	public int getIdPuntosVenta() {
-		return this.idPuntosVenta;
+
+
+	public Long getIdPuntosVenta() {
+		return idPuntosVenta;
 	}
-	public void setIdPuntosVenta(int idPuntosVenta) {
+
+
+	public void setIdPuntosVenta(Long idPuntosVenta) {
 		this.idPuntosVenta = idPuntosVenta;
 	}
+
 
 	public boolean equals(Object other) {
 		if (this == other) {
@@ -48,9 +57,9 @@ public class CatStockPK implements Serializable {
 
 	public int hashCode() {
 		final int prime = 31;
-		int hash = 17;
-		hash = hash * prime + this.idProductos;
-		hash = hash * prime + this.idPuntosVenta;
+		int hash =  17;
+		hash = (int) (hash * prime + this.idProductos);
+		hash = (int) (hash * prime + this.idPuntosVenta);
 		
 		return hash;
 	}

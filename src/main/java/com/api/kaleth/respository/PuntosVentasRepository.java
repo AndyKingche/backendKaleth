@@ -9,7 +9,7 @@ import com.api.kaleth.domain.CatPuntosVenta;
 @RestController
 @RequestMapping("/api")
 
-public interface PuntosVentasRepository extends JpaRepository<CatPuntosVenta, Integer> {
+public interface PuntosVentasRepository extends JpaRepository<CatPuntosVenta, Long> {
 
 
 	

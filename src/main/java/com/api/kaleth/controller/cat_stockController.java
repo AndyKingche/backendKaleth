@@ -13,50 +13,75 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.api.kaleth.domain.CatProducto;
+import com.api.kaleth.domain.CatStock;
 import com.api.kaleth.respository.cat_stockRepository;
 
 @RestController
 @RequestMapping("/api")
 public class cat_stockController {
-//	@Autowired
-//	cat_stockRepository cat_stockRepository;
+	@Autowired
+	cat_stockRepository cat_stockRepository;
 
 
-	//@GetMapping("/stock/{id}")
-	//public Optional<cat_stock> getStock(@PathVariable Long id) throws ResourceNotFoundException{
-		//Optional<cat_stock> OneStock = cat_stockRepository.findById(id);
+	@GetMapping("/stock")
+	public List<CatStock> getCatDiseno(){
+		List<CatStock> CatStock = cat_stockRepository.findAll();
+		return CatStock;
 		
-		//return OneStock;
-	//}
+	}
+	
+	@GetMapping("/stock/{id}")
+	public Optional<CatStock> getStock(@PathVariable Long id) throws ResourceNotFoundException{
+		Optional<CatStock> OneStock = cat_stockRepository.findById(id);
+		
+		return OneStock;
+	}
+	@PostMapping("/stock")
+	public CatStock createCatStock(@RequestBody CatStock CatStock) {
+
+		CatStock newStock = cat_stockRepository.save(CatStock);
+
+		return newStock;
+	}
+	
+	@RequestMapping(value="/stock/number/{id_producto}/{id_puntoventa}",produces = {"application/json"},method= RequestMethod.GET)
+	public int encontrarStock(@PathVariable("id_producto") Integer id_producto, @PathVariable("id_puntoventa") Integer id_puntoventa) {
+		int numeroTipo= cat_stockRepository.encontrarStock(id_producto, id_puntoventa);
+		
+		return numeroTipo;
+	}
+
 
 	
-//	@PutMapping("/stock/{id}")
-//	public ResponseEntity<String> updateStock(@RequestBody cat_stock stock, @PathVariable Long id)
-//		throws ResourceNotFoundException{
-//		
-//		cat_stock findStock = cat_stockRepository.findById(id).orElseThrow(()->new ResourceNotFoundException("No se encuentra el id"));
-//	
-//		findStock.setCantidad(stock.getCantidad());
-//		findStock.setStock_max(stock.getStock_max());
-//		findStock.setStock_min(stock.getStock_min());
-//		findStock.setPrecio_distribuidor(stock.getPrecio_distribuidor());
-//		findStock.setPrecio_mayor(stock.getPrecio_mayor());
-//		findStock.setPrecio_unit(stock.getPrecio_unit());
-//		findStock.setExiste(stock.getExiste());
-//		
-//		cat_stock updateStock = cat_stockRepository.save(findStock);
-//		return ResponseEntity.ok().header("Content-Type", "application/json")
-//				.body("{\"mensaje\": \"El Stock se ha actualizado correctamente " + "" + "\"}");
-//	}
-//	@DeleteMapping("/stock/{id}")
-//	public ResponseEntity<String> deleteStock(@PathVariable Long id)throws ResourceNotFoundException{
-//		
-//		cat_stock findStock = cat_stockRepository.findById(id).orElseThrow(()->new ResourceNotFoundException("No se encontro el id"));
-//		cat_stockRepository.deleteById(id);
-//		
-//		return ResponseEntity.ok().header("Content-Type", "application/json")
-//				.body("{\"mensaje\": \"El Stock se ha eliminado correctamente " + id + "\"}");
-//	}
+	@PutMapping("/stock/{id}")
+	public ResponseEntity<String> updateStock(@RequestBody CatStock stock, @PathVariable Long id)
+		throws ResourceNotFoundException{
+		
+		CatStock findStock = cat_stockRepository.findById(id).orElseThrow(()->new ResourceNotFoundException("No se encuentra el id"));
+	
+		findStock.setCantidad(stock.getCantidad());
+		findStock.setStockMax(stock.getStockMax());
+		findStock.setStockMin(stock.getStockMin());
+		findStock.setPrecioDistribuidor(stock.getPrecioDistribuidor());
+		findStock.setPrecioMayor(stock.getPrecioMayor());
+		findStock.setPrecioUnit(stock.getPrecioUnit());
+		findStock.setExiste(stock.getExiste());
+		
+		CatStock updateStock = cat_stockRepository.save(findStock);
+		return ResponseEntity.ok().header("Content-Type", "application/json")
+				.body("{\"mensaje\": \"El Stock se ha actualizado correctamente " + "" + "\"}");
+	}
+	@DeleteMapping("/stock/{id}")
+	public ResponseEntity<String> deleteStock(@PathVariable Long id)throws ResourceNotFoundException{
+		
+		CatStock findStock = cat_stockRepository.findById(id).orElseThrow(()->new ResourceNotFoundException("No se encontro el id"));
+		cat_stockRepository.deleteById(id);
+		
+		return ResponseEntity.ok().header("Content-Type", "application/json")
+				.body("{\"mensaje\": \"El Stock se ha eliminado correctamente " + id + "\"}");
+	}
 }

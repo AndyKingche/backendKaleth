@@ -18,7 +18,7 @@ public class CatTalla implements Serializable {
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	@Column(name="ID_TALLAS")
-	private int idTallas;
+	private Long idTallas;
 
 	private String descripcion;
 
@@ -26,18 +26,15 @@ public class CatTalla implements Serializable {
 
 	private String tipo;
 
-	//bi-directional many-to-one association to CatProducto
-	@OneToMany(mappedBy="catTalla")
-	private List<CatProducto> catProductos;
 
 	public CatTalla() {
 	}
 
-	public int getIdTallas() {
+	public Long getIdTallas() {
 		return this.idTallas;
 	}
 
-	public void setIdTallas(int idTallas) {
+	public void setIdTallas(Long idTallas) {
 		this.idTallas = idTallas;
 	}
 
@@ -65,26 +62,7 @@ public class CatTalla implements Serializable {
 		this.tipo = tipo;
 	}
 
-	public List<CatProducto> getCatProductos() {
-		return this.catProductos;
-	}
 
-	public void setCatProductos(List<CatProducto> catProductos) {
-		this.catProductos = catProductos;
-	}
 
-	public CatProducto addCatProducto(CatProducto catProducto) {
-		getCatProductos().add(catProducto);
-		catProducto.setCatTalla(this);
-
-		return catProducto;
-	}
-
-	public CatProducto removeCatProducto(CatProducto catProducto) {
-		getCatProductos().remove(catProducto);
-		catProducto.setCatTalla(null);
-
-		return catProducto;
-	}
 
 }
