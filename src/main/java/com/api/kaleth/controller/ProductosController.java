@@ -89,4 +89,18 @@ public class ProductosController {
 		return -1;
 	}
 	
+	@RequestMapping(value="/products/findid/{idproducto}",produces = {"application/json"},method= RequestMethod.GET)
+	public CatProducto findproductobyId(@PathVariable("idproducto") Integer idproducto) {
+		CatProducto encontrado;	
+		try {
+			encontrado = CatProductorepository.productoId(idproducto);
+			 System.out.println(encontrado);
+			 
+			 return encontrado;
+		} catch (Exception e) {
+			System.out.println("*************************ERRRORRRRRRRRRRRRRRRRRRR");
+		}
+		return null;
+	}
+	
 }
