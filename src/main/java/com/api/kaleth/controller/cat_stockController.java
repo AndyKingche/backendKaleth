@@ -50,9 +50,32 @@ public class cat_stockController {
 	
 	@RequestMapping(value="/stock/number/{id_producto}/{id_puntoventa}",produces = {"application/json"},method= RequestMethod.GET)
 	public int encontrarStock(@PathVariable("id_producto") Integer id_producto, @PathVariable("id_puntoventa") Integer id_puntoventa) {
-		int numeroTipo= cat_stockRepository.encontrarStock(id_producto, id_puntoventa);
-		System.out.println(numeroTipo);
-		return numeroTipo;
+		int numeroTipo = 0;	
+		try {
+			 numeroTipo= cat_stockRepository.encontrarStock(id_producto, id_puntoventa);
+			 System.out.println(numeroTipo);
+			 
+			 return numeroTipo;
+		} catch (Exception e) {
+			System.out.println("*************************ERRRORRRRRRRRRRRRRRRRRRR");
+		}
+		return -1;
+	}
+	
+	@RequestMapping(value="/stock/update/{id_producto}/{id_puntoventa}/{cantidad}",produces = {"application/json"},method= RequestMethod.GET)
+	public int UpdateStock(@PathVariable("id_producto") Integer id_producto, 
+			@PathVariable("id_puntoventa") Integer id_puntoventa, 
+			@PathVariable("cantidad") Integer cantidad) {
+		int actualizado = 0;	
+		try {
+			actualizado = cat_stockRepository.actualizarStock(cantidad, id_producto, id_puntoventa);
+			 System.out.println(actualizado);
+			 
+			 return actualizado;
+		} catch (Exception e) {
+			System.out.println("*************************ERRRORRRRRRRRRRRRRRRRRRR");
+		}
+		return -1;
 	}
 
 
@@ -83,5 +106,22 @@ public class cat_stockController {
 		
 		return ResponseEntity.ok().header("Content-Type", "application/json")
 				.body("{\"mensaje\": \"El Stock se ha eliminado correctamente " + id + "\"}");
+	}
+	
+	
+	
+	
+	@RequestMapping(value="/stock/find/{id_producto}/{id_puntoventa}",produces = {"application/json"},method= RequestMethod.GET)
+	public List<CatStock> findStockIdProIdpPuntV (@PathVariable("id_producto") Integer idproducto, @PathVariable("id_puntoventa") Integer idpuntoventa) {
+		
+		try {
+			List<CatStock> productostock = cat_stockRepository.findbyIdProductoIdPuntosVenta(idproducto,idpuntoventa);
+			 System.out.println(productostock);
+			 
+			 return productostock;
+		} catch (Exception e) {
+			System.out.println("*************************ERRRORRRRRRRRRRRRRRRRRRR");
+		}
+		return null;
 	}
 }

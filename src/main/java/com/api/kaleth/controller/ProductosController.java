@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.api.kaleth.domain.CatProducto;
@@ -73,4 +74,19 @@ public class ProductosController {
 				.body("{\"mensaje\": \"El producto se ha eliminado correctamente " + id + "\"}");
 
 	}
+	
+	@RequestMapping(value="/products/find/{codproducto}",produces = {"application/json"},method= RequestMethod.GET)
+	public int findproductobycod(@PathVariable("codproducto") Integer codproducto) {
+		int encontrado = 0;	
+		try {
+			encontrado = CatProductorepository.findBycodigo(codproducto);
+			 System.out.println(encontrado);
+			 
+			 return encontrado;
+		} catch (Exception e) {
+			System.out.println("*************************ERRRORRRRRRRRRRRRRRRRRRR");
+		}
+		return -1;
+	}
+	
 }
