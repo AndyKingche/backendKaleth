@@ -60,7 +60,8 @@ public class UsuariosController {
 		findUser.setEstado(user.getEstado());
 		findUser.setFechanacimiento(user.getFechanacimiento());
 		findUser.setDireccion(user.getDireccion());
-		findUser.setUsGenero(user.getUsGenero());
+		findUser.setGenero(user.getGenero());
+		findUser.setEstadocivil(user.getEstadocivil());
 		
 		UsUser updateUser = UsUserrepository.save(findUser);
 		return ResponseEntity.ok().header("Content-Type", "application/json")

@@ -46,6 +46,7 @@ public class GeneroController {
 	throws ResourceNotFoundException{
 		UsGenero findgender = UsGenerorespository.findById(id).orElseThrow(()-> new ResourceNotFoundException());
 		findgender.setNombre(UsGenero.getNombre());
+		findgender.setGenero(UsGenero.getGenero());
 		
 		UsGenero actualizarUsGenero = UsGenerorespository.save(findgender);
 		return ResponseEntity.ok().header("Content-Type", "application/json")

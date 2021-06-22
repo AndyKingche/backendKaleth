@@ -18,7 +18,7 @@ public class UsRole implements Serializable {
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	@Column(name="ID_ROLES")
-	private int idRoles;
+	private Long idRoles;
 
 	private String descripcion;
 
@@ -26,18 +26,16 @@ public class UsRole implements Serializable {
 
 	private String rol;
 
-	//bi-directional many-to-many association to UsUser
-	@ManyToMany(mappedBy="usRoles")
-	private List<UsUser> usUsers;
+	
 
 	public UsRole() {
 	}
 
-	public int getIdRoles() {
-		return this.idRoles;
+	public Long getIdRoles() {
+		return idRoles;
 	}
 
-	public void setIdRoles(int idRoles) {
+	public void setIdRoles(Long idRoles) {
 		this.idRoles = idRoles;
 	}
 
@@ -65,12 +63,5 @@ public class UsRole implements Serializable {
 		this.rol = rol;
 	}
 
-	public List<UsUser> getUsUsers() {
-		return this.usUsers;
-	}
-
-	public void setUsUsers(List<UsUser> usUsers) {
-		this.usUsers = usUsers;
-	}
-
+	
 }

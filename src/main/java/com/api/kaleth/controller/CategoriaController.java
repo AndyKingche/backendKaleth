@@ -87,8 +87,4 @@ public class CategoriaController {
 		return 0;
 	}
 
-	
-
-
-
 }

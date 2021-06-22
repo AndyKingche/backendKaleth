@@ -25,24 +25,24 @@ public class RolesController {
 	@Autowired
 	RolesRepository UsRolerespository;
 	
-	@GetMapping("/UsRole")
+	@GetMapping("/roles")
 	public List<UsRole> getUsRole(){
 		List<UsRole> UsRole = UsRolerespository.findAll();
 		return UsRole;
 	}
 	
-	@GetMapping("/UsRole/{id}")
+	@GetMapping("/roles/{id}")
 	public Optional<UsRole> getRol(@PathVariable Long id) throws ResourceNotFoundException{
 		Optional<UsRole> rol = UsRolerespository.findById(id);
 		return rol;
 	}
 	
-	@PostMapping("/UsRole")
+	@PostMapping("/roles")
 	public UsRole createRole(@RequestBody UsRole rol) {
 		return UsRolerespository.save(rol);
 	}
 	
-	@PutMapping("/UsRole/{id}")
+	@PutMapping("/roles/{id}")
 	public ResponseEntity<String> updateRol(@RequestBody UsRole rol, @PathVariable Long id)throws ResourceNotFoundException{
 		UsRole findRol = getRol(id).orElseThrow(()-> new ResourceNotFoundException("No se encontro el id"));
 		findRol.setNombre(rol.getNombre());
@@ -56,7 +56,7 @@ public class RolesController {
 	
 	}
 	
-	@DeleteMapping("/UsRole/{id}")
+	@DeleteMapping("/roles/{id}")
 	public ResponseEntity<String> delteRol(@PathVariable Long id)throws ResourceNotFoundException{
 		
 		UsRolerespository.deleteById(id);
