@@ -13,8 +13,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.api.kaleth.domain.CatProducto;
 import com.api.kaleth.domain.CatTalla;
 import com.api.kaleth.respository.CatTallasRepository;
 
@@ -65,5 +67,18 @@ public class CatTallasController {
 		return ResponseEntity.ok().header("Content-Type", "application/json")
 				.body("{\"mensaje\": \"La talla se ha eliminado correctamente " + "" + "\"}");
 		
+	}
+	@RequestMapping(value="/size/find/{medida}",produces = {"application/json"},method= RequestMethod.GET)
+	public int findproductobymedida(@PathVariable("medida") String medida) {
+		int idencontrado;	
+		try {
+			idencontrado = CatTallarepository.encontrarTalla(medida);
+			 System.out.println(idencontrado);
+			 
+			 return idencontrado;
+		} catch (Exception e) {
+			System.out.println("*************************ERRRORRRRRRRRRRRRRRRRRRR");
+		}
+		return 0;
 	}
 }

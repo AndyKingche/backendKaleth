@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.api.kaleth.domain.CatDiseno;
@@ -70,4 +71,19 @@ public class DisenosController {
 				.body("{\"mensaje\": \"El diseno se ha eliminado correctamente " + id + "\"}");
 		
 	}
+	
+	@RequestMapping(value="/desing/find/{nombre}",produces = {"application/json"},method= RequestMethod.GET)
+	public int findproductobymedida(@PathVariable("nombre") String nombre) {
+		int idencontrado;	
+		try {
+			idencontrado = CatDisenorespository.encontrarDiseno(nombre);
+			 System.out.println(idencontrado);
+			 
+			 return idencontrado;
+		} catch (Exception e) {
+			System.out.println("*************************ERRRORRRRRRRRRRRRRRRRRRR");
+		}
+		return 0;
+	}
+
 }
