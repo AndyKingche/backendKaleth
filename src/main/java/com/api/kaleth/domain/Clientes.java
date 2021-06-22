@@ -12,7 +12,7 @@ import javax.persistence.Table;
 import org.hibernate.annotations.GenericGenerator;
 
 @Entity
-@Table(name="clientes")
+@Table(name="ven_cliente")
 public class Clientes implements Serializable{
 	
 	@Id
@@ -21,16 +21,16 @@ public class Clientes implements Serializable{
 	@Column(name = "id_cliente")
 	private Long id_cliente;
 	
-	@Column(name="nombrecliente")
+	@Column(name="nombre_cli")
 	private String nombrecliente;
 	
-	@Column(name="apellidocliente")
+	@Column(name="apellido_cli")
 	private String apellidocliente;
 
-	@Column(name="cedulacliente")
+	@Column(name="cedula_cli")
 	private String cedulacliente;
 	
-	@Column(name="direccioncliente")
+	@Column(name="direccion_cli")
 	private String direccioncliente;
 	
 	@Column(name="telefono")

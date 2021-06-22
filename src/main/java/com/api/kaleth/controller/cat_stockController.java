@@ -154,4 +154,17 @@ public class cat_stockController {
 		}
 		return -1;
 	}
+	
+	@RequestMapping(value="/stock/product/{codproducto}/{idpuntoventa}",produces = {"application/json"},method= RequestMethod.GET)
+	public List<CatStock> encontrarproductoStockby_codprod(@PathVariable("codproducto") Integer codproducto, @PathVariable("idpuntoventa") Integer idpuntoventa){
+		
+		try {
+			List<CatStock> productoStock =  cat_stockRepository.findProductoStockby_codProducto(codproducto, idpuntoventa);
+			
+			return productoStock;
+		}catch (Exception e) {
+			System.out.println("*************************ERRRORRRRRRRRRRRRRRRRRRR encontrarproductoStockby_codprod");
+		}
+		return null;
+	}
 }

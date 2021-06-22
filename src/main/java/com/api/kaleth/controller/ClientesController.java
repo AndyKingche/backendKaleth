@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.api.kaleth.domain.Clientes;
@@ -74,6 +75,20 @@ public class ClientesController {
 		
 		return ResponseEntity.ok().header("Content-Type", "application/json")
 		.body("{\"mensaje\": \"La Clientes se ha eliminado correctamente " + id + "\"}");
+	}
+	
+	@RequestMapping(value="/client/findcedula/{cedula}", produces = {"application/json"},method= RequestMethod.GET)
+	public List<Clientes> findbyCedula(@PathVariable("cedula") String cedula){
+		
+		try {
+			List<Clientes> clienteencontrado = clientesRepository.clientesByCedula(cedula);
+			return clienteencontrado;
+			
+		}catch (Exception e) {
+			// TODO: handle exception
+		}
+		
+		return null;
 	}
 
 }

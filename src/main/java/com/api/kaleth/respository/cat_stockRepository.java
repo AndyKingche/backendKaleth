@@ -34,6 +34,8 @@ public interface cat_stockRepository extends JpaRepository<CatStock, Long>{
 	@Query(value="SELECT * FROM cat_stock s WHERE s.id_productos=? AND s.id_puntos_venta=?",nativeQuery = true)
 	List<CatStock> findbyIdProductoIdPuntosVenta(Integer id_producto,Integer id_puntoventa);
 
+	@Query(value="SELECT * FROM cat_stock s , cat_productos p   WHERE p.cod_producto=? AND s.id_puntos_venta=? AND s.id_productos=p.id_productos AND existe='S'",nativeQuery = true)
+	List<CatStock> findProductoStockby_codProducto(Integer codigo_producto, Integer id_puntoventa);
 	
 
 }
