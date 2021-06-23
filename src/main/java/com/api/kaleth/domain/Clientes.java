@@ -16,7 +16,7 @@ import org.hibernate.annotations.GenericGenerator;
 public class Clientes implements Serializable{
 	
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO, generator = "native")
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	@GenericGenerator(name="native",strategy = "native")
 	@Column(name = "id_cliente")
 	private Long id_cliente;

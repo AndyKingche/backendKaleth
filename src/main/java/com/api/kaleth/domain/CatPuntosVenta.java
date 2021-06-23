@@ -2,6 +2,9 @@ package com.api.kaleth.domain;
 
 import java.io.Serializable;
 import javax.persistence.*;
+
+import org.hibernate.annotations.GenericGenerator;
+
 import java.util.List;
 
 
@@ -13,10 +16,9 @@ import java.util.List;
 @Table(name="cat_puntos_venta")
 @NamedQuery(name="CatPuntosVenta.findAll", query="SELECT c FROM CatPuntosVenta c")
 public class CatPuntosVenta implements Serializable {
-	private static final long serialVersionUID = 1L;
-
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GenericGenerator(name="native",strategy = "native")
 	@Column(name="ID_PUNTOS_VENTA")
 	private Long idPuntosVenta;
 

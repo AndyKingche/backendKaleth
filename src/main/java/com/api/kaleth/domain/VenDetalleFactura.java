@@ -3,6 +3,8 @@ package com.api.kaleth.domain;
 import java.io.Serializable;
 import javax.persistence.*;
 
+import org.hibernate.annotations.GenericGenerator;
+
 
 /**
  * The persistent class for the ven_detalle_factura database table.
@@ -12,10 +14,9 @@ import javax.persistence.*;
 @Table(name="ven_detalle_factura")
 @NamedQuery(name="VenDetalleFactura.findAll", query="SELECT v FROM VenDetalleFactura v")
 public class VenDetalleFactura implements Serializable {
-	private static final long serialVersionUID = 1L;
-
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GenericGenerator(name="native",strategy = "native")
 	@Column(name="ID_DETALLE_FACT")
 	private int idDetalleFact;
 

@@ -3,6 +3,8 @@ package com.api.kaleth.domain;
 import java.io.Serializable;
 import javax.persistence.*;
 
+import org.hibernate.annotations.GenericGenerator;
+
 /**
  * The primary key class for the cat_stock database table.
  * 
@@ -10,8 +12,10 @@ import javax.persistence.*;
 @Embeddable
 public class CatStockPK implements Serializable {
 	//default serial version id, required for serializable classes.
-	private static final long serialVersionUID = 1L;
-
+	
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GenericGenerator(name="native",strategy = "native")
+	
 	@Column(name="ID_PRODUCTOS", insertable=false, updatable=false)
 	private Long idProductos;
 
