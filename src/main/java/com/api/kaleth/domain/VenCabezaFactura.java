@@ -5,8 +5,12 @@ import javax.persistence.*;
 
 import org.hibernate.annotations.GenericGenerator;
 
+
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
+import java.util.Set;
+import java.util.TreeSet;
 
 
 /**
@@ -15,13 +19,13 @@ import java.util.List;
  */
 @Entity
 @Table(name="ven_cabeza_factura")
-@NamedQuery(name="VenCabezaFactura.findAll", query="SELECT v FROM VenCabezaFactura v")
+//@NamedQuery(name="VenCabezaFactura.findAll", query="SELECT v FROM VenCabezaFactura v")
 public class VenCabezaFactura implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO, generator = "native")
 	@GenericGenerator(name="native",strategy = "native")
 	@Column(name="ID_CABEZA_FAC")
-	private int idCabezaFac;
+	private Long idCabezaFac;
 
 	private String estado;
 	
@@ -40,25 +44,34 @@ public class VenCabezaFactura implements Serializable {
 	@JoinColumn(name="ID_USUARIO")
 	private UsUser usUser;
 
+	
+
+	
+	@OneToMany(mappedBy = "venCabezaFactura", cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
+	private Set<VenDetalleFactura> detallefact = new TreeSet<>();
+
 	//bi-directional many-to-one association to VenCliente
 	@ManyToOne
 	@JoinColumn(name="ID_CLIENTE")
+	
 	private VenCliente venCliente;
-
-	//bi-directional many-to-one association to VenDetalleFactura
-	@OneToMany(mappedBy="venCabezaFactura")
-	private List<VenDetalleFactura> venDetalleFacturas;
-
+	
 	public VenCabezaFactura() {
 	}
 
-	public int getIdCabezaFac() {
-		return this.idCabezaFac;
+	
+
+	public Long getIdCabezaFac() {
+		return idCabezaFac;
 	}
 
-	public void setIdCabezaFac(int idCabezaFac) {
+
+
+	public void setIdCabezaFac(Long idCabezaFac) {
 		this.idCabezaFac = idCabezaFac;
 	}
+
+
 
 	public String getEstado() {
 		return this.estado;
@@ -100,28 +113,7 @@ public class VenCabezaFactura implements Serializable {
 		this.venCliente = venCliente;
 	}
 
-	public List<VenDetalleFactura> getVenDetalleFacturas() {
-		return this.venDetalleFacturas;
-	}
-
-	public void setVenDetalleFacturas(List<VenDetalleFactura> venDetalleFacturas) {
-		this.venDetalleFacturas = venDetalleFacturas;
-	}
-
-	public VenDetalleFactura addVenDetalleFactura(VenDetalleFactura venDetalleFactura) {
-		getVenDetalleFacturas().add(venDetalleFactura);
-		venDetalleFactura.setVenCabezaFactura(this);
-
-		return venDetalleFactura;
-	}
-
-	public VenDetalleFactura removeVenDetalleFactura(VenDetalleFactura venDetalleFactura) {
-		getVenDetalleFacturas().remove(venDetalleFactura);
-		venDetalleFactura.setVenCabezaFactura(null);
-
-		return venDetalleFactura;
-	}
-
+	
 	public float getIva() {
 		return iva;
 	}
@@ -129,5 +121,42 @@ public class VenCabezaFactura implements Serializable {
 	public void setIva(float iva) {
 		this.iva = iva;
 	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) {
+			return true;
+		}
+		if (o == null || getClass() != o.getClass()) {
+			return false;
+		}
+		VenCabezaFactura cabeceraFactura = (VenCabezaFactura) o;
+		if (cabeceraFactura.idCabezaFac == null || idCabezaFac == null) {
+			return false;
+		}
+		return Objects.equals(idCabezaFac, cabeceraFactura.idCabezaFac);
+	}
+	
+	@Override
+	public int hashCode() {
+		return Objects.hashCode(idCabezaFac);
+	}
+	
+	@Override
+	public String toString() {
+		return "VenCabezaFactura{" + "id=" + idCabezaFac + ", estado='" + estado + "'" + ", fecha='" + fechaFactu + "'" + '}';
+	}
+	
+	
+	
+	public Set<VenDetalleFactura> getDetallefact() {
+		return detallefact;
+	}
+
+	public void setDetallefact(Set<VenDetalleFactura> detallefact) {
+		detallefact.forEach(x -> x.setVenCabezaFactura(this));
+		this.detallefact = detallefact;
+	}
+
 
 }

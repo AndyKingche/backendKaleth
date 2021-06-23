@@ -1,9 +1,14 @@
 package com.api.kaleth.domain;
 
 import java.io.Serializable;
+import java.util.Objects;
+
 import javax.persistence.*;
 
 import org.hibernate.annotations.GenericGenerator;
+
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 
 /**
@@ -15,10 +20,10 @@ import org.hibernate.annotations.GenericGenerator;
 @NamedQuery(name="VenDetalleFactura.findAll", query="SELECT v FROM VenDetalleFactura v")
 public class VenDetalleFactura implements Serializable {
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.AUTO,generator = "native")
 	@GenericGenerator(name="native",strategy = "native")
 	@Column(name="ID_DETALLE_FACT")
-	private int idDetalleFact;
+	private Long idDetalleFact;
 
 	@Column(name="CANTIDAD_FACT")
 	private int cantidadFact;
@@ -42,18 +47,27 @@ public class VenDetalleFactura implements Serializable {
 	//bi-directional many-to-one association to VenCabezaFactura
 	@ManyToOne
 	@JoinColumn(name="ID_CABEZA_FAC")
+	@JsonIgnore
 	private VenCabezaFactura venCabezaFactura;
+	
+
 
 	public VenDetalleFactura() {
 	}
 
-	public int getIdDetalleFact() {
-		return this.idDetalleFact;
+	
+
+	public Long getIdDetalleFact() {
+		return idDetalleFact;
 	}
 
-	public void setIdDetalleFact(int idDetalleFact) {
+
+
+	public void setIdDetalleFact(Long idDetalleFact) {
 		this.idDetalleFact = idDetalleFact;
 	}
+
+
 
 	public int getCantidadFact() {
 		return this.cantidadFact;
@@ -101,6 +115,31 @@ public class VenDetalleFactura implements Serializable {
 
 	public void setVenCabezaFactura(VenCabezaFactura venCabezaFactura) {
 		this.venCabezaFactura = venCabezaFactura;
+	}
+	
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) {
+			return true;
+		}
+		if (o == null || getClass() != o.getClass()) {
+			return false;
+		}
+		VenDetalleFactura detallefact = (VenDetalleFactura) o;
+		if (detallefact.idDetalleFact == null || idDetalleFact == null) {
+			return false;
+		}
+		return Objects.equals(idDetalleFact, detallefact.idDetalleFact);
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hashCode(idDetalleFact);
+	}
+	
+	@Override
+	public String toString() {
+		return "DetallFact{" + "id=" + idDetalleFact + ", cantidad='" + cantidadFact + "'" + ", categoria='" + catStock.getCatProducto().getCatCategoria().getNombreCategoria()+ "'" + '}';
 	}
 
 }

@@ -38,9 +38,6 @@ public class VenCliente implements Serializable {
 
 	private String telefono;
 
-	//bi-directional many-to-one association to VenCabezaFactura
-	@OneToMany(mappedBy="venCliente")
-	private List<VenCabezaFactura> venCabezaFacturas;
 
 	public VenCliente() {
 	}
@@ -104,26 +101,5 @@ public class VenCliente implements Serializable {
 		this.telefono = telefono;
 	}
 
-	public List<VenCabezaFactura> getVenCabezaFacturas() {
-		return this.venCabezaFacturas;
-	}
-
-	public void setVenCabezaFacturas(List<VenCabezaFactura> venCabezaFacturas) {
-		this.venCabezaFacturas = venCabezaFacturas;
-	}
-
-	public VenCabezaFactura addVenCabezaFactura(VenCabezaFactura venCabezaFactura) {
-		getVenCabezaFacturas().add(venCabezaFactura);
-		venCabezaFactura.setVenCliente(this);
-
-		return venCabezaFactura;
-	}
-
-	public VenCabezaFactura removeVenCabezaFactura(VenCabezaFactura venCabezaFactura) {
-		getVenCabezaFacturas().remove(venCabezaFactura);
-		venCabezaFactura.setVenCliente(null);
-
-		return venCabezaFactura;
-	}
 
 }

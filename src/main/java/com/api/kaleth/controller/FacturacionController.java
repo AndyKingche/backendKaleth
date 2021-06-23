@@ -27,7 +27,10 @@ public class FacturacionController {
 
     @GetMapping("/bill")
     public List<VenCabezaFactura> getVenCabezaFacturaes(){
+    	
         List<VenCabezaFactura> VenCabezaFacturaes = VenCabezaFacturarepository.findAll();
+        
+        System.out.println(VenCabezaFacturaes);
         return VenCabezaFacturaes;
     }
 
