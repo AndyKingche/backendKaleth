@@ -17,8 +17,7 @@ import java.util.List;
 @NamedQuery(name="CatStock.findAll", query="SELECT c FROM CatStock c")
 public class CatStock implements Serializable {
 	
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	@GenericGenerator(name="native",strategy = "native")
+	private static final long serialVersionUID = 1L;
 	@EmbeddedId
 	private CatStockPK id;
 

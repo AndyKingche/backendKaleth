@@ -17,7 +17,7 @@ import java.util.List;
 @NamedQuery(name="UsRole.findAll", query="SELECT u FROM UsRole u")
 public class UsRole implements Serializable {
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.AUTO, generator = "native")
 	@GenericGenerator(name="native",strategy = "native")
 	@Column(name="ID_ROLES")
 	private Long idRoles;

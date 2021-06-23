@@ -18,7 +18,7 @@ import java.util.List;
 @NamedQuery(name="VenCabezaFactura.findAll", query="SELECT v FROM VenCabezaFactura v")
 public class VenCabezaFactura implements Serializable {
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.AUTO, generator = "native")
 	@GenericGenerator(name="native",strategy = "native")
 	@Column(name="ID_CABEZA_FAC")
 	private int idCabezaFac;

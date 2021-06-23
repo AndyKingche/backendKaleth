@@ -13,8 +13,7 @@ import org.hibernate.annotations.GenericGenerator;
 public class CatStockPK implements Serializable {
 	//default serial version id, required for serializable classes.
 	
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	@GenericGenerator(name="native",strategy = "native")
+	private static final long serialVersionUID = 1L;
 	
 	@Column(name="ID_PRODUCTOS", insertable=false, updatable=false)
 	private Long idProductos;

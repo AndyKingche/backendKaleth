@@ -18,7 +18,7 @@ import java.util.List;
 public class CatTalla implements Serializable {
 	
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.AUTO, generator = "native")
 	@GenericGenerator(name="native",strategy = "native")
 	@Column(name="ID_TALLAS")
 	private Long idTallas;

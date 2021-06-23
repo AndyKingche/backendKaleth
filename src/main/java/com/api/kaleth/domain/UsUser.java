@@ -18,7 +18,7 @@ import java.util.List;
 @NamedQuery(name="UsUser.findAll", query="SELECT u FROM UsUser u")
 public class UsUser implements Serializable {
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.AUTO, generator = "native")
 	@GenericGenerator(name="native",strategy = "native")
 	@Column(name="ID_USUARIO")
 	private Long idUsuario;

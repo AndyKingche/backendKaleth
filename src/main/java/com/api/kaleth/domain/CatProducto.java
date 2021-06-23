@@ -17,7 +17,7 @@ import java.util.List;
 @NamedQuery(name="CatProducto.findAll", query="SELECT c FROM CatProducto c")
 public class CatProducto implements Serializable {
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.AUTO, generator = "native")
 	@GenericGenerator(name="native",strategy = "native")
 	@Column(name="ID_PRODUCTOS")
 	private Long idProductos;

@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.api.kaleth.domain.Clientes;
+import com.api.kaleth.domain.VenCliente;
 import com.api.kaleth.respository.ClientesRepository;
 
 @RestController
@@ -24,64 +24,64 @@ import com.api.kaleth.respository.ClientesRepository;
 public class ClientesController {
 
 	@Autowired
-	ClientesRepository clientesRepository;
+	ClientesRepository VenClienteRepository;
 	
 	@GetMapping("/client")
-	public List<Clientes> getClientes(){
-		List<Clientes> Clientess = clientesRepository.findAll();
+	public List<VenCliente> getVenCliente(){
+		List<VenCliente> VenClientes = VenClienteRepository.findAll();
 		
 	
-		return Clientess;
+		return VenClientes;
 	}
 	
 	@GetMapping("/client/{id}")
-	public Optional<Clientes> getCliente(@PathVariable Long id)throws ResourceNotFoundException{
+	public Optional<VenCliente> getCliente(@PathVariable Long id)throws ResourceNotFoundException{
 		
-		Optional<Clientes> Clientes = clientesRepository.findById(id);
-		return Clientes;
+		Optional<VenCliente> VenCliente = VenClienteRepository.findById(id);
+		return VenCliente;
 				
 	}
 	
 	@PostMapping("/client")
-	public Clientes createClientes(@RequestBody Clientes Clientes) {
-		Clientes newClientes = clientesRepository.save(Clientes);
+	public VenCliente createVenCliente(@RequestBody VenCliente VenCliente) {
+		VenCliente newVenCliente = VenClienteRepository.save(VenCliente);
 		
-		return newClientes;
+		return newVenCliente;
 	}
 	
 	@PutMapping("/client/{id}")
-	public ResponseEntity<String> updateClientes(@RequestBody Clientes Clientes, @PathVariable Long id)
+	public ResponseEntity<String> updateVenCliente(@RequestBody VenCliente VenCliente, @PathVariable Long id)
 	throws ResourceNotFoundException{
-		Clientes findClientes = clientesRepository.findById(id).orElseThrow(()-> new ResourceNotFoundException("No encontramos ningun id"));
+		VenCliente findVenCliente = VenClienteRepository.findById(id).orElseThrow(()-> new ResourceNotFoundException("No encontramos ningun id"));
 		
-		findClientes.setNombrecliente(Clientes.getNombrecliente());
-		findClientes.setApellidocliente(Clientes.getApellidocliente());
-		findClientes.setCedulacliente(Clientes.getCedulacliente());
-		findClientes.setDireccioncliente(Clientes.getDireccioncliente());
-		findClientes.setEmail(Clientes.getEmail());
-		findClientes.setTelefono(Clientes.getTelefono());
+		findVenCliente.setNombreCli(VenCliente.getNombreCli());
+		findVenCliente.setApellidoCli(VenCliente.getApellidoCli());
+		findVenCliente.setCedulaCli(VenCliente.getCedulaCli());
+		findVenCliente.setDireccionCli(VenCliente.getDireccionCli());
+		findVenCliente.setEmail(VenCliente.getEmail());
+		findVenCliente.setTelefono(VenCliente.getTelefono());
 		
-		Clientes updateClientes = clientesRepository.save(findClientes);
+		VenCliente updateVenCliente = VenClienteRepository.save(findVenCliente);
 		
 		return ResponseEntity.ok().header("Content-Type", "application/json")
-				.body("{\"mensaje\": \"La Clientes se ha actualizado correctamente " + id + "\"}");
+				.body("{\"mensaje\": \"La VenCliente se ha actualizado correctamente " + id + "\"}");
 	}
 	
 	
 	@DeleteMapping("/client/{id}")
-	public ResponseEntity<String> deleteClientes(@PathVariable Long id){
+	public ResponseEntity<String> deleteVenCliente(@PathVariable Long id){
 		
-		clientesRepository.deleteById(id);
+		VenClienteRepository.deleteById(id);
 		
 		return ResponseEntity.ok().header("Content-Type", "application/json")
-		.body("{\"mensaje\": \"La Clientes se ha eliminado correctamente " + id + "\"}");
+		.body("{\"mensaje\": \"La VenCliente se ha eliminado correctamente " + id + "\"}");
 	}
 	
 	@RequestMapping(value="/client/findcedula/{cedula}", produces = {"application/json"},method= RequestMethod.GET)
-	public List<Clientes> findbyCedula(@PathVariable("cedula") String cedula){
+	public List<VenCliente> findbyCedula(@PathVariable("cedula") String cedula){
 		
 		try {
-			List<Clientes> clienteencontrado = clientesRepository.clientesByCedula(cedula);
+			List<VenCliente> clienteencontrado = VenClienteRepository.clientesByCedula(cedula);
 			return clienteencontrado;
 			
 		}catch (Exception e) {

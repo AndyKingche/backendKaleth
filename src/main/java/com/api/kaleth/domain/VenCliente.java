@@ -17,10 +17,10 @@ import java.util.List;
 @NamedQuery(name="VenCliente.findAll", query="SELECT v FROM VenCliente v")
 public class VenCliente implements Serializable {
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.AUTO, generator = "native")
 	@GenericGenerator(name="native",strategy = "native")
 	@Column(name="ID_CLIENTE")
-	private int idCliente;
+	private Long idCliente;
 
 	@Column(name="APELLIDO_CLI")
 	private String apellidoCli;
@@ -45,13 +45,16 @@ public class VenCliente implements Serializable {
 	public VenCliente() {
 	}
 
-	public int getIdCliente() {
-		return this.idCliente;
+	
+	public Long getIdCliente() {
+		return idCliente;
 	}
 
-	public void setIdCliente(int idCliente) {
+
+	public void setIdCliente(Long idCliente) {
 		this.idCliente = idCliente;
 	}
+
 
 	public String getApellidoCli() {
 		return this.apellidoCli;
