@@ -43,9 +43,15 @@ public class FacturacionController {
 
     @PostMapping("/bill")
     public VenCabezaFactura createVenCabezaFactura(@RequestBody VenCabezaFactura VenCabezaFactura){
-        VenCabezaFactura newVenCabezaFactura = VenCabezaFacturarepository.save(VenCabezaFactura);
-
-        return newVenCabezaFactura;
+    	try {
+    		 VenCabezaFactura newVenCabezaFactura = VenCabezaFacturarepository.save(VenCabezaFactura);
+    	    	System.out.print(newVenCabezaFactura);
+    	        return VenCabezaFactura;
+    		
+    	}catch (Exception e) {
+			System.out.print(e);
+		}
+       return null;
 
     }
 

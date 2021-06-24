@@ -139,7 +139,9 @@ public class VenDetalleFactura implements Serializable {
 	
 	@Override
 	public String toString() {
-		return "DetallFact{" + "id=" + idDetalleFact + ", cantidad='" + cantidadFact + "'" + ", categoria='" + catStock.getCatProducto().getCatCategoria().getNombreCategoria()+ "'" + '}';
+		return "DetallFact{" + "id=" + 
+	idDetalleFact + ", cantidadFact='" + cantidadFact + "'" + ", precioUnit"+valorUnit+ ", descripcion"+descripcion+", catStock={'" 
++"idproductos"+catStock.getId().getIdProductos()+"idpuntosventa"+catStock.getId().getIdPuntosVenta()+"}"+ "'" + '}';
 	}
 
 }

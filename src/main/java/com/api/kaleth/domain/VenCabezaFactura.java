@@ -53,7 +53,6 @@ public class VenCabezaFactura implements Serializable {
 	//bi-directional many-to-one association to VenCliente
 	@ManyToOne
 	@JoinColumn(name="ID_CLIENTE")
-	
 	private VenCliente venCliente;
 	
 	public VenCabezaFactura() {
@@ -144,7 +143,7 @@ public class VenCabezaFactura implements Serializable {
 	
 	@Override
 	public String toString() {
-		return "VenCabezaFactura{" + "id=" + idCabezaFac + ", estado='" + estado + "'" + ", fecha='" + fechaFactu + "'" + '}';
+		return "VenCabezaFactura{" + "id=" + idCabezaFac + ", estado='" + estado + "'" + ", fechaa='" + detallefact+ "'" + '}';
 	}
 	
 	
