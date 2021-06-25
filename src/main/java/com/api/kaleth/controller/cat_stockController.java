@@ -62,13 +62,13 @@ public class cat_stockController {
 		return -1;
 	}
 	
-	@RequestMapping(value="/stock/update/{id_producto}/{id_puntoventa}/{cantidad}",produces = {"application/json"},method= RequestMethod.GET)
+	@RequestMapping(value="/stock/updateRest/{id_producto}/{id_puntoventa}/{cantidad}",produces = {"application/json"},method= RequestMethod.GET)
 	public int UpdateStock(@PathVariable("id_producto") Integer id_producto, 
 			@PathVariable("id_puntoventa") Integer id_puntoventa, 
 			@PathVariable("cantidad") Integer cantidad) {
 		int actualizado = 0;	
 		try {
-			actualizado = cat_stockRepository.actualizarStock(cantidad, id_producto, id_puntoventa);
+			actualizado = cat_stockRepository.actualizarStockRestar(cantidad, id_producto, id_puntoventa);
 			 System.out.println(actualizado);
 			 
 			 return actualizado;

@@ -18,7 +18,7 @@ public interface cat_stockRepository extends JpaRepository<CatStock, Long>{
 	int encontrarStock(Integer id_producto,Integer id_puntoventa);
 	
 	@Query(value="UPDATE cat_stock SET cantidad=? WHERE id_productos=? and id_puntos_venta=?", nativeQuery = true)
-	int actualizarStock(Integer cantidad_actualizada, Integer id_producto,Integer id_puntoventa);
+	int actualizarStockRestar(Integer cantidad_actualizada, Integer id_producto,Integer id_puntoventa);
 	
 	
 	@Query(value="UPDATE cat_stock SET cantidad=?, precio_unit=?, precio_mayor=?, precio_distribuidor=?, stock_max=?, stock_min=? WHERE id_productos=? and id_puntos_venta=?", nativeQuery = true)

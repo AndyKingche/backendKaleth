@@ -46,7 +46,7 @@ public class FacturacionController {
     	try {
     		 VenCabezaFactura newVenCabezaFactura = VenCabezaFacturarepository.save(VenCabezaFactura);
     	    	System.out.print(newVenCabezaFactura);
-    	        return VenCabezaFactura;
+    	        return newVenCabezaFactura;
     		
     	}catch (Exception e) {
 			System.out.print(e);
