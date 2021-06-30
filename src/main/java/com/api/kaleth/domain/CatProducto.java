@@ -25,6 +25,9 @@ public class CatProducto implements Serializable {
 	@Column(name="COD_PRODUCTO", unique=true)
 	private Long codProducto;
 	
+	@Column(name="URL_FOTO", unique=true, columnDefinition = "TEXT")
+	private String urlFoto;
+	
 	//bi-directional many-to-one association to CatCategoria
 	@ManyToOne
 	@JoinColumn(name="ID_CATEGORIA")
@@ -82,6 +85,14 @@ public class CatProducto implements Serializable {
 
 	public void setCodProducto(Long codProducto) {
 		this.codProducto = codProducto;
+	}
+
+	public String getUrlFoto() {
+		return urlFoto;
+	}
+
+	public void setUrlFoto(String urlFoto) {
+		this.urlFoto = urlFoto;
 	}
 
 
