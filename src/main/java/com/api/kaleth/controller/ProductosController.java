@@ -59,6 +59,8 @@ public class ProductosController {
 		findproducto.setCatCategoria(CatProducto.getCatCategoria());
 		findproducto.setCatDiseno(CatProducto.getCatDiseno());
 		findproducto.setCatTalla(CatProducto.getCatTalla());
+		findproducto.setUrlFoto(CatProducto.getUrlFoto());
+		findproducto.setCodProducto(CatProducto.getCodProducto());
 
 		CatProducto updateCatProducto = CatProductorepository.save(findproducto);
 

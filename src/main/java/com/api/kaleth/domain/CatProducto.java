@@ -25,7 +25,7 @@ public class CatProducto implements Serializable {
 	@Column(name="COD_PRODUCTO", unique=true)
 	private Long codProducto;
 	
-	@Column(name="URL_FOTO", unique=true, columnDefinition = "TEXT")
+	@Column(name="URL_FOTO", unique=true, columnDefinition = "LONGTEXT")
 	private String urlFoto;
 	
 	//bi-directional many-to-one association to CatCategoria
