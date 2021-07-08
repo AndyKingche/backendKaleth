@@ -1,7 +1,12 @@
 package com.api.kaleth.controller;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
+
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.rest.webmvc.ResourceNotFoundException;
@@ -17,7 +22,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.api.kaleth.domain.VenCliente;
+import com.api.kaleth.reports.service.exportReport;
 import com.api.kaleth.respository.ClientesRepository;
+import java.io.OutputStream;
+import net.sf.jasperreports.engine.JRException;
 
 @RestController
 @RequestMapping("/api")
@@ -25,6 +33,9 @@ public class ClientesController {
 
 	@Autowired
 	ClientesRepository VenClienteRepository;
+	
+	@Autowired
+	exportReport exportReport;
 	
 	@GetMapping("/client")
 	public List<VenCliente> getVenCliente(){
@@ -90,5 +101,24 @@ public class ClientesController {
 		
 		return null;
 	}
+	
+	/*
+	 * @RequestMapping(value = "/exportPdf", method = RequestMethod.GET) public void
+	 * getVenClientePdf(HttpServletResponse response) throws IOException,
+	 * SQLException, JRException{ response.setContentType("/aplication/x-download");
+	 * response.setHeader("Content-Disposition",String.
+	 * format("attachment; filename=\"person.pdf\""));
+	 * 
+	 * OutputStream out = response.getOutputStream();
+	 * 
+	 * exportReport.exportReporte(out);
+	 * 
+	 * }
+	 */
+	
+	@GetMapping("/pdfCliente/{format}")
+    public String generateReport(@PathVariable String format) throws FileNotFoundException, JRException, SQLException {
+        return exportReport.exportReport(format);
+    }
 
 }

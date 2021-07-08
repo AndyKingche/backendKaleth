@@ -1,11 +1,15 @@
 package com.api.kaleth.controller;
 
+import java.io.File;
+import java.sql.Connection;
 import java.util.List;
 import java.util.Optional;
 
+import org.flywaydb.core.internal.jdbc.JdbcTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.ResourceUtils;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -20,11 +24,16 @@ import com.api.kaleth.domain.CatProducto;
 import com.api.kaleth.domain.CatStock;
 import com.api.kaleth.respository.cat_stockRepository;
 
+import net.sf.jasperreports.engine.JasperCompileManager;
+import net.sf.jasperreports.engine.JasperReport;
+
 @RestController
 @RequestMapping("/api")
 public class cat_stockController {
 	@Autowired
 	cat_stockRepository cat_stockRepository;
+	
+	
 
 	@GetMapping("/stock")
 	public List<CatStock> getCatDiseno() {
@@ -36,7 +45,7 @@ public class cat_stockController {
 	@GetMapping("/stock/{id}")
 	public Optional<CatStock> getStock(@PathVariable Long id) throws ResourceNotFoundException {
 		Optional<CatStock> OneStock = cat_stockRepository.findById(id);
-
+		
 		return OneStock;
 	}
 
