@@ -28,8 +28,29 @@ import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
+import net.sf.jasperreports.view.JasperViewer;
 @Service
 public class exportReport {
+	
+	 @Autowired exportPDF exportPDF;
+	  
+	  public void exportReporte(OutputStream out) throws FileNotFoundException,
+	  SQLException, JRException { 
+		  
+		  JasperPrint jasperPrint = exportPDF.reporteClientes();
+		  JasperExportManager.exportReportToPdfStream(jasperPrint, out); 
+		  
+	  }
+	  
+	  public void exportReportehtml(OutputStream out) throws FileNotFoundException,
+	  SQLException, JRException { 
+		  
+		  JasperPrint jasperPrint = exportPDF.reporteClientes();
+		  JasperExportManager.exportReportToHtmlFile(jasperPrint,"cliente.html");
+		  
+	  }
+	  
+	  
 	/*
 	 * @Autowired exportPDF exportPDF;
 	 * 
@@ -38,28 +59,28 @@ public class exportReport {
 	 * exportPDF.reporteClientes();
 	 * JasperExportManager.exportReportToPdfStream(jasperPrint, out); }
 	 */
-	@Autowired
-	ClientesRepository clientesRepository;
-	@Autowired
-	JdbcTemplate jdbcTemplate;
-	public String exportReport(String reportFormat) throws FileNotFoundException, JRException, SQLException {
-        String path = "C:\\Users\\user\\Desktop";
-        //load file and compile it
-        File file = ResourceUtils.getFile("classpath:listaClientes.jrxml");
-        JasperReport jasperReport = JasperCompileManager.compileReport(file.getAbsolutePath());
-        //JRBeanCollectionDataSource dataSource = new JRBeanCollectionDataSource(employees);
-        Connection cn = jdbcTemplate.getDataSource().getConnection();
-        Map<String, Object> parameters = new HashMap<>();
-        parameters.put("createdBy", "Java Techie");
-        JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, cn );
-        if (reportFormat.equalsIgnoreCase("html")) {
-            JasperExportManager.exportReportToHtmlFile(jasperPrint, path + "\\employees.html");
-        }
-        if (reportFormat.equalsIgnoreCase("pdf")) {
-            JasperExportManager.exportReportToPdfFile(jasperPrint, path + "\\employees.pdf");
-        }
-
-        return "report generated in path : " + path;
-    }
-	
+	/*
+	 * @Autowired ClientesRepository clientesRepository;
+	 * 
+	 * @Autowired JdbcTemplate jdbcTemplate; public JasperPrint exportReport()
+	 * throws FileNotFoundException, JRException, SQLException { // String path =
+	 * "C:\\Users\\Jayli\\Desktop"; //load file and compile it File file =
+	 * ResourceUtils.getFile("classpath:listaClientes.jrxml"); JasperReport
+	 * jasperReport = JasperCompileManager.compileReport(file.getAbsolutePath());
+	 * //JRBeanCollectionDataSource dataSource = new
+	 * JRBeanCollectionDataSource(employees); Connection cn =
+	 * jdbcTemplate.getDataSource().getConnection(); Map<String, Object> parameters
+	 * = new HashMap<>(); parameters.put("createdBy", "Java Techie"); JasperPrint
+	 * jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, cn );
+	 * //JasperPrint j = JasperFillManager.fillReport(reporte, parametro,
+	 * cadena.Conectar1()); // JasperViewer jv = new JasperViewer(jasperPrint,
+	 * false); // jv.setTitle("REPORTE INGRESO DE PRODUCTOS"); //
+	 * jv.setVisible(true); // if (reportFormat.equalsIgnoreCase("html")) { //
+	 * JasperExportManager.exportReportToHtmlFile(jasperPrint, path +
+	 * "\\employees.html"); // } // if (reportFormat.equalsIgnoreCase("pdf")) { //
+	 * JasperExportManager.exportReportToPdfFile(jasperPrint, path +
+	 * "\\employees.pdf"); // }
+	 * 
+	 * //return "report generated in path : " + path; return jasperPrint ; }
+	 */
 }
