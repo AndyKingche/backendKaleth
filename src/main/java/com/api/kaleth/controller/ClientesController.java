@@ -184,8 +184,10 @@ public class ClientesController {
 		
 		  //consulta en ves del list 
 			
-			  Connection cn =jdbcTemplate.getDataSource().getConnection(); Map<String,
-			  Object> parametro = new HashMap<String, Object>();
+			  Connection cn = jdbcTemplate.getDataSource().getConnection(); 
+			  Map<String,Object> parametro = new HashMap<String, Object>();
+			  parametro.put("logoImagen", "logo1.png");
+			  parametro.put("logoKaleth", "KALETH.png");
 			  
 			  JasperPrint jasperprint = JasperFillManager.fillReport(jasperReport,
 			  parametro, cn);

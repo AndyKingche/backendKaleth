@@ -1,14 +1,33 @@
 package com.api.kaleth.controller;
 
+import java.io.ByteArrayOutputStream;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.sql.Connection;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+
+import javax.servlet.http.HttpServletResponse;
 
 import com.api.kaleth.domain.VenCabezaFactura;
 import com.api.kaleth.respository.FacturacionRepository;
 
+import net.sf.jasperreports.engine.JasperCompileManager;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.engine.design.JasperDesign;
+import net.sf.jasperreports.engine.export.JRPdfExporter;
+import net.sf.jasperreports.engine.xml.JRXmlLoader;
+import net.sf.jasperreports.export.SimpleExporterInput;
+import net.sf.jasperreports.export.SimpleOutputStreamExporterOutput;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 import org.springframework.http.ResponseEntity;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -16,6 +35,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -25,6 +46,9 @@ public class FacturacionController {
     @Autowired
     FacturacionRepository VenCabezaFacturarepository;
 
+    @Autowired
+    JdbcTemplate jdbcTemplate;
+    
     @GetMapping("/bill")
     public List<VenCabezaFactura> getVenCabezaFacturaes(){
     	
@@ -79,5 +103,128 @@ public class FacturacionController {
         .body("{\"mensaje\": \"La factua se elimino correctamente " + "" + "\"}");
 
     }
+    
+    @RequestMapping(value="/bill/ticket/{idfactura}",method= RequestMethod.GET)
+	@ResponseBody 
+	public void reporteCliente(HttpServletResponse response, @PathVariable Integer idfactura) throws Exception{
+		
+		
+		response.setContentType("text/html");
+		InputStream jrxmlInput =  this.getClass().getResourceAsStream("/ticketFactura.jrxml");
+		JasperDesign design = JRXmlLoader.load(jrxmlInput);
+		JasperReport jasperReport = JasperCompileManager.compileReport(design);
+		
+		  //consulta en ves del list 
+			
+			  Connection cn = jdbcTemplate.getDataSource().getConnection(); 
+			  Map<String,Object> parametro = new HashMap<String, Object>();
+			  parametro.put("logoImagen", "logo1.png");
+			  parametro.put("logoKaleth", "KALETH.png");
+			  parametro.put("idVenCabezafactura", idfactura);
+			  
+			  JasperPrint jasperprint = JasperFillManager.fillReport(jasperReport,
+			  parametro, cn);
+			  
+			  JRPdfExporter pdfExporter = new JRPdfExporter();
+			  pdfExporter.setExporterInput(new SimpleExporterInput(jasperprint));
+			  ByteArrayOutputStream pdfReportStream = new ByteArrayOutputStream();
+			  pdfExporter.setExporterOutput(new
+			  SimpleOutputStreamExporterOutput(pdfReportStream));
+			  pdfExporter.exportReport();
+			  
+			  response.setContentType("application/pdf");
+			  response.setHeader("Content-Length",String.valueOf(pdfReportStream.size()));
+			  response.setHeader("Content-Disposition","inline; filenamejasper.pdf");
+			  
+			  OutputStream responseOutputStream = response.getOutputStream();
+			  responseOutputStream.write(pdfReportStream.toByteArray());
+			  responseOutputStream.close(); pdfReportStream.close();
+			 
+	}
+	
+    @RequestMapping(value="/bill/reporteFecha/{fechaDesde}/{fechaHasta}",method= RequestMethod.GET)
+	@ResponseBody 
+	public void reporteFcturacionFecha(HttpServletResponse response, 
+			@PathVariable(name="fechaDesde") String fechaDesde,
+			@PathVariable(name="fechaHasta") String fechaHasta ) throws Exception{
+		
+		
+		response.setContentType("text/html");
+		InputStream jrxmlInput =  this.getClass().getResourceAsStream("/listaFacturasPorfecha.jrxml");
+		JasperDesign design = JRXmlLoader.load(jrxmlInput);
+		JasperReport jasperReport = JasperCompileManager.compileReport(design);
+		
+		  //consulta en ves del list 
+			
+			  Connection cn = jdbcTemplate.getDataSource().getConnection(); 
+			  Map<String,Object> parametro = new HashMap<String, Object>();
+			  parametro.put("logoImagen", "logo1.png");
+			  parametro.put("logoKaleth", "KALETH.png");
+			  parametro.put("fechaDesde", fechaDesde);
+			  
+			  parametro.put("fechaHasta", fechaHasta);
+			  
+			  JasperPrint jasperprint = JasperFillManager.fillReport(jasperReport,
+			  parametro, cn);
+			  
+			  JRPdfExporter pdfExporter = new JRPdfExporter();
+			  pdfExporter.setExporterInput(new SimpleExporterInput(jasperprint));
+			  ByteArrayOutputStream pdfReportStream = new ByteArrayOutputStream();
+			  pdfExporter.setExporterOutput(new
+			  SimpleOutputStreamExporterOutput(pdfReportStream));
+			  pdfExporter.exportReport();
+			  
+			  response.setContentType("application/pdf");
+			  response.setHeader("Content-Length",String.valueOf(pdfReportStream.size()));
+			  response.setHeader("Content-Disposition","inline; filenamejasper.pdf");
+			  
+			  OutputStream responseOutputStream = response.getOutputStream();
+			  responseOutputStream.write(pdfReportStream.toByteArray());
+			  responseOutputStream.close(); pdfReportStream.close();
+			 
+	}
+    
+    @RequestMapping(value="/bill/reporteFechaLocal/{fechaDesde}/{fechaHasta}/{idPuntosVenta}",method= RequestMethod.GET)
+	@ResponseBody 
+	public void reporteFcturacionFechaLocal(HttpServletResponse response, 
+			@PathVariable(name="fechaDesde") String fechaDesde,
+			@PathVariable(name="fechaHasta") String fechaHasta, 
+			@PathVariable(name="idPuntosVenta") Integer idPuntosVenta ) throws Exception{
+		
+		
+		response.setContentType("text/html");
+		InputStream jrxmlInput =  this.getClass().getResourceAsStream("/listaFacturasPorfechaLocales.jrxml");
+		JasperDesign design = JRXmlLoader.load(jrxmlInput);
+		JasperReport jasperReport = JasperCompileManager.compileReport(design);
+		
+		  //consulta en ves del list 
+			
+			  Connection cn = jdbcTemplate.getDataSource().getConnection(); 
+			  Map<String,Object> parametro = new HashMap<String, Object>();
+			  parametro.put("logoImagen", "logo1.png");
+			  parametro.put("logoKaleth", "KALETH.png");
+			  parametro.put("fechaDesde", fechaDesde);
+			  
+			  parametro.put("fechaHasta", fechaHasta);
+			  parametro.put("idPuntosVenta", idPuntosVenta);
+			  JasperPrint jasperprint = JasperFillManager.fillReport(jasperReport,
+			  parametro, cn);
+			  
+			  JRPdfExporter pdfExporter = new JRPdfExporter();
+			  pdfExporter.setExporterInput(new SimpleExporterInput(jasperprint));
+			  ByteArrayOutputStream pdfReportStream = new ByteArrayOutputStream();
+			  pdfExporter.setExporterOutput(new
+			  SimpleOutputStreamExporterOutput(pdfReportStream));
+			  pdfExporter.exportReport();
+			  
+			  response.setContentType("application/pdf");
+			  response.setHeader("Content-Length",String.valueOf(pdfReportStream.size()));
+			  response.setHeader("Content-Disposition","inline; filenamejasper.pdf");
+			  
+			  OutputStream responseOutputStream = response.getOutputStream();
+			  responseOutputStream.write(pdfReportStream.toByteArray());
+			  responseOutputStream.close(); pdfReportStream.close();
+			 
+	}
     
 }

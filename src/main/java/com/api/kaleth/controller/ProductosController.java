@@ -59,7 +59,7 @@ public class ProductosController {
 		findproducto.setCatCategoria(CatProducto.getCatCategoria());
 		findproducto.setCatDiseno(CatProducto.getCatDiseno());
 		findproducto.setCatTalla(CatProducto.getCatTalla());
-		findproducto.setUrlFoto(CatProducto.getUrlFoto());
+		
 		findproducto.setCodProducto(CatProducto.getCodProducto());
 
 		CatProducto updateCatProducto = CatProductorepository.save(findproducto);
@@ -78,7 +78,7 @@ public class ProductosController {
 	}
 	
 	@RequestMapping(value="/products/find/{codproducto}",produces = {"application/json"},method= RequestMethod.GET)
-	public int findproductobycod(@PathVariable("codproducto") Integer codproducto) {
+	public int findproductobycod(@PathVariable("codproducto") String codproducto) {
 		int encontrado = 0;	
 		try {
 			encontrado = CatProductorepository.findBycodigo(codproducto);

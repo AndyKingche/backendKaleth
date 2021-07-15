@@ -54,7 +54,7 @@ public class DisenosController {
 		
 		CatDiseno findCatDiseno = CatDisenorespository.findById(id).orElseThrow(()->new ResourceNotFoundException("No encuentro ningun CatDiseno que pidio"));
 		findCatDiseno.setNombre(CatDiseno.getNombre());
-		
+		findCatDiseno.setUrlFoto(CatDiseno.getUrlFoto());
 		CatDiseno updateCatDiseno = CatDisenorespository.save(findCatDiseno);
 		
 		return ResponseEntity.ok().header("Content-Type", "application/json")

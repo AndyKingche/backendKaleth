@@ -13,7 +13,7 @@ import com.api.kaleth.domain.CatProducto;
 public interface ProductosRepository extends JpaRepository<CatProducto, Long>{
 
 	@Query(value = "SELECT id_productos FROM cat_productos p WHERE p.cod_producto=?", nativeQuery = true)
-	int findBycodigo(Integer codigo);
+	int findBycodigo(String codigo);
 	
 	@Query(value="SELECT * FROM cat_productos WHERE id_productos=? ", nativeQuery = true)
 	CatProducto productoId(Integer id);

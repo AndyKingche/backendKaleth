@@ -25,6 +25,8 @@ public class CatDiseno implements Serializable {
 
 	private String nombre;
 
+	@Column(name="URL_FOTO", unique=true, columnDefinition = "LONGTEXT")
+	private String urlFoto;
 	
 	public CatDiseno() {
 	}
@@ -48,6 +50,17 @@ public class CatDiseno implements Serializable {
 		this.nombre = nombre;
 	}
 
+
+	public String getUrlFoto() {
+		return urlFoto;
+	}
+
+
+	public void setUrlFoto(String urlFoto) {
+		this.urlFoto = urlFoto;
+	}
+
+	
 
 
 }
