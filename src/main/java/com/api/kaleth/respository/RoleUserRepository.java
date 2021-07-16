@@ -15,7 +15,9 @@ import com.api.kaleth.domain.UsRoleUserPk;
 @RestController
 @RequestMapping("/api")
 public interface RoleUserRepository extends JpaRepository<UsRoleUser, Long>{
-	@Query(value = "SELECT * FROM us_rolesxu WHERE id_usuario=10", nativeQuery = true)
+	@Query(value = "SELECT * FROM us_rolesxu WHERE id_usuario=?", nativeQuery = true)
 	List<UsRoleUser> findByIdUsuario(Integer id);
-
+	
+	@Query(value="SELECT * FROM us_rolesxu WHERE id_roles =? AND id_usuario =?", nativeQuery = true)
+	UsRoleUser findUsRol(Integer rol,Integer usuario);
 }

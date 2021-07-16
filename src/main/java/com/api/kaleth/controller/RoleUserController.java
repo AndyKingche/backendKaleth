@@ -41,4 +41,12 @@ public class RoleUserController {
 	public UsRoleUser createRole(@RequestBody UsRoleUser rol) {
 		return roleuserRepository.save(rol);
 	}
+	
+	@GetMapping("/rol-user/find/{iduser}/{idrol}")
+	public UsRoleUser findRolusers(@PathVariable(name="iduser") Integer iduser,@PathVariable(name="idrol") Integer idrol) throws ResourceNotFoundException{
+		
+		UsRoleUser roluser = roleuserRepository.findUsRol(idrol,iduser);
+	
+		return roluser;
+	}
 }
