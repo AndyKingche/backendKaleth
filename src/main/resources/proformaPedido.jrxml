@@ -235,13 +235,7 @@ cabePe.id_cabeza_pe= $P{idCabezaPedido}]]>
 		<property name="com.jaspersoft.studio.field.tree.path" value="cat_productos"/>
 		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
-	<field name="url_foto" class="java.lang.String">
-		<property name="com.jaspersoft.studio.field.name" value="url_foto"/>
-		<property name="com.jaspersoft.studio.field.label" value="url_foto"/>
-		<property name="com.jaspersoft.studio.field.tree.path" value="cat_productos"/>
-		<fieldDescription><![CDATA[]]></fieldDescription>
-	</field>
-	<field name="COLUMN_36" class="java.lang.Long">
+	<field name="COLUMN_35" class="java.lang.Long">
 		<property name="com.jaspersoft.studio.field.name" value="id_puntos_venta"/>
 		<property name="com.jaspersoft.studio.field.label" value="id_puntos_venta"/>
 		<property name="com.jaspersoft.studio.field.tree.path" value="cat_puntos_venta"/>
@@ -264,12 +258,12 @@ cabePe.id_cabeza_pe= $P{idCabezaPedido}]]>
 		<property name="com.jaspersoft.studio.field.tree.path" value="cat_puntos_venta"/>
 		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
-	<field name="COLUMN_40" class="java.lang.String">
+	<field name="COLUMN_39" class="java.lang.String">
 		<property name="com.jaspersoft.studio.field.name" value="telefono"/>
 		<property name="com.jaspersoft.studio.field.label" value="telefono"/>
 		<property name="com.jaspersoft.studio.field.tree.path" value="cat_puntos_venta"/>
 	</field>
-	<field name="COLUMN_41" class="java.lang.Long">
+	<field name="COLUMN_40" class="java.lang.Long">
 		<property name="com.jaspersoft.studio.field.name" value="id_disenos"/>
 		<property name="com.jaspersoft.studio.field.label" value="id_disenos"/>
 		<property name="com.jaspersoft.studio.field.tree.path" value="cat_disenos"/>
@@ -277,6 +271,12 @@ cabePe.id_cabeza_pe= $P{idCabezaPedido}]]>
 	<field name="nombre" class="java.lang.String">
 		<property name="com.jaspersoft.studio.field.name" value="nombre"/>
 		<property name="com.jaspersoft.studio.field.label" value="nombre"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="cat_disenos"/>
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="url_foto" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="url_foto"/>
+		<property name="com.jaspersoft.studio.field.label" value="url_foto"/>
 		<property name="com.jaspersoft.studio.field.tree.path" value="cat_disenos"/>
 		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
