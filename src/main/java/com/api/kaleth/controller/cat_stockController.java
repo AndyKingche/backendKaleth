@@ -159,18 +159,18 @@ public class cat_stockController {
 	}
 
 	@RequestMapping(value = "/stock/updates/{id_producto}/{id_puntoventa}/{cantidad}/"
-			+ "{precioUnit}/{precioMayor}/{precioDist}/{stockMax}/{stockMin}", produces = {
+			+ "{precioUnit}/{precioMayor}/{precioDist}/{stockMax}/{stockMin}/{existe}", produces = {
 					"application/json" }, method = RequestMethod.GET)
 	public int UpdateStocks(@PathVariable("id_producto") Integer id_producto,
 			@PathVariable("id_puntoventa") Integer id_puntoventa, @PathVariable("cantidad") Integer cantidad,
 			@PathVariable("precioUnit") Float precioUnit, @PathVariable("precioMayor") Float precioMayor,
 			@PathVariable("precioDist") Float precioDist, @PathVariable("stockMax") Integer stockMax,
-			@PathVariable("stockMin") Integer stockMin) {
+			@PathVariable("stockMin") Integer stockMin,@PathVariable("existe") String existe) {
 		int actualizado = 0;
 
 		try {
 			actualizado = cat_stockRepository.actualizarStocks(cantidad, precioUnit, precioMayor, precioDist, stockMax,
-					stockMin, id_producto, id_puntoventa);
+					stockMin, existe,id_producto, id_puntoventa);
 			System.out.println(actualizado);
 			return actualizado;
 		} catch (Exception e) {

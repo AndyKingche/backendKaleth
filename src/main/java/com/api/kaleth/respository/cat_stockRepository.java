@@ -21,9 +21,9 @@ public interface cat_stockRepository extends JpaRepository<CatStock, Long> {
 	@Query(value = "UPDATE cat_stock SET cantidad=? WHERE id_productos=? and id_puntos_venta=?", nativeQuery = true)
 	int actualizarStockRestar(Integer cantidad_actualizada, Integer id_producto, Integer id_puntoventa);
 
-	@Query(value = "UPDATE cat_stock SET cantidad=?, precio_unit=?, precio_mayor=?, precio_distribuidor=?, stock_max=?, stock_min=? WHERE id_productos=? and id_puntos_venta=?", nativeQuery = true)
+	@Query(value = "UPDATE cat_stock SET cantidad=?, precio_unit=?, precio_mayor=?, precio_distribuidor=?, stock_max=?, stock_min=?, existe=? WHERE id_productos=? and id_puntos_venta=?", nativeQuery = true)
 	int actualizarStocks(Integer cantidad_actualizada, Float precioUnit, Float precioMay, Float precioDist,
-			Integer stockMax, Integer stockMin, Integer id_producto, Integer id_puntoventa);
+			Integer stockMax, Integer stockMin,String existe, Integer id_producto, Integer id_puntoventa);
 
 	@Query(value = "SELECT * FROM cat_stock s WHERE s.id_productos=? AND s.id_puntos_venta=?", nativeQuery = true)
 	List<CatStock> findbyIdProductoIdPuntosVenta(Integer id_producto, Integer id_puntoventa);
