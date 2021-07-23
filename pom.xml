@@ -72,7 +72,11 @@
     <version>1.5-beta1</version>
 </dependency>
 		<!-- Thanks for using https://jar-download.com -->
-
+	<dependency>
+    <groupId>mysql</groupId>
+    <artifactId>mysql-connector-java</artifactId>
+    <scope>runtime</scope>
+</dependency>
 		<!-- Thanks for using https://jar-download.com -->
 
 	</dependencies>
