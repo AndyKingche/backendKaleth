@@ -38,6 +38,8 @@ public class VenCabezaFactura implements Serializable {
 	private Date fechaFactu;
 
 	private float total;
+	private float subtotal;
+	private float descuento;
 
 	//bi-directional many-to-one association to UsUser
 	@ManyToOne
@@ -119,6 +121,28 @@ public class VenCabezaFactura implements Serializable {
 
 	public void setIva(float iva) {
 		this.iva = iva;
+	}
+	
+	public float getSubtotal() {
+		return subtotal;
+	}
+
+
+
+	public void setSubtotal(float subtotal) {
+		this.subtotal = subtotal;
+	}
+
+
+
+	public float getDescuento() {
+		return descuento;
+	}
+
+
+
+	public void setDescuento(float descuento) {
+		this.descuento = descuento;
 	}
 
 	@Override

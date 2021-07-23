@@ -17,6 +17,7 @@
 	<parameter name="logoImagen" class="java.lang.String"/>
 	<parameter name="fechaDesde" class="java.lang.String"/>
 	<parameter name="fechaHasta" class="java.lang.String"/>
+	<parameter name="totalVentas" class="java.lang.String"/>
 	<queryString>
 		<![CDATA[SELECT DISTINCTROW(cabe.id_cabeza_fac), cabe.* , cli.*, us.*, pv.*
 FROM ven_cabeza_factura cabe, ven_cliente cli, us_user us, ven_detalle_factura deta, cat_stock st, cat_puntos_venta pv
@@ -74,7 +75,19 @@ deta.cat_id_puntos_venta= pv.id_puntos_venta AND
 		<property name="com.jaspersoft.studio.field.tree.path" value="ven_cabeza_factura"/>
 		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
-	<field name="COLUMN_9" class="java.lang.Long">
+	<field name="descuento" class="java.lang.Float">
+		<property name="com.jaspersoft.studio.field.name" value="descuento"/>
+		<property name="com.jaspersoft.studio.field.label" value="descuento"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="ven_cabeza_factura"/>
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="subtotal" class="java.lang.Float">
+		<property name="com.jaspersoft.studio.field.name" value="subtotal"/>
+		<property name="com.jaspersoft.studio.field.label" value="subtotal"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="ven_cabeza_factura"/>
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="COLUMN_11" class="java.lang.Long">
 		<property name="com.jaspersoft.studio.field.name" value="id_cliente"/>
 		<property name="com.jaspersoft.studio.field.label" value="id_cliente"/>
 		<property name="com.jaspersoft.studio.field.tree.path" value="ven_cliente"/>
@@ -115,7 +128,7 @@ deta.cat_id_puntos_venta= pv.id_puntos_venta AND
 		<property name="com.jaspersoft.studio.field.tree.path" value="ven_cliente"/>
 		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
-	<field name="COLUMN_16" class="java.lang.Long">
+	<field name="COLUMN_18" class="java.lang.Long">
 		<property name="com.jaspersoft.studio.field.name" value="id_usuario"/>
 		<property name="com.jaspersoft.studio.field.label" value="id_usuario"/>
 		<property name="com.jaspersoft.studio.field.tree.path" value="us_user"/>
@@ -138,12 +151,12 @@ deta.cat_id_puntos_venta= pv.id_puntos_venta AND
 		<property name="com.jaspersoft.studio.field.tree.path" value="us_user"/>
 		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
-	<field name="COLUMN_20" class="java.lang.String">
+	<field name="COLUMN_22" class="java.lang.String">
 		<property name="com.jaspersoft.studio.field.name" value="email"/>
 		<property name="com.jaspersoft.studio.field.label" value="email"/>
 		<property name="com.jaspersoft.studio.field.tree.path" value="us_user"/>
 	</field>
-	<field name="COLUMN_21" class="java.lang.Boolean">
+	<field name="COLUMN_23" class="java.lang.Boolean">
 		<property name="com.jaspersoft.studio.field.name" value="estado"/>
 		<property name="com.jaspersoft.studio.field.label" value="estado"/>
 		<property name="com.jaspersoft.studio.field.tree.path" value="us_user"/>
@@ -166,7 +179,7 @@ deta.cat_id_puntos_venta= pv.id_puntos_venta AND
 		<property name="com.jaspersoft.studio.field.tree.path" value="us_user"/>
 		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
-	<field name="COLUMN_25" class="java.lang.String">
+	<field name="COLUMN_27" class="java.lang.String">
 		<property name="com.jaspersoft.studio.field.name" value="telefono"/>
 		<property name="com.jaspersoft.studio.field.label" value="telefono"/>
 		<property name="com.jaspersoft.studio.field.tree.path" value="us_user"/>
@@ -195,7 +208,7 @@ deta.cat_id_puntos_venta= pv.id_puntos_venta AND
 		<property name="com.jaspersoft.studio.field.tree.path" value="cat_puntos_venta"/>
 		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
-	<field name="COLUMN_30" class="java.lang.String">
+	<field name="COLUMN_32" class="java.lang.String">
 		<property name="com.jaspersoft.studio.field.name" value="direccion"/>
 		<property name="com.jaspersoft.studio.field.label" value="direccion"/>
 		<property name="com.jaspersoft.studio.field.tree.path" value="cat_puntos_venta"/>
@@ -206,7 +219,7 @@ deta.cat_id_puntos_venta= pv.id_puntos_venta AND
 		<property name="com.jaspersoft.studio.field.tree.path" value="cat_puntos_venta"/>
 		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
-	<field name="COLUMN_32" class="java.lang.String">
+	<field name="COLUMN_34" class="java.lang.String">
 		<property name="com.jaspersoft.studio.field.name" value="telefono"/>
 		<property name="com.jaspersoft.studio.field.label" value="telefono"/>
 		<property name="com.jaspersoft.studio.field.tree.path" value="cat_puntos_venta"/>
@@ -469,16 +482,48 @@ Importadora  & Creaciones]]></text>
 		</band>
 	</detail>
 	<pageFooter>
-		<band height="17">
+		<band height="36">
 			<textField>
-				<reportElement mode="Opaque" x="-10" y="4" width="525" height="13" backcolor="#E6E6E6" uuid="fed27553-a6c4-4a8a-9056-2f6f2589a3e5"/>
+				<reportElement mode="Opaque" x="-10" y="20" width="525" height="13" backcolor="#E6E6E6" uuid="fed27553-a6c4-4a8a-9056-2f6f2589a3e5"/>
 				<textElement textAlignment="Right"/>
 				<textFieldExpression><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
 			</textField>
 			<textField evaluationTime="Report">
-				<reportElement mode="Opaque" x="515" y="4" width="40" height="13" backcolor="#E6E6E6" uuid="9f5ad531-d413-49c9-874b-8b99e8150fa6"/>
+				<reportElement mode="Opaque" x="515" y="20" width="40" height="13" backcolor="#E6E6E6" uuid="9f5ad531-d413-49c9-874b-8b99e8150fa6"/>
 				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
 			</textField>
+			<textField>
+				<reportElement x="490" y="0" width="65" height="20" uuid="c6aa2578-a547-41ca-bb8e-7bf328b5d8a8">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="2b7a00ee-1bf9-46e0-acb9-bf84b0a758c0"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Justified" verticalAlignment="Middle">
+					<font size="8"/>
+					<paragraph leftIndent="3"/>
+				</textElement>
+				<textFieldExpression><![CDATA["$"+ $P{totalVentas}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="350" y="0" width="140" height="20" uuid="93187269-8108-4c15-8331-8b7c15de1a3c">
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<box padding="0" topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[TOTAL VENTAS:]]></text>
+			</staticText>
 		</band>
 	</pageFooter>
 </jasperReport>

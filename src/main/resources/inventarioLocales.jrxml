@@ -3,15 +3,7 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="listaInventarioLocales" pageWidth="595" pageHeight="842" whenNoDataType="AllSectionsNoDetail" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="d4a1d5eb-82dd-412f-a620-202e4bdf9dba">
 	<property name="template.engine" value="tabular_template"/>
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="conexionKaleth"/>
-	<property name="com.jaspersoft.studio.data.sql.tables">
-		<![CDATA[Y2F0X2Rpc2Vub3MgLDUxMCwxNSw1NWM1OWQ5ZC1iYTAyLTQ2YTAtODEzMi0wNjJhOGQ2NTQ4MmU7
-Y2F0X3RhbGxhcyAsNjIyLDE1LDgyZDBhMTFjLTdlOGYtNDI0My1iMzMzLTE4ZDcyMmJmMDhjYjtj
-YXRfc3RvY2sgLDE1LDE1LGVkZWJiMmI4LTU0ZTYtNDkxZS1hOWVjLWZjMDk0ZmUzZWNjNTtjYXRf
-cHVudG9zX3ZlbnRhICwyMzcsMTUsODE5Y2Q2ZDEtNTkxNy00MTQxLWFkNzItYTFlZTYyMDYwOWEz
-O2NhdF9wcm9kdWN0b3MgLDExMCwxNSw1NzllNDQ5Yy1lMGJhLTRjMjUtOTQwNy0xMDgyYzZkNTE2
-NzM7Y2F0X2NhdGVnb3JpYSAsMzgzLDE1LGE3M2MzODQwLTU0Y2YtNGNlMC1hMmEwLTIyZDZjY2Zh
-YTYxNDs=]]>
-	</property>
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
 	<style name="Table">
 		<box>
 			<pen lineWidth="1.0" lineColor="#000000"/>
@@ -371,11 +363,32 @@ Importadora  & Creaciones]]></text>
 				<textFieldExpression><![CDATA[$F{cantidad}]]></textFieldExpression>
 			</textField>
 			<componentElement>
-				<reportElement x="-9" y="2" width="89" height="27" uuid="4c3992f8-7390-4de0-b2f1-41ed305ac5c3"/>
-				<jr:Code39 xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" textPosition="bottom" verticalQuietZone="0.0" intercharGapWidth="1.0">
+				<reportElement x="-7" y="2" width="84" height="20" uuid="59a75133-05f8-4045-8159-1cbed34be45a">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.barWidth" value="px"/>
+					<property name="com.jaspersoft.studio.unit.barHeight" value="px"/>
+				</reportElement>
+				<jr:barbecue xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" type="Code39" drawText="false" checksumRequired="false" barWidth="20" barHeight="300">
 					<jr:codeExpression><![CDATA[$F{cod_producto}]]></jr:codeExpression>
-				</jr:Code39>
+				</jr:barbecue>
 			</componentElement>
+			<textField>
+				<reportElement x="-7" y="22" width="84" height="7" uuid="f350a69e-6898-431c-a336-fd6a50cca759">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="d3003b8a-f6bf-448e-937a-e1cf32ba89b3"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="5"/>
+					<paragraph leftIndent="3"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{cod_producto}]]></textFieldExpression>
+			</textField>
 		</band>
 	</detail>
 	<pageFooter>

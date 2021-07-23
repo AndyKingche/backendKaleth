@@ -40,7 +40,7 @@ cabe.id_cabeza_fac= $P{idVenCabezafactura}]]>
 		<property name="com.jaspersoft.studio.field.tree.path" value="ven_cabeza_factura"/>
 		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
-	<field name="iva" class="java.lang.Float">
+	<field name="iva" class="java.lang.Integer">
 		<property name="com.jaspersoft.studio.field.name" value="iva"/>
 		<property name="com.jaspersoft.studio.field.label" value="iva"/>
 		<property name="com.jaspersoft.studio.field.tree.path" value="ven_cabeza_factura"/>
@@ -64,7 +64,19 @@ cabe.id_cabeza_fac= $P{idVenCabezafactura}]]>
 		<property name="com.jaspersoft.studio.field.tree.path" value="ven_cabeza_factura"/>
 		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
-	<field name="COLUMN_8" class="java.lang.Long">
+	<field name="descuento" class="java.lang.Float">
+		<property name="com.jaspersoft.studio.field.name" value="descuento"/>
+		<property name="com.jaspersoft.studio.field.label" value="descuento"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="ven_cabeza_factura"/>
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="subtotal" class="java.lang.Float">
+		<property name="com.jaspersoft.studio.field.name" value="subtotal"/>
+		<property name="com.jaspersoft.studio.field.label" value="subtotal"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="ven_cabeza_factura"/>
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="COLUMN_10" class="java.lang.Long">
 		<property name="com.jaspersoft.studio.field.name" value="id_cliente"/>
 		<property name="com.jaspersoft.studio.field.label" value="id_cliente"/>
 		<property name="com.jaspersoft.studio.field.tree.path" value="ven_cliente"/>
@@ -147,12 +159,12 @@ cabe.id_cabeza_fac= $P{idVenCabezafactura}]]>
 		<property name="com.jaspersoft.studio.field.tree.path" value="ven_detalle_factura"/>
 		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
-	<field name="COLUMN_22" class="java.lang.Long">
+	<field name="COLUMN_24" class="java.lang.Long">
 		<property name="com.jaspersoft.studio.field.name" value="id_cabeza_fac"/>
 		<property name="com.jaspersoft.studio.field.label" value="id_cabeza_fac"/>
 		<property name="com.jaspersoft.studio.field.tree.path" value="ven_detalle_factura"/>
 	</field>
-	<field name="COLUMN_23" class="java.lang.Long">
+	<field name="COLUMN_25" class="java.lang.Long">
 		<property name="com.jaspersoft.studio.field.name" value="id_usuario"/>
 		<property name="com.jaspersoft.studio.field.label" value="id_usuario"/>
 		<property name="com.jaspersoft.studio.field.tree.path" value="us_user"/>
@@ -175,12 +187,12 @@ cabe.id_cabeza_fac= $P{idVenCabezafactura}]]>
 		<property name="com.jaspersoft.studio.field.tree.path" value="us_user"/>
 		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
-	<field name="COLUMN_27" class="java.lang.String">
+	<field name="COLUMN_29" class="java.lang.String">
 		<property name="com.jaspersoft.studio.field.name" value="email"/>
 		<property name="com.jaspersoft.studio.field.label" value="email"/>
 		<property name="com.jaspersoft.studio.field.tree.path" value="us_user"/>
 	</field>
-	<field name="COLUMN_28" class="java.lang.Boolean">
+	<field name="COLUMN_30" class="java.lang.Boolean">
 		<property name="com.jaspersoft.studio.field.name" value="estado"/>
 		<property name="com.jaspersoft.studio.field.label" value="estado"/>
 		<property name="com.jaspersoft.studio.field.tree.path" value="us_user"/>
@@ -203,7 +215,7 @@ cabe.id_cabeza_fac= $P{idVenCabezafactura}]]>
 		<property name="com.jaspersoft.studio.field.tree.path" value="us_user"/>
 		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
-	<field name="COLUMN_32" class="java.lang.String">
+	<field name="COLUMN_34" class="java.lang.String">
 		<property name="com.jaspersoft.studio.field.name" value="telefono"/>
 		<property name="com.jaspersoft.studio.field.label" value="telefono"/>
 		<property name="com.jaspersoft.studio.field.tree.path" value="us_user"/>
@@ -232,7 +244,7 @@ cabe.id_cabeza_fac= $P{idVenCabezafactura}]]>
 		<property name="com.jaspersoft.studio.field.tree.path" value="cat_puntos_venta"/>
 		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
-	<field name="COLUMN_37" class="java.lang.String">
+	<field name="COLUMN_39" class="java.lang.String">
 		<property name="com.jaspersoft.studio.field.name" value="direccion"/>
 		<property name="com.jaspersoft.studio.field.label" value="direccion"/>
 		<property name="com.jaspersoft.studio.field.tree.path" value="cat_puntos_venta"/>
@@ -243,7 +255,7 @@ cabe.id_cabeza_fac= $P{idVenCabezafactura}]]>
 		<property name="com.jaspersoft.studio.field.tree.path" value="cat_puntos_venta"/>
 		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
-	<field name="COLUMN_39" class="java.lang.String">
+	<field name="COLUMN_41" class="java.lang.String">
 		<property name="com.jaspersoft.studio.field.name" value="telefono"/>
 		<property name="com.jaspersoft.studio.field.label" value="telefono"/>
 		<property name="com.jaspersoft.studio.field.tree.path" value="cat_puntos_venta"/>
@@ -528,17 +540,17 @@ IMPORTADORA & CREACIONES]]></text>
 		<band splitType="Stretch"/>
 	</columnFooter>
 	<pageFooter>
-		<band height="20">
+		<band height="40">
 			<staticText>
-				<reportElement x="95" y="0" width="30" height="10" uuid="b891b3fe-8e84-44d8-a99e-bb45fe54184d">
+				<reportElement x="80" y="0" width="45" height="10" uuid="b891b3fe-8e84-44d8-a99e-bb45fe54184d">
 					<property name="com.jaspersoft.studio.unit.leftIndent" value="px"/>
 					<property name="com.jaspersoft.studio.unit.width" value="px"/>
 				</reportElement>
 				<textElement textAlignment="Left" verticalAlignment="Middle">
-					<font size="7"/>
+					<font size="7" isBold="true"/>
 					<paragraph leftIndent="2"/>
 				</textElement>
-				<text><![CDATA[Total:]]></text>
+				<text><![CDATA[Sub T.:]]></text>
 			</staticText>
 			<textField>
 				<reportElement x="125" y="0" width="35" height="10" uuid="3c26b2e4-1781-4ca5-9292-ed1b94c01bb4">
@@ -549,10 +561,10 @@ IMPORTADORA & CREACIONES]]></text>
 					<font size="7"/>
 					<paragraph leftIndent="2"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{total}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{subtotal}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="40" y="10" width="96" height="10" uuid="4cecaa6a-fd5a-405b-854e-febff6c58e1b">
+				<reportElement x="40" y="30" width="96" height="10" uuid="4cecaa6a-fd5a-405b-854e-febff6c58e1b">
 					<property name="com.jaspersoft.studio.unit.width" value="px"/>
 				</reportElement>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
@@ -560,6 +572,50 @@ IMPORTADORA & CREACIONES]]></text>
 				</textElement>
 				<text><![CDATA[GRACIAS POR SU VISITA]]></text>
 			</staticText>
+			<textField>
+				<reportElement x="125" y="10" width="35" height="10" uuid="524b8b0d-3c39-46d5-a5cd-cba4b4a355ac">
+					<property name="com.jaspersoft.studio.unit.leftIndent" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle">
+					<font size="7"/>
+					<paragraph leftIndent="2"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{descuento}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="125" y="20" width="35" height="10" uuid="c6b2be77-78bd-40d4-b785-5526f5188607">
+					<property name="com.jaspersoft.studio.unit.leftIndent" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle">
+					<font size="7"/>
+					<paragraph leftIndent="2"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{total}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="80" y="20" width="45" height="10" uuid="867cc1bb-9c2c-46f6-beb7-fc9163efa739">
+					<property name="com.jaspersoft.studio.unit.leftIndent" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="7" isBold="true"/>
+					<paragraph leftIndent="2"/>
+				</textElement>
+				<text><![CDATA[Total:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="80" y="10" width="45" height="10" uuid="8c589a5d-47d5-4ff5-8058-4321f5337bfc">
+					<property name="com.jaspersoft.studio.unit.leftIndent" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle">
+					<font size="7" isBold="true"/>
+					<paragraph leftIndent="2"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Desc: % "+$F{iva}]]></textFieldExpression>
+			</textField>
 		</band>
 	</pageFooter>
 </jasperReport>

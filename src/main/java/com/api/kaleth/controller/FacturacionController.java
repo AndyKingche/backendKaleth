@@ -92,6 +92,8 @@ public class FacturacionController {
 		findVenCabezaFactura.setFechaFactu(VenCabezaFactura.getFechaFactu());
 		findVenCabezaFactura.setIva(VenCabezaFactura.getIva());
 		findVenCabezaFactura.setTotal(VenCabezaFactura.getTotal());
+		findVenCabezaFactura.setTotal(VenCabezaFactura.getSubtotal());
+		findVenCabezaFactura.setTotal(VenCabezaFactura.getDescuento());
 		findVenCabezaFactura.setEstado(VenCabezaFactura.getEstado());
 
 		final VenCabezaFactura updatefactura = VenCabezaFacturarepository.save(findVenCabezaFactura);
@@ -144,10 +146,10 @@ public class FacturacionController {
 
 	}
 
-	@RequestMapping(value = "/bill/reporteFecha/{fechaDesde}/{fechaHasta}", method = RequestMethod.GET)
+	@RequestMapping(value = "/bill/reporteFecha/{fechaDesde}/{fechaHasta}/{totalVentas}", method = RequestMethod.GET)
 	@ResponseBody
 	public void reporteFcturacionFecha(HttpServletResponse response,
-			@PathVariable(name = "fechaDesde") String fechaDesde, @PathVariable(name = "fechaHasta") String fechaHasta)
+			@PathVariable(name = "fechaDesde") String fechaDesde, @PathVariable(name = "fechaHasta") String fechaHasta, @PathVariable(name = "totalVentas") String totalVentas)
 			throws Exception {
 
 		response.setContentType("text/html");
@@ -164,6 +166,7 @@ public class FacturacionController {
 		parametro.put("fechaDesde", fechaDesde);
 
 		parametro.put("fechaHasta", fechaHasta);
+		parametro.put("totalVentas", totalVentas);
 
 		JasperPrint jasperprint = JasperFillManager.fillReport(jasperReport, parametro, cn);
 

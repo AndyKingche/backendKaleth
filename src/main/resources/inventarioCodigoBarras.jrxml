@@ -137,7 +137,7 @@ Importadora  & Creaciones]]></text>
 	<columnHeader>
 		<band height="30">
 			<staticText>
-				<reportElement x="320" y="0" width="194" height="30" uuid="21176dbb-0df0-4798-b9b8-361caa80225b"/>
+				<reportElement x="250" y="0" width="264" height="30" uuid="21176dbb-0df0-4798-b9b8-361caa80225b"/>
 				<box topPadding="0" leftPadding="0" bottomPadding="0" rightPadding="0">
 					<pen lineWidth="0.0"/>
 					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
@@ -164,7 +164,7 @@ Importadora  & Creaciones]]></text>
 				<text><![CDATA[TALLA]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="-10" y="0" width="330" height="30" uuid="decebbfa-15b6-41a9-8010-13a76a2889e2"/>
+				<reportElement x="-10" y="0" width="260" height="30" uuid="decebbfa-15b6-41a9-8010-13a76a2889e2"/>
 				<box topPadding="0" leftPadding="0" bottomPadding="0" rightPadding="0">
 					<pen lineWidth="0.0"/>
 					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
@@ -182,10 +182,10 @@ Importadora  & Creaciones]]></text>
 	<detail>
 		<band height="64">
 			<rectangle>
-				<reportElement x="-10" y="0" width="330" height="64" backcolor="rgba(255, 255, 255, 0.0)" uuid="153a95a8-fd0f-4442-9545-0676f99151b5"/>
+				<reportElement x="-10" y="0" width="260" height="64" backcolor="rgba(255, 255, 255, 0.0)" uuid="153a95a8-fd0f-4442-9545-0676f99151b5"/>
 			</rectangle>
 			<textField>
-				<reportElement x="320" y="0" width="194" height="64" uuid="686c2c18-6348-4a5b-8831-a2f850073501">
+				<reportElement x="250" y="0" width="264" height="64" uuid="686c2c18-6348-4a5b-8831-a2f850073501">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="d3003b8a-f6bf-448e-937a-e1cf32ba89b3"/>
 				</reportElement>
 				<box>
@@ -218,27 +218,19 @@ Importadora  & Creaciones]]></text>
 				<textFieldExpression><![CDATA[$F{medida}]]></textFieldExpression>
 			</textField>
 			<componentElement>
-				<reportElement mode="Transparent" x="0" y="5" width="130" height="55" uuid="3600ca03-fd42-4404-9726-bd860c93a715">
-					<property name="com.jaspersoft.studio.unit.height" value="px"/>
-				</reportElement>
-				<jr:Code39 xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" checksumMode="auto" intercharGapWidth="1.0">
-					<jr:codeExpression><![CDATA[$F{cod_producto}]]></jr:codeExpression>
-				</jr:Code39>
-			</componentElement>
-			<componentElement>
-				<reportElement mode="Transparent" x="150" y="3" width="160" height="47" backcolor="rgba(255, 255, 255, 0.27450982)" uuid="cafdeaa1-9f7f-496a-b48f-0d4d1150df96">
-					<property name="com.jaspersoft.studio.unit.barHeight" value="px"/>
+				<reportElement mode="Transparent" x="0" y="3" width="240" height="47" backcolor="rgba(255, 255, 255, 0.27450982)" uuid="cafdeaa1-9f7f-496a-b48f-0d4d1150df96">
+					<property name="com.jaspersoft.studio.unit.barHeight" value="pixel"/>
 					<property name="com.jaspersoft.studio.unit.barWidth" value="px"/>
 				</reportElement>
-				<jr:barbecue xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" type="Code39 (Extended)" drawText="true" checksumRequired="false" barWidth="10" barHeight="200">
+				<jr:barbecue xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" type="Code39" drawText="false" checksumRequired="false" barWidth="7" barHeight="200">
 					<jr:codeExpression><![CDATA[$F{cod_producto}]]></jr:codeExpression>
 				</jr:barbecue>
 			</componentElement>
 			<textField>
-				<reportElement x="160" y="50" width="110" height="10" uuid="82628cd8-a1ae-4d18-ae01-7c42b3ee9476">
+				<reportElement x="0" y="50" width="60" height="10" uuid="82628cd8-a1ae-4d18-ae01-7c42b3ee9476">
 					<property name="com.jaspersoft.studio.unit.leftIndent" value="px"/>
 				</reportElement>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
+				<textElement textAlignment="Left" verticalAlignment="Middle">
 					<font size="7"/>
 					<paragraph leftIndent="2"/>
 				</textElement>
