@@ -78,7 +78,13 @@ WHERE  s.id_productos=pr.id_productos AND s.id_puntos_venta=pv.id_puntos_venta A
 		<property name="com.jaspersoft.studio.field.tree.path" value="cat_stock"/>
 		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
-	<field name="COLUMN_10" class="java.lang.Long">
+	<field name="precio_disrtibuidor" class="java.lang.Float">
+		<property name="com.jaspersoft.studio.field.name" value="precio_disrtibuidor"/>
+		<property name="com.jaspersoft.studio.field.label" value="precio_disrtibuidor"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="cat_stock"/>
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="COLUMN_11" class="java.lang.Long">
 		<property name="com.jaspersoft.studio.field.name" value="id_productos"/>
 		<property name="com.jaspersoft.studio.field.label" value="id_productos"/>
 		<property name="com.jaspersoft.studio.field.tree.path" value="cat_productos"/>
@@ -107,7 +113,7 @@ WHERE  s.id_productos=pr.id_productos AND s.id_puntos_venta=pv.id_puntos_venta A
 		<property name="com.jaspersoft.studio.field.tree.path" value="cat_productos"/>
 		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
-	<field name="COLUMN_15" class="java.lang.Long">
+	<field name="COLUMN_16" class="java.lang.Long">
 		<property name="com.jaspersoft.studio.field.name" value="id_puntos_venta"/>
 		<property name="com.jaspersoft.studio.field.label" value="id_puntos_venta"/>
 		<property name="com.jaspersoft.studio.field.tree.path" value="cat_puntos_venta"/>
@@ -136,7 +142,7 @@ WHERE  s.id_productos=pr.id_productos AND s.id_puntos_venta=pv.id_puntos_venta A
 		<property name="com.jaspersoft.studio.field.tree.path" value="cat_puntos_venta"/>
 		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
-	<field name="COLUMN_20" class="java.lang.Long">
+	<field name="COLUMN_21" class="java.lang.Long">
 		<property name="com.jaspersoft.studio.field.name" value="id_categoria"/>
 		<property name="com.jaspersoft.studio.field.label" value="id_categoria"/>
 		<property name="com.jaspersoft.studio.field.tree.path" value="cat_categoria"/>
@@ -153,7 +159,7 @@ WHERE  s.id_productos=pr.id_productos AND s.id_puntos_venta=pv.id_puntos_venta A
 		<property name="com.jaspersoft.studio.field.tree.path" value="cat_categoria"/>
 		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
-	<field name="COLUMN_23" class="java.lang.Long">
+	<field name="COLUMN_24" class="java.lang.Long">
 		<property name="com.jaspersoft.studio.field.name" value="id_disenos"/>
 		<property name="com.jaspersoft.studio.field.label" value="id_disenos"/>
 		<property name="com.jaspersoft.studio.field.tree.path" value="cat_disenos"/>
@@ -182,12 +188,12 @@ WHERE  s.id_productos=pr.id_productos AND s.id_puntos_venta=pv.id_puntos_venta A
 		<property name="com.jaspersoft.studio.field.tree.path" value="cat_disenos"/>
 		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
-	<field name="COLUMN_28" class="java.lang.Long">
+	<field name="COLUMN_29" class="java.lang.Long">
 		<property name="com.jaspersoft.studio.field.name" value="id_tallas"/>
 		<property name="com.jaspersoft.studio.field.label" value="id_tallas"/>
 		<property name="com.jaspersoft.studio.field.tree.path" value="cat_tallas"/>
 	</field>
-	<field name="COLUMN_29" class="java.lang.String">
+	<field name="COLUMN_30" class="java.lang.String">
 		<property name="com.jaspersoft.studio.field.name" value="descripcion"/>
 		<property name="com.jaspersoft.studio.field.label" value="descripcion"/>
 		<property name="com.jaspersoft.studio.field.tree.path" value="cat_tallas"/>

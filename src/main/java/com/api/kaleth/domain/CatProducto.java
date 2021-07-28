@@ -14,7 +14,6 @@ import java.util.List;
  */
 @Entity
 @Table(name="cat_productos")
-@NamedQuery(name="CatProducto.findAll", query="SELECT c FROM CatProducto c")
 public class CatProducto implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO, generator = "native")

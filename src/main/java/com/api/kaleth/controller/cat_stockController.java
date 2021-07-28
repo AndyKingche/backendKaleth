@@ -19,6 +19,7 @@ import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.util.ResourceUtils;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -35,6 +36,9 @@ import com.api.kaleth.domain.CatStock;
 import com.api.kaleth.respository.cat_stockRepository;
 
 import java.io.OutputStream;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperCompileManager;
 import net.sf.jasperreports.engine.JasperExportManager;
@@ -50,6 +54,7 @@ import net.sf.jasperreports.export.SimpleOutputStreamExporterOutput;
 
 @RestController
 @RequestMapping("/api")
+@CrossOrigin(origins = "*", methods= {RequestMethod.GET,RequestMethod.POST,RequestMethod.PUT,RequestMethod.DELETE})
 public class cat_stockController {
 	@Autowired
 	cat_stockRepository cat_stockRepository;
@@ -393,9 +398,11 @@ public class cat_stockController {
 	@ResponseBody
 	public void codigoBarraStock(HttpServletResponse response)
 			throws Exception {
-
+		
 		response.setContentType("text/html");
 		InputStream jrxmlInput = this.getClass().getResourceAsStream("/inventarioCodigoBarras.jrxml");
+		//InputStream jrxmlInput = this.getClass().getResourceAsStream("../");
+		System.out.print(jrxmlInput);
 		JasperDesign design = JRXmlLoader.load(jrxmlInput);
 		JasperReport jasperReport = JasperCompileManager.compileReport(design);
 
