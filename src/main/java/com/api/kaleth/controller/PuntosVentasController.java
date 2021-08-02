@@ -6,6 +6,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 
@@ -21,6 +23,7 @@ import com.api.kaleth.respository.PuntosVentasRepository;
 
 @RestController
 @RequestMapping("/api")
+@CrossOrigin(origins = "*", methods= {RequestMethod.GET,RequestMethod.POST,RequestMethod.PUT,RequestMethod.DELETE})
 public class PuntosVentasController {
 
 	@Autowired
@@ -30,13 +33,11 @@ public class PuntosVentasController {
 	public List<CatPuntosVenta> getCatPuntosVenta(){
 		List<CatPuntosVenta> CatPuntosVenta = CatPuntosVentarepository.findAll();
 		return CatPuntosVenta;
-		
-		
-		
+
 	}
 	
 	@GetMapping("/sales-points/{id}")
-	public Optional<CatPuntosVenta> getCatPuntosVenta(@PathVariable int id) 
+	public Optional<CatPuntosVenta> getCatPuntosVenta(@PathVariable Long id) 
 			throws ResourceNotFoundException{
 		Optional<CatPuntosVenta> CatPuntosVenta = CatPuntosVentarepository.findById(id);
 		return CatPuntosVenta;
@@ -50,7 +51,7 @@ public class PuntosVentasController {
 	}
 	
 	@PutMapping("/sales-points/{id}")
-	public ResponseEntity<String> updateCatPuntosVenta(@RequestBody CatPuntosVenta CatPuntosVenta, @PathVariable int id)
+	public ResponseEntity<String> updateCatPuntosVenta(@RequestBody CatPuntosVenta CatPuntosVenta, @PathVariable Long id)
 	throws ResourceNotFoundException{
 		
 		CatPuntosVenta findCatPuntosVenta = CatPuntosVentarepository.findById(id).orElseThrow(()->new ResourceNotFoundException("No encuentro ningun disenos que pidio"));
@@ -67,7 +68,7 @@ public class PuntosVentasController {
 	}
 	
 	@DeleteMapping("/sales-points/{id}")
-	public ResponseEntity<String> deleteCatPuntosVenta(@PathVariable int id)
+	public ResponseEntity<String> deleteCatPuntosVenta(@PathVariable Long id)
 	throws ResourceNotFoundException{
 		
 		CatPuntosVentarepository.deleteById(id);

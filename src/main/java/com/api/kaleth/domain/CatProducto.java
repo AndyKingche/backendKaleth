@@ -2,6 +2,9 @@ package com.api.kaleth.domain;
 
 import java.io.Serializable;
 import javax.persistence.*;
+
+import org.hibernate.annotations.GenericGenerator;
+
 import java.util.List;
 
 
@@ -11,15 +14,16 @@ import java.util.List;
  */
 @Entity
 @Table(name="cat_productos")
-@NamedQuery(name="CatProducto.findAll", query="SELECT c FROM CatProducto c")
 public class CatProducto implements Serializable {
-	private static final long serialVersionUID = 1L;
-
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.AUTO, generator = "native")
+	@GenericGenerator(name="native",strategy = "native")
 	@Column(name="ID_PRODUCTOS")
-	private int idProductos;
+	private Long idProductos;
 
+	@Column(name="COD_PRODUCTO", unique=true,columnDefinition="VARCHAR")
+	private String codProducto;
+	
 	//bi-directional many-to-one association to CatCategoria
 	@ManyToOne
 	@JoinColumn(name="ID_CATEGORIA")
@@ -35,18 +39,15 @@ public class CatProducto implements Serializable {
 	@JoinColumn(name="ID_TALLAS")
 	private CatTalla catTalla;
 
-	//bi-directional many-to-one association to CatStock
-	@OneToMany(mappedBy="catProducto")
-	private List<CatStock> catStocks;
-
+	
 	public CatProducto() {
 	}
 
-	public int getIdProductos() {
+	public Long getIdProductos() {
 		return this.idProductos;
 	}
 
-	public void setIdProductos(int idProductos) {
+	public void setIdProductos(Long idProductos) {
 		this.idProductos = idProductos;
 	}
 
@@ -74,26 +75,19 @@ public class CatProducto implements Serializable {
 		this.catTalla = catTalla;
 	}
 
-	public List<CatStock> getCatStocks() {
-		return this.catStocks;
+	
+
+	public String getCodProducto() {
+		return codProducto;
 	}
 
-	public void setCatStocks(List<CatStock> catStocks) {
-		this.catStocks = catStocks;
+	public void setCodProducto(String codProducto) {
+		this.codProducto = codProducto;
 	}
 
-	public CatStock addCatStock(CatStock catStock) {
-		getCatStocks().add(catStock);
-		catStock.setCatProducto(this);
 
-		return catStock;
-	}
 
-	public CatStock removeCatStock(CatStock catStock) {
-		getCatStocks().remove(catStock);
-		catStock.setCatProducto(null);
 
-		return catStock;
-	}
+
 
 }

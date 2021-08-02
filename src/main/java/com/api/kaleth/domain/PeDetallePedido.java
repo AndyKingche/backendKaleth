@@ -3,30 +3,31 @@ package com.api.kaleth.domain;
 import java.io.Serializable;
 import java.util.Objects;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinColumns;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 
 import org.hibernate.annotations.GenericGenerator;
 
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-
-/**
- * The persistent class for the ven_detalle_factura database table.
- * 
- */
 @Entity
-@Table(name="ven_detalle_factura")
-@NamedQuery(name="VenDetalleFactura.findAll", query="SELECT v FROM VenDetalleFactura v")
-public class VenDetalleFactura implements Serializable {
+@Table(name="pe_detalle_pedido")
+public class PeDetallePedido implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO,generator = "native")
 	@GenericGenerator(name="native",strategy = "native")
-	@Column(name="ID_DETALLE_FACT")
-	private Long idDetalleFact;
+	@Column(name="ID_DETALLE_PE")
+	private Long idDetallePe;
 
-	@Column(name="CANTIDAD_FACT")
-	private int cantidadFact;
+	@Column(name="CANTIDAD_PE")
+	private int cantidadPe;
 
 	private String descripcion;
 
@@ -48,37 +49,26 @@ public class VenDetalleFactura implements Serializable {
 	@ManyToOne
 	@JoinColumn(name="ID_CABEZA_FAC")
 	@JsonIgnore
-	private VenCabezaFactura venCabezaFactura;
-	
+	private PeCabezaPedido peCabezaPedido;
 
-
-	public VenDetalleFactura() {
+	public Long getIdDetallePe() {
+		return idDetallePe;
 	}
 
-	
-
-	public Long getIdDetalleFact() {
-		return idDetalleFact;
+	public void setIdDetallePe(Long idDetallePe) {
+		this.idDetallePe = idDetallePe;
 	}
 
-
-
-	public void setIdDetalleFact(Long idDetalleFact) {
-		this.idDetalleFact = idDetalleFact;
+	public int getCantidadPe() {
+		return cantidadPe;
 	}
 
-
-
-	public int getCantidadFact() {
-		return this.cantidadFact;
-	}
-
-	public void setCantidadFact(int cantidadFact) {
-		this.cantidadFact = cantidadFact;
+	public void setCantidadPe(int cantidadPe) {
+		this.cantidadPe = cantidadPe;
 	}
 
 	public String getDescripcion() {
-		return this.descripcion;
+		return descripcion;
 	}
 
 	public void setDescripcion(String descripcion) {
@@ -86,7 +76,7 @@ public class VenDetalleFactura implements Serializable {
 	}
 
 	public float getValorTotal() {
-		return this.valorTotal;
+		return valorTotal;
 	}
 
 	public void setValorTotal(float valorTotal) {
@@ -94,7 +84,7 @@ public class VenDetalleFactura implements Serializable {
 	}
 
 	public float getValorUnit() {
-		return this.valorUnit;
+		return valorUnit;
 	}
 
 	public void setValorUnit(float valorUnit) {
@@ -102,19 +92,19 @@ public class VenDetalleFactura implements Serializable {
 	}
 
 	public CatStock getCatStock() {
-		return this.catStock;
+		return catStock;
 	}
 
 	public void setCatStock(CatStock catStock) {
 		this.catStock = catStock;
 	}
 
-	public VenCabezaFactura getVenCabezaFactura() {
-		return this.venCabezaFactura;
+	public PeCabezaPedido getPeCabezaPedido() {
+		return peCabezaPedido;
 	}
 
-	public void setVenCabezaFactura(VenCabezaFactura venCabezaFactura) {
-		this.venCabezaFactura = venCabezaFactura;
+	public void setPeCabezaPedido(PeCabezaPedido peCabezaPedido) {
+		this.peCabezaPedido = peCabezaPedido;
 	}
 	
 	@Override
@@ -125,23 +115,22 @@ public class VenDetalleFactura implements Serializable {
 		if (o == null || getClass() != o.getClass()) {
 			return false;
 		}
-		VenDetalleFactura detallefact = (VenDetalleFactura) o;
-		if (detallefact.idDetalleFact == null || idDetalleFact == null) {
+		PeDetallePedido detallepedido = (PeDetallePedido) o;
+		if (detallepedido.idDetallePe == null || detallepedido == null) {
 			return false;
 		}
-		return Objects.equals(idDetalleFact, detallefact.idDetalleFact);
+		return Objects.equals(idDetallePe, detallepedido.idDetallePe);
 	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hashCode(idDetalleFact);
+		return Objects.hashCode(idDetallePe);
 	}
 	
 	@Override
 	public String toString() {
-		return "DetallFact{" + "id=" + 
-	idDetalleFact + ", cantidadFact='" + cantidadFact + "'" + ", precioUnit"+valorUnit+ ", descripcion"+descripcion+", catStock={'" 
+		return "DetallPedido{" + "id=" + 
+	idDetallePe + ", cantidadFact='" + cantidadPe + "'" + ", precioUnit"+valorUnit+ ", descripcion"+descripcion+", catStock={'" 
 +"idproductos"+catStock.getId().getIdProductos()+"idpuntosventa"+catStock.getId().getIdPuntosVenta()+"}"+ "'" + '}';
 	}
-
 }

@@ -2,6 +2,9 @@ package com.api.kaleth.domain;
 
 import java.io.Serializable;
 import javax.persistence.*;
+
+import org.hibernate.annotations.GenericGenerator;
+
 import java.util.List;
 
 
@@ -13,19 +16,24 @@ import java.util.List;
 @Table(name="cat_disenos")
 @NamedQuery(name="CatDiseno.findAll", query="SELECT c FROM CatDiseno c")
 public class CatDiseno implements Serializable {
-	private static final long serialVersionUID = 1L;
-
+	
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.AUTO,generator = "native")
+	@GenericGenerator(name="native",strategy = "native")
 	@Column(name="ID_DISENOS")
 	private Long idDisenos;
 
 	private String nombre;
 
-	//bi-directional many-to-one association to CatProducto
-	@OneToMany(mappedBy="catDiseno")
-	private List<CatProducto> catProductos;
+	@Column(name="URL_FOTO", unique=true, columnDefinition = "LONGTEXT")
+	private String urlFoto;
 
+	@Column(name="URL_FOTO1", unique=true, columnDefinition = "LONGTEXT")
+	private String urlFoto1;
+	
+	@Column(name="URL_FOTO2", unique=true, columnDefinition = "LONGTEXT")
+	private String urlFoto2;
+	
 	public CatDiseno() {
 	}
 
@@ -48,26 +56,39 @@ public class CatDiseno implements Serializable {
 		this.nombre = nombre;
 	}
 
-	public List<CatProducto> getCatProductos() {
-		return this.catProductos;
+
+	public String getUrlFoto() {
+		return urlFoto;
 	}
 
-	public void setCatProductos(List<CatProducto> catProductos) {
-		this.catProductos = catProductos;
+
+	public void setUrlFoto(String urlFoto) {
+		this.urlFoto = urlFoto;
 	}
 
-	public CatProducto addCatProducto(CatProducto catProducto) {
-		getCatProductos().add(catProducto);
-		catProducto.setCatDiseno(this);
 
-		return catProducto;
+	public String getUrlFoto1() {
+		return urlFoto1;
 	}
 
-	public CatProducto removeCatProducto(CatProducto catProducto) {
-		getCatProductos().remove(catProducto);
-		catProducto.setCatDiseno(null);
 
-		return catProducto;
+	public void setUrlFoto1(String urlFoto1) {
+		this.urlFoto1 = urlFoto1;
 	}
+
+
+	public String getUrlFoto2() {
+		return urlFoto2;
+	}
+
+
+	public void setUrlFoto2(String urlFoto2) {
+		this.urlFoto2 = urlFoto2;
+	}
+
+
+	
+	
+
 
 }

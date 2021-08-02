@@ -6,6 +6,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.api.kaleth.domain.CatDiseno;
@@ -22,6 +24,7 @@ import com.api.kaleth.respository.DisenosRepository;
 
 @RestController
 @RequestMapping("/api")
+@CrossOrigin(origins = "*", methods= {RequestMethod.GET,RequestMethod.POST,RequestMethod.PUT,RequestMethod.DELETE})
 public class DisenosController {
 	@Autowired
 	DisenosRepository CatDisenorespository;
@@ -53,7 +56,9 @@ public class DisenosController {
 		
 		CatDiseno findCatDiseno = CatDisenorespository.findById(id).orElseThrow(()->new ResourceNotFoundException("No encuentro ningun CatDiseno que pidio"));
 		findCatDiseno.setNombre(CatDiseno.getNombre());
-		
+		findCatDiseno.setUrlFoto(CatDiseno.getUrlFoto());
+		findCatDiseno.setUrlFoto1(CatDiseno.getUrlFoto1());
+		findCatDiseno.setUrlFoto2(CatDiseno.getUrlFoto2());
 		CatDiseno updateCatDiseno = CatDisenorespository.save(findCatDiseno);
 		
 		return ResponseEntity.ok().header("Content-Type", "application/json")
@@ -70,4 +75,19 @@ public class DisenosController {
 				.body("{\"mensaje\": \"El diseno se ha eliminado correctamente " + id + "\"}");
 		
 	}
+	
+	@RequestMapping(value="/desing/find/{nombre}",produces = {"application/json"},method= RequestMethod.GET)
+	public int findproductobymedida(@PathVariable("nombre") String nombre) {
+		int idencontrado;	
+		try {
+			idencontrado = CatDisenorespository.encontrarDiseno(nombre);
+			 System.out.println(idencontrado);
+			 
+			 return idencontrado;
+		} catch (Exception e) {
+			System.out.println("*************************ERRRORRRRRRRRRRRRRRRRRRR");
+		}
+		return 0;
+	}
+
 }

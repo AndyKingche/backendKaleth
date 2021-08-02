@@ -2,6 +2,9 @@ package com.api.kaleth.domain;
 
 import java.io.Serializable;
 import javax.persistence.*;
+
+import org.hibernate.annotations.GenericGenerator;
+
 import java.util.List;
 
 
@@ -13,12 +16,11 @@ import java.util.List;
 @Table(name="ven_cliente")
 @NamedQuery(name="VenCliente.findAll", query="SELECT v FROM VenCliente v")
 public class VenCliente implements Serializable {
-	private static final long serialVersionUID = 1L;
-
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.AUTO, generator = "native")
+	@GenericGenerator(name="native",strategy = "native")
 	@Column(name="ID_CLIENTE")
-	private int idCliente;
+	private Long idCliente;
 
 	@Column(name="APELLIDO_CLI")
 	private String apellidoCli;
@@ -36,20 +38,20 @@ public class VenCliente implements Serializable {
 
 	private String telefono;
 
-	//bi-directional many-to-one association to VenCabezaFactura
-	@OneToMany(mappedBy="venCliente")
-	private List<VenCabezaFactura> venCabezaFacturas;
 
 	public VenCliente() {
 	}
 
-	public int getIdCliente() {
-		return this.idCliente;
+	
+	public Long getIdCliente() {
+		return idCliente;
 	}
 
-	public void setIdCliente(int idCliente) {
+
+	public void setIdCliente(Long idCliente) {
 		this.idCliente = idCliente;
 	}
+
 
 	public String getApellidoCli() {
 		return this.apellidoCli;
@@ -99,26 +101,5 @@ public class VenCliente implements Serializable {
 		this.telefono = telefono;
 	}
 
-	public List<VenCabezaFactura> getVenCabezaFacturas() {
-		return this.venCabezaFacturas;
-	}
-
-	public void setVenCabezaFacturas(List<VenCabezaFactura> venCabezaFacturas) {
-		this.venCabezaFacturas = venCabezaFacturas;
-	}
-
-	public VenCabezaFactura addVenCabezaFactura(VenCabezaFactura venCabezaFactura) {
-		getVenCabezaFacturas().add(venCabezaFactura);
-		venCabezaFactura.setVenCliente(this);
-
-		return venCabezaFactura;
-	}
-
-	public VenCabezaFactura removeVenCabezaFactura(VenCabezaFactura venCabezaFactura) {
-		getVenCabezaFacturas().remove(venCabezaFactura);
-		venCabezaFactura.setVenCliente(null);
-
-		return venCabezaFactura;
-	}
 
 }

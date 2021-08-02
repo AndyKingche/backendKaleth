@@ -4,7 +4,11 @@ import java.io.Serializable;
 import javax.persistence.*;
 
 
+
 import com.sun.istack.NotNull;
+
+import org.hibernate.annotations.GenericGenerator;
+
 
 import java.util.List;
 
@@ -17,10 +21,9 @@ import java.util.List;
 @Table(name="us_roles")
 
 public class UsRole implements Serializable {
-	private static final long serialVersionUID = 1L;
-
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.AUTO, generator = "native")
+	@GenericGenerator(name="native",strategy = "native")
 	@Column(name="ID_ROLES")
 	private Long idRoles;
 

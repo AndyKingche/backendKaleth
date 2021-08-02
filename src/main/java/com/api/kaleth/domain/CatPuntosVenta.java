@@ -2,6 +2,9 @@ package com.api.kaleth.domain;
 
 import java.io.Serializable;
 import javax.persistence.*;
+
+import org.hibernate.annotations.GenericGenerator;
+
 import java.util.List;
 
 
@@ -13,12 +16,11 @@ import java.util.List;
 @Table(name="cat_puntos_venta")
 @NamedQuery(name="CatPuntosVenta.findAll", query="SELECT c FROM CatPuntosVenta c")
 public class CatPuntosVenta implements Serializable {
-	private static final long serialVersionUID = 1L;
-
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.AUTO, generator = "native")
+	@GenericGenerator(name="native",strategy = "native")
 	@Column(name="ID_PUNTOS_VENTA")
-	private int idPuntosVenta;
+	private Long idPuntosVenta;
 
 	private String ciudad;
 
@@ -29,18 +31,15 @@ public class CatPuntosVenta implements Serializable {
 
 	private String telefono;
 
-	//bi-directional many-to-one association to CatStock
-	@OneToMany(mappedBy="catPuntosVenta")
-	private List<CatStock> catStocks;
 
 	public CatPuntosVenta() {
 	}
 
-	public int getIdPuntosVenta() {
+	public Long getIdPuntosVenta() {
 		return this.idPuntosVenta;
 	}
 
-	public void setIdPuntosVenta(int idPuntosVenta) {
+	public void setIdPuntosVenta(Long idPuntosVenta) {
 		this.idPuntosVenta = idPuntosVenta;
 	}
 
@@ -76,26 +75,7 @@ public class CatPuntosVenta implements Serializable {
 		this.telefono = telefono;
 	}
 
-	public List<CatStock> getCatStocks() {
-		return this.catStocks;
-	}
 
-	public void setCatStocks(List<CatStock> catStocks) {
-		this.catStocks = catStocks;
-	}
 
-	public CatStock addCatStock(CatStock catStock) {
-		getCatStocks().add(catStock);
-		catStock.setCatPuntosVenta(this);
-
-		return catStock;
-	}
-
-	public CatStock removeCatStock(CatStock catStock) {
-		getCatStocks().remove(catStock);
-		catStock.setCatPuntosVenta(null);
-
-		return catStock;
-	}
 
 }

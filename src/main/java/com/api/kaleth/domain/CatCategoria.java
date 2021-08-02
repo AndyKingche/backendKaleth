@@ -2,6 +2,9 @@ package com.api.kaleth.domain;
 
 import java.io.Serializable;
 import javax.persistence.*;
+
+import org.hibernate.annotations.GenericGenerator;
+
 import java.util.List;
 
 
@@ -13,30 +16,27 @@ import java.util.List;
 @Table(name="cat_categoria")
 @NamedQuery(name="CatCategoria.findAll", query="SELECT c FROM CatCategoria c")
 public class CatCategoria implements Serializable {
-	private static final long serialVersionUID = 1L;
-
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.AUTO, generator = "native")
+	@GenericGenerator(name="native",strategy = "native")
 	@Column(name="ID_CATEGORIA")
-	private int idCategoria;
+	private Long idCategoria;
 
 	private String descripcion;
 
 	@Column(name="NOMBRE_CATEGORIA")
 	private String nombreCategoria;
 
-	//bi-directional many-to-one association to CatProducto
-	@OneToMany(mappedBy="catCategoria")
-	private List<CatProducto> catProductos;
+	
 
 	public CatCategoria() {
 	}
 
-	public int getIdCategoria() {
+	public Long getIdCategoria() {
 		return this.idCategoria;
 	}
 
-	public void setIdCategoria(int idCategoria) {
+	public void setIdCategoria(Long idCategoria) {
 		this.idCategoria = idCategoria;
 	}
 
@@ -56,26 +56,6 @@ public class CatCategoria implements Serializable {
 		this.nombreCategoria = nombreCategoria;
 	}
 
-	public List<CatProducto> getCatProductos() {
-		return this.catProductos;
-	}
 
-	public void setCatProductos(List<CatProducto> catProductos) {
-		this.catProductos = catProductos;
-	}
-
-	public CatProducto addCatProducto(CatProducto catProducto) {
-		getCatProductos().add(catProducto);
-		catProducto.setCatCategoria(this);
-
-		return catProducto;
-	}
-
-	public CatProducto removeCatProducto(CatProducto catProducto) {
-		getCatProductos().remove(catProducto);
-		catProducto.setCatCategoria(null);
-
-		return catProducto;
-	}
 
 }
