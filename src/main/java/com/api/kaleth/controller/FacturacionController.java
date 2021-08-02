@@ -6,6 +6,8 @@ import java.io.OutputStream;
 import java.sql.Connection;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Base64;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -19,6 +21,7 @@ import com.api.kaleth.domain.VenCabezaFactura;
 import com.api.kaleth.respository.FacturacionRepository;
 
 import net.sf.jasperreports.engine.JasperCompileManager;
+import net.sf.jasperreports.engine.JasperExportManager;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReport;
@@ -113,118 +116,173 @@ public class FacturacionController {
 
 	@RequestMapping(value = "/bill/ticket/{idfactura}", method = RequestMethod.GET)
 	@ResponseBody
-	public void reporteCliente(HttpServletResponse response, @PathVariable Integer idfactura) throws Exception {
+	public List<String> reporteCliente(HttpServletResponse response, @PathVariable Integer idfactura) throws Exception {
+		try {
+			//response.setContentType("text/html");
+			List<String> respuesta = new ArrayList<String>();
+			  byte[] bytes = null; 
+			  String pdfBase64 = "";
+			InputStream jrxmlInput = this.getClass().getResourceAsStream("/ticketFactura.jrxml");
+			JasperDesign design = JRXmlLoader.load(jrxmlInput);
+			JasperReport jasperReport = JasperCompileManager.compileReport(design);
 
-		response.setContentType("text/html");
-		InputStream jrxmlInput = this.getClass().getResourceAsStream("/ticketFactura.jrxml");
-		JasperDesign design = JRXmlLoader.load(jrxmlInput);
-		JasperReport jasperReport = JasperCompileManager.compileReport(design);
+			// consulta en ves del list
 
-		// consulta en ves del list
+			Connection cn = jdbcTemplate.getDataSource().getConnection();
+			Map<String, Object> parametro = new HashMap<String, Object>();
+			parametro.put("logoImagen", "logo1.png");
+			parametro.put("logoKaleth", "KALETH.png");
+			parametro.put("idVenCabezafactura", idfactura);
 
-		Connection cn = jdbcTemplate.getDataSource().getConnection();
-		Map<String, Object> parametro = new HashMap<String, Object>();
-		parametro.put("logoImagen", "logo1.png");
-		parametro.put("logoKaleth", "KALETH.png");
-		parametro.put("idVenCabezafactura", idfactura);
+			JasperPrint jasperprint = JasperFillManager.fillReport(jasperReport, parametro, cn);
 
-		JasperPrint jasperprint = JasperFillManager.fillReport(jasperReport, parametro, cn);
-
-		JRPdfExporter pdfExporter = new JRPdfExporter();
-		pdfExporter.setExporterInput(new SimpleExporterInput(jasperprint));
-		ByteArrayOutputStream pdfReportStream = new ByteArrayOutputStream();
-		pdfExporter.setExporterOutput(new SimpleOutputStreamExporterOutput(pdfReportStream));
-		pdfExporter.exportReport();
-
-		response.setContentType("application/pdf");
-		response.setHeader("Content-Length", String.valueOf(pdfReportStream.size()));
-		response.setHeader("Content-Disposition", "inline; filenamejasper.pdf");
-
-		OutputStream responseOutputStream = response.getOutputStream();
-		responseOutputStream.write(pdfReportStream.toByteArray());
-		responseOutputStream.close();
-		pdfReportStream.close();
+			/*
+			 * JRPdfExporter pdfExporter = new JRPdfExporter();
+			 * pdfExporter.setExporterInput(new SimpleExporterInput(jasperprint));
+			 * ByteArrayOutputStream pdfReportStream = new ByteArrayOutputStream();
+			 * pdfExporter.setExporterOutput(new
+			 * SimpleOutputStreamExporterOutput(pdfReportStream));
+			 * pdfExporter.exportReport();
+			 * 
+			 * response.setContentType("application/pdf");
+			 * response.setHeader("Content-Length", String.valueOf(pdfReportStream.size()));
+			 * response.setHeader("Content-Disposition", "inline; filenamejasper.pdf");
+			 * 
+			 * OutputStream responseOutputStream = response.getOutputStream();
+			 * responseOutputStream.write(pdfReportStream.toByteArray());
+			 * responseOutputStream.close(); pdfReportStream.close();
+			 */
+			bytes = JasperExportManager.exportReportToPdf(jasperprint); 
+			  pdfBase64 =
+			  Base64.getEncoder().encodeToString(bytes);
+			  response.setContentType("application/pdf");
+			  respuesta.add(pdfBase64);	
+			  
+			  return  respuesta;
+			
+		} catch (Exception e) {
+			System.out.println("ERROR AL GENERAR FACTURA");
+			return null;
+		}
+		
 
 	}
 
 	@RequestMapping(value = "/bill/reporteFecha/{fechaDesde}/{fechaHasta}/{totalVentas}", method = RequestMethod.GET)
 	@ResponseBody
-	public void reporteFcturacionFecha(HttpServletResponse response,
+	public List<String> reporteFcturacionFecha(HttpServletResponse response,
 			@PathVariable(name = "fechaDesde") String fechaDesde, @PathVariable(name = "fechaHasta") String fechaHasta, @PathVariable(name = "totalVentas") String totalVentas)
 			throws Exception {
+		try {
+			//response.setContentType("text/html");
+			List<String> respuesta = new ArrayList<String>();
+			  byte[] bytes = null; 
+			  String pdfBase64 = "";
+			InputStream jrxmlInput = this.getClass().getResourceAsStream("/listaFacturasPorfecha.jrxml");
+			JasperDesign design = JRXmlLoader.load(jrxmlInput);
+			JasperReport jasperReport = JasperCompileManager.compileReport(design);
 
-		response.setContentType("text/html");
-		InputStream jrxmlInput = this.getClass().getResourceAsStream("/listaFacturasPorfecha.jrxml");
-		JasperDesign design = JRXmlLoader.load(jrxmlInput);
-		JasperReport jasperReport = JasperCompileManager.compileReport(design);
+			// consulta en ves del list
 
-		// consulta en ves del list
+			Connection cn = jdbcTemplate.getDataSource().getConnection();
+			Map<String, Object> parametro = new HashMap<String, Object>();
+			parametro.put("logoImagen", "logo1.png");
+			parametro.put("logoKaleth", "KALETH.png");
+			parametro.put("fechaDesde", fechaDesde);
 
-		Connection cn = jdbcTemplate.getDataSource().getConnection();
-		Map<String, Object> parametro = new HashMap<String, Object>();
-		parametro.put("logoImagen", "logo1.png");
-		parametro.put("logoKaleth", "KALETH.png");
-		parametro.put("fechaDesde", fechaDesde);
+			parametro.put("fechaHasta", fechaHasta);
+			parametro.put("totalVentas", totalVentas);
 
-		parametro.put("fechaHasta", fechaHasta);
-		parametro.put("totalVentas", totalVentas);
+			JasperPrint jasperprint = JasperFillManager.fillReport(jasperReport, parametro, cn);
 
-		JasperPrint jasperprint = JasperFillManager.fillReport(jasperReport, parametro, cn);
-
-		JRPdfExporter pdfExporter = new JRPdfExporter();
-		pdfExporter.setExporterInput(new SimpleExporterInput(jasperprint));
-		ByteArrayOutputStream pdfReportStream = new ByteArrayOutputStream();
-		pdfExporter.setExporterOutput(new SimpleOutputStreamExporterOutput(pdfReportStream));
-		pdfExporter.exportReport();
-
-		response.setContentType("application/pdf");
-		response.setHeader("Content-Length", String.valueOf(pdfReportStream.size()));
-		response.setHeader("Content-Disposition", "inline; filenamejasper.pdf");
-
-		OutputStream responseOutputStream = response.getOutputStream();
-		responseOutputStream.write(pdfReportStream.toByteArray());
-		responseOutputStream.close();
-		pdfReportStream.close();
-
+			/*
+			 * JRPdfExporter pdfExporter = new JRPdfExporter();
+			 * pdfExporter.setExporterInput(new SimpleExporterInput(jasperprint));
+			 * ByteArrayOutputStream pdfReportStream = new ByteArrayOutputStream();
+			 * pdfExporter.setExporterOutput(new
+			 * SimpleOutputStreamExporterOutput(pdfReportStream));
+			 * pdfExporter.exportReport();
+			 * 
+			 * response.setContentType("application/pdf");
+			 * response.setHeader("Content-Length", String.valueOf(pdfReportStream.size()));
+			 * response.setHeader("Content-Disposition", "inline; filenamejasper.pdf");
+			 * 
+			 * OutputStream responseOutputStream = response.getOutputStream();
+			 * responseOutputStream.write(pdfReportStream.toByteArray());
+			 * responseOutputStream.close(); pdfReportStream.close();
+			 */
+			bytes = JasperExportManager.exportReportToPdf(jasperprint); 
+			  pdfBase64 =
+			  Base64.getEncoder().encodeToString(bytes);
+			  response.setContentType("application/pdf");
+			  respuesta.add(pdfBase64);	
+			  
+			  return  respuesta;
+			
+		} catch (Exception e) {
+			System.out.println("ERROR AL GENERAR FACTURA por fechas");
+			return null;
+		}
+		
 	}
 
 	@RequestMapping(value = "/bill/reporteFechaLocal/{fechaDesde}/{fechaHasta}/{idPuntosVenta}", method = RequestMethod.GET)
 	@ResponseBody
-	public void reporteFcturacionFechaLocal(HttpServletResponse response,
+	public List<String> reporteFcturacionFechaLocal(HttpServletResponse response,
 			@PathVariable(name = "fechaDesde") String fechaDesde, @PathVariable(name = "fechaHasta") String fechaHasta,
 			@PathVariable(name = "idPuntosVenta") Integer idPuntosVenta) throws Exception {
 
-		response.setContentType("text/html");
-		InputStream jrxmlInput = this.getClass().getResourceAsStream("/listaFacturasPorfechaLocales.jrxml");
-		JasperDesign design = JRXmlLoader.load(jrxmlInput);
-		JasperReport jasperReport = JasperCompileManager.compileReport(design);
+		try {
+			//response.setContentType("text/html");
+			List<String> respuesta = new ArrayList<String>();
+			  byte[] bytes = null; 
+			  String pdfBase64 = "";
+			InputStream jrxmlInput = this.getClass().getResourceAsStream("/listaFacturasPorfechaLocales.jrxml");
+			JasperDesign design = JRXmlLoader.load(jrxmlInput);
+			JasperReport jasperReport = JasperCompileManager.compileReport(design);
 
-		// consulta en ves del list
+			// consulta en ves del list
 
-		Connection cn = jdbcTemplate.getDataSource().getConnection();
-		Map<String, Object> parametro = new HashMap<String, Object>();
-		parametro.put("logoImagen", "logo1.png");
-		parametro.put("logoKaleth", "KALETH.png");
-		parametro.put("fechaDesde", fechaDesde);
+			Connection cn = jdbcTemplate.getDataSource().getConnection();
+			Map<String, Object> parametro = new HashMap<String, Object>();
+			parametro.put("logoImagen", "logo1.png");
+			parametro.put("logoKaleth", "KALETH.png");
+			parametro.put("fechaDesde", fechaDesde);
 
-		parametro.put("fechaHasta", fechaHasta);
-		parametro.put("idPuntosVenta", idPuntosVenta);
-		JasperPrint jasperprint = JasperFillManager.fillReport(jasperReport, parametro, cn);
+			parametro.put("fechaHasta", fechaHasta);
+			parametro.put("idPuntosVenta", idPuntosVenta);
+			JasperPrint jasperprint = JasperFillManager.fillReport(jasperReport, parametro, cn);
 
-		JRPdfExporter pdfExporter = new JRPdfExporter();
-		pdfExporter.setExporterInput(new SimpleExporterInput(jasperprint));
-		ByteArrayOutputStream pdfReportStream = new ByteArrayOutputStream();
-		pdfExporter.setExporterOutput(new SimpleOutputStreamExporterOutput(pdfReportStream));
-		pdfExporter.exportReport();
-
-		response.setContentType("application/pdf");
-		response.setHeader("Content-Length", String.valueOf(pdfReportStream.size()));
-		response.setHeader("Content-Disposition", "inline; filenamejasper.pdf");
-
-		OutputStream responseOutputStream = response.getOutputStream();
-		responseOutputStream.write(pdfReportStream.toByteArray());
-		responseOutputStream.close();
-		pdfReportStream.close();
+			/*
+			 * JRPdfExporter pdfExporter = new JRPdfExporter();
+			 * pdfExporter.setExporterInput(new SimpleExporterInput(jasperprint));
+			 * ByteArrayOutputStream pdfReportStream = new ByteArrayOutputStream();
+			 * pdfExporter.setExporterOutput(new
+			 * SimpleOutputStreamExporterOutput(pdfReportStream));
+			 * pdfExporter.exportReport();
+			 * 
+			 * response.setContentType("application/pdf");
+			 * response.setHeader("Content-Length", String.valueOf(pdfReportStream.size()));
+			 * response.setHeader("Content-Disposition", "inline; filenamejasper.pdf");
+			 * 
+			 * OutputStream responseOutputStream = response.getOutputStream();
+			 * responseOutputStream.write(pdfReportStream.toByteArray());
+			 * responseOutputStream.close(); pdfReportStream.close();
+			 */
+			bytes = JasperExportManager.exportReportToPdf(jasperprint); 
+			  pdfBase64 =
+			  Base64.getEncoder().encodeToString(bytes);
+			  response.setContentType("application/pdf");
+			  respuesta.add(pdfBase64);	
+			  
+			  return  respuesta;
+			
+			
+		} catch (Exception e) {
+			System.out.println("ERROR AL GENERAR FACTURA por fechasx puntos de venta"+e);
+			return null;
+		}
+		
 
 	}
 

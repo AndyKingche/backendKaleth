@@ -7,12 +7,16 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Base64;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.xml.ws.Response;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.rest.webmvc.ResourceNotFoundException;
@@ -34,7 +38,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.api.kaleth.domain.CatProducto;
 import com.api.kaleth.domain.CatStock;
 import com.api.kaleth.respository.cat_stockRepository;
-
 import java.io.OutputStream;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -230,6 +233,7 @@ public class cat_stockController {
 	public List<CatStock> findStockInventario() {
 		try {
 			List<CatStock> findStock = cat_stockRepository.findInventario();
+			
 			return findStock;
 		} catch (Exception e) {
 			// TODO: handle exception
@@ -318,195 +322,326 @@ public class cat_stockController {
 
 		return null;
 	}
-
-	@RequestMapping(value = "/stock/reportTotal", method = RequestMethod.GET)
+	@RequestMapping(value = "/stock/demo", produces = { "application/json" }, method = RequestMethod.GET)
+	public String getStockdemo() {
+		return "hOL";
+	}
+	@RequestMapping(value = "/stock/reportTotal",produces = {
+	"application/json"},method = RequestMethod.GET)
 	@ResponseBody
-	public void reporteStockTotal(HttpServletResponse response) throws Exception {
+	public List<String> reporteStockTotal(HttpServletResponse response) throws Exception {
+		
+		try {
+			
+			//response.setContentType("text/html"); 
+				
+			//String urlLink = request.getRequestURL().toString();
+				List<String> respuesta = new ArrayList<String>();
+			  byte[] bytes = null; 
+			  String pdfBase64 = ""; 
+			  InputStream jrxmlInput = this.getClass().getResourceAsStream("/inventarioTo.jrxml"); 
+			  JasperDesign design = JRXmlLoader.load(jrxmlInput); 
+			  JasperReport jasperReport = JasperCompileManager.compileReport(design);
+			 
+			  
+			  // consulta en ves del list
+			  
+				
+				  Connection cn = jdbcTemplate.getDataSource().getConnection();
+				  
+				  Map<String, Object> parametro = new HashMap<String, Object>();
+				  parametro.put("logoImagen", "logo1.png"); parametro.put("logoKaleth",
+				  "KALETH.png");
+				  
+				  JasperPrint jasperprint = JasperFillManager.fillReport(jasperReport,
+				  parametro, cn);
+				 
+			  
+				
+					/*
+					 * JRPdfExporter pdfExporter = new JRPdfExporter();
+					 * pdfExporter.setExporterInput(new SimpleExporterInput(jasperprint));
+					 * ByteArrayOutputStream pdfReportStream = new ByteArrayOutputStream();
+					 * pdfExporter.setExporterOutput(new
+					 * SimpleOutputStreamExporterOutput(pdfReportStream));
+					 * pdfExporter.exportReport();
+					 */
+				 
+			  
+				
+				  
+				 
+			  
+				
+					/*
+					 * response.setContentType("application/pdf");
+					 * response.setHeader("Content-Length", String.valueOf(pdfReportStream.size()));
+					 * response.setHeader("Content-Disposition", "inline; filenamejasper.pdf");
+					 * 
+					 * OutputStream responseOutputStream = response.getOutputStream();
+					 * responseOutputStream.write(pdfReportStream.toByteArray()); //Obtener PDF
+					 * responseOutputStream.close(); pdfReportStream.close();
+					 */
+				  
+				  bytes = JasperExportManager.exportReportToPdf(jasperprint); 
+				  pdfBase64 =
+				  Base64.getEncoder().encodeToString(bytes);
+				  response.setContentType("application/pdf");
+				  respuesta.add(pdfBase64);	
+				  
+				  return  respuesta;
+					  
+						  /*ResponseEntity
+					      .ok()
+					      // Specify content type as PDF
+					      .header("Content-Type", "application/pdf; charset=UTF-8")
+					      // Tell browser to display PDF if it can
+					      .header("Content-Disposition", "inline; filename=\"" + "holi"+ ".pdf\"")
+					      .body(bytes);*/
 
-		response.setContentType("text/html");
-		InputStream jrxmlInput = this.getClass().getResourceAsStream("/inventarioTo.jrxml");
-		JasperDesign design = JRXmlLoader.load(jrxmlInput);
-		JasperReport jasperReport = JasperCompileManager.compileReport(design);
-
-		// consulta en ves del list
-
-		Connection cn = jdbcTemplate.getDataSource().getConnection();
-
-		Map<String, Object> parametro = new HashMap<String, Object>();
-		parametro.put("logoImagen", "logo1.png");
-		parametro.put("logoKaleth", "KALETH.png");
-
-		JasperPrint jasperprint = JasperFillManager.fillReport(jasperReport, parametro, cn);
-
-		JRPdfExporter pdfExporter = new JRPdfExporter();
-		pdfExporter.setExporterInput(new SimpleExporterInput(jasperprint));
-		ByteArrayOutputStream pdfReportStream = new ByteArrayOutputStream();
-		pdfExporter.setExporterOutput(new SimpleOutputStreamExporterOutput(pdfReportStream));
-		pdfExporter.exportReport();
-
-		response.setContentType("application/pdf");
-		response.setHeader("Content-Length", String.valueOf(pdfReportStream.size()));
-		response.setHeader("Content-Disposition", "inline; filenamejasper.pdf");
-
-		OutputStream responseOutputStream = response.getOutputStream();
-		responseOutputStream.write(pdfReportStream.toByteArray());
-		responseOutputStream.close();
-		pdfReportStream.close();
+			
+		} catch (Exception e) {
+			System.out.println("ERROR AL GENERAR REPORTE TOTAL");
+			return null;
+		}
+		
+		
+		
 
 	}
 
 	@RequestMapping(value = "/stock/report/{idpuntoventa}", method = RequestMethod.GET)
 	@ResponseBody
-	public void reporteStockPuntoVenta(HttpServletResponse response, @PathVariable Integer idpuntoventa)
+	public List<String> reporteStockPuntoVenta(HttpServletResponse response, @PathVariable Integer idpuntoventa)
 			throws Exception {
 
-		response.setContentType("text/html");
-		InputStream jrxmlInput = this.getClass().getResourceAsStream("/inventarioLocales.jrxml");
-		JasperDesign design = JRXmlLoader.load(jrxmlInput);
-		JasperReport jasperReport = JasperCompileManager.compileReport(design);
+		try {
+			//response.setContentType("text/html");
+			List<String> respuesta = new ArrayList<String>();
+			  byte[] bytes = null; 
+			  String pdfBase64 = ""; 
+			InputStream jrxmlInput = this.getClass().getResourceAsStream("/inventarioLocales.jrxml");
+			JasperDesign design = JRXmlLoader.load(jrxmlInput);
+			JasperReport jasperReport = JasperCompileManager.compileReport(design);
 
-		// consulta en ves del list
+			// consulta en ves del list
 
-		Connection cn = jdbcTemplate.getDataSource().getConnection();
+			Connection cn = jdbcTemplate.getDataSource().getConnection();
 
-		Map<String, Object> parametro = new HashMap<String, Object>();
-		parametro.put("logoImagen", "logo1.png");
-		parametro.put("logoKaleth", "KALETH.png");
-		parametro.put("idPuntosVenta", idpuntoventa);
+			Map<String, Object> parametro = new HashMap<String, Object>();
+			parametro.put("logoImagen", "logo1.png");
+			parametro.put("logoKaleth", "KALETH.png");
+			parametro.put("idPuntosVenta", idpuntoventa);
 
-		JasperPrint jasperprint = JasperFillManager.fillReport(jasperReport, parametro, cn);
+			JasperPrint jasperprint = JasperFillManager.fillReport(jasperReport, parametro, cn);
 
-		JRPdfExporter pdfExporter = new JRPdfExporter();
-		pdfExporter.setExporterInput(new SimpleExporterInput(jasperprint));
-		ByteArrayOutputStream pdfReportStream = new ByteArrayOutputStream();
-		pdfExporter.setExporterOutput(new SimpleOutputStreamExporterOutput(pdfReportStream));
-		pdfExporter.exportReport();
-
-		response.setContentType("application/pdf");
-		response.setHeader("Content-Length", String.valueOf(pdfReportStream.size()));
-		response.setHeader("Content-Disposition", "inline; filenamejasper.pdf");
-
-		OutputStream responseOutputStream = response.getOutputStream();
-		responseOutputStream.write(pdfReportStream.toByteArray());
-		responseOutputStream.close();
-		pdfReportStream.close();
+			/*
+			 * JRPdfExporter pdfExporter = new JRPdfExporter();
+			 * pdfExporter.setExporterInput(new SimpleExporterInput(jasperprint));
+			 * ByteArrayOutputStream pdfReportStream = new ByteArrayOutputStream();
+			 * pdfExporter.setExporterOutput(new
+			 * SimpleOutputStreamExporterOutput(pdfReportStream));
+			 * pdfExporter.exportReport();
+			 * 
+			 * response.setContentType("application/pdf");
+			 * response.setHeader("Content-Length", String.valueOf(pdfReportStream.size()));
+			 * response.setHeader("Content-Disposition", "inline; filenamejasper.pdf");
+			 * 
+			 * OutputStream responseOutputStream = response.getOutputStream();
+			 * responseOutputStream.write(pdfReportStream.toByteArray());
+			 * responseOutputStream.close(); pdfReportStream.close();
+			 */
+			
+			bytes = JasperExportManager.exportReportToPdf(jasperprint); 
+			  pdfBase64 =
+			  Base64.getEncoder().encodeToString(bytes);
+			  response.setContentType("application/pdf");
+			  respuesta.add(pdfBase64);	
+			  
+			  return  respuesta;
+			
+		} catch (Exception e) {
+			System.out.println("ERROR AL GENERAR REPORTE TOTAL x punto venta");
+			return null;
+		}
+		
 
 	}
 
 	
 	@RequestMapping(value = "/stock/codigoBarra", method = RequestMethod.GET)
 	@ResponseBody
-	public void codigoBarraStock(HttpServletResponse response)
+	public List<String>  codigoBarraStock(HttpServletResponse response)
 			throws Exception {
 		
-		response.setContentType("text/html");
-		InputStream jrxmlInput = this.getClass().getResourceAsStream("/inventarioCodigoBarras.jrxml");
-		//InputStream jrxmlInput = this.getClass().getResourceAsStream("../");
-		System.out.print(jrxmlInput);
-		JasperDesign design = JRXmlLoader.load(jrxmlInput);
-		JasperReport jasperReport = JasperCompileManager.compileReport(design);
+		try {
+			//response.setContentType("text/html");
+			List<String> respuesta = new ArrayList<String>();
+			  byte[] bytes = null; 
+			  String pdfBase64 = ""; 
+			InputStream jrxmlInput = this.getClass().getResourceAsStream("/inventarioCodigoBarras.jrxml");
+			JasperDesign design = JRXmlLoader.load(jrxmlInput);
+			JasperReport jasperReport = JasperCompileManager.compileReport(design);
 
-		// consulta en ves del list
+			// consulta en ves del list
 
-		Connection cn = jdbcTemplate.getDataSource().getConnection();
+			Connection cn = jdbcTemplate.getDataSource().getConnection();
 
-		Map<String, Object> parametro = new HashMap<String, Object>();
-		parametro.put("logoImagen", "logo1.png");
-		parametro.put("logoKaleth", "KALETH.png");
+			Map<String, Object> parametro = new HashMap<String, Object>();
+			parametro.put("logoImagen", "logo1.png");
+			parametro.put("logoKaleth", "KALETH.png");
+			
+
+			JasperPrint jasperprint = JasperFillManager.fillReport(jasperReport, parametro, cn);
+
+			/*
+			 * JRPdfExporter pdfExporter = new JRPdfExporter();
+			 * pdfExporter.setExporterInput(new SimpleExporterInput(jasperprint));
+			 * ByteArrayOutputStream pdfReportStream = new ByteArrayOutputStream();
+			 * pdfExporter.setExporterOutput(new
+			 * SimpleOutputStreamExporterOutput(pdfReportStream));
+			 * pdfExporter.exportReport();
+			 * 
+			 * response.setContentType("application/pdf");
+			 * response.setHeader("Content-Length", String.valueOf(pdfReportStream.size()));
+			 * response.setHeader("Content-Disposition", "inline; filenamejasper.pdf");
+			 * 
+			 * OutputStream responseOutputStream = response.getOutputStream();
+			 * responseOutputStream.write(pdfReportStream.toByteArray());
+			 * responseOutputStream.close(); pdfReportStream.close();
+			 */
+			bytes = JasperExportManager.exportReportToPdf(jasperprint); 
+			  pdfBase64 =
+			  Base64.getEncoder().encodeToString(bytes);
+			  response.setContentType("application/pdf");
+			  respuesta.add(pdfBase64);	
+			  
+			  return  respuesta;
+			
+			
+		} catch (Exception e) {
+			System.out.println("ERROR AL GENERAR reporte codigos de barra"+e);
+			return null;
+		}
 		
-
-		JasperPrint jasperprint = JasperFillManager.fillReport(jasperReport, parametro, cn);
-
-		JRPdfExporter pdfExporter = new JRPdfExporter();
-		pdfExporter.setExporterInput(new SimpleExporterInput(jasperprint));
-		ByteArrayOutputStream pdfReportStream = new ByteArrayOutputStream();
-		pdfExporter.setExporterOutput(new SimpleOutputStreamExporterOutput(pdfReportStream));
-		pdfExporter.exportReport();
-
-		response.setContentType("application/pdf");
-		response.setHeader("Content-Length", String.valueOf(pdfReportStream.size()));
-		response.setHeader("Content-Disposition", "inline; filenamejasper.pdf");
-
-		OutputStream responseOutputStream = response.getOutputStream();
-		responseOutputStream.write(pdfReportStream.toByteArray());
-		responseOutputStream.close();
-		pdfReportStream.close();
 
 	}
 
 	@RequestMapping(value = "/stock/report/minTotal", method = RequestMethod.GET)
 	@ResponseBody
-	public void stockMinTotal(HttpServletResponse response)
+	public List<String> stockMinTotal(HttpServletResponse response)
 			throws Exception {
+		try {
+			//response.setContentType("text/html");
+			response.setContentType("application/pdf"); 
+			List<String> respuesta = new ArrayList<String>();
+			  byte[] bytes = null; 
+			  String pdfBase64 = ""; 
+			InputStream jrxmlInput = this.getClass().getResourceAsStream("/StockMinTotal.jrxml");
+			
+			  JasperDesign design = JRXmlLoader.load(jrxmlInput); 
+			  JasperReport jasperReport = JasperCompileManager.compileReport(design);
+			  
+			  // consulta en ves del list
+			  
+			  Connection cn = jdbcTemplate.getDataSource().getConnection();
+			  
+			  Map<String, Object> parametro = new HashMap<String, Object>();
+			  parametro.put("logoImagen", "logo1.png"); 
+			  parametro.put("logoKaleth", "KALETH.png");
+			  
+			  
+			  JasperPrint jasperprint = JasperFillManager.fillReport(jasperReport,
+			  parametro, cn);
+			 
 
-		response.setContentType("text/html");
-		InputStream jrxmlInput = this.getClass().getResourceAsStream("/StockMinTotal.jrxml");
-		JasperDesign design = JRXmlLoader.load(jrxmlInput);
-		JasperReport jasperReport = JasperCompileManager.compileReport(design);
+			/*
+			 * JRPdfExporter pdfExporter = new JRPdfExporter();
+			 * pdfExporter.setExporterInput(new SimpleExporterInput(jasperprint));
+			 * ByteArrayOutputStream pdfReportStream = new ByteArrayOutputStream();
+			 * pdfExporter.setExporterOutput(new
+			 * SimpleOutputStreamExporterOutput(pdfReportStream));
+			 * pdfExporter.exportReport();
+			 * 
+			 * response.setContentType("application/pdf");
+			 * response.setHeader("Content-Length", String.valueOf(pdfReportStream.size()));
+			 * response.setHeader("Content-Disposition", "inline; filenamejasper.pdf");
+			 * 
+			 * OutputStream responseOutputStream = response.getOutputStream();
+			 * responseOutputStream.write(pdfReportStream.toByteArray());
+			 * responseOutputStream.close(); pdfReportStream.close();
+			 */
+			
+			  bytes = JasperExportManager.exportReportToPdf(jasperprint); 
+			  pdfBase64 = Base64.getEncoder().encodeToString(bytes);
+			  
+			  respuesta.add(pdfBase64);
+			 
+			 
+			  return  respuesta;
+			
 
-		// consulta en ves del list
-
-		Connection cn = jdbcTemplate.getDataSource().getConnection();
-
-		Map<String, Object> parametro = new HashMap<String, Object>();
-		parametro.put("logoImagen", "logo1.png");
-		parametro.put("logoKaleth", "KALETH.png");
+		} catch (Exception e) {
+			System.out.println("ERROR AL GENERAR reporte minimo total"+e);
+			return null;
+		}
 		
-
-		JasperPrint jasperprint = JasperFillManager.fillReport(jasperReport, parametro, cn);
-
-		JRPdfExporter pdfExporter = new JRPdfExporter();
-		pdfExporter.setExporterInput(new SimpleExporterInput(jasperprint));
-		ByteArrayOutputStream pdfReportStream = new ByteArrayOutputStream();
-		pdfExporter.setExporterOutput(new SimpleOutputStreamExporterOutput(pdfReportStream));
-		pdfExporter.exportReport();
-
-		response.setContentType("application/pdf");
-		response.setHeader("Content-Length", String.valueOf(pdfReportStream.size()));
-		response.setHeader("Content-Disposition", "inline; filenamejasper.pdf");
-
-		OutputStream responseOutputStream = response.getOutputStream();
-		responseOutputStream.write(pdfReportStream.toByteArray());
-		responseOutputStream.close();
-		pdfReportStream.close();
-
 	}
 	
 	@RequestMapping(value = "/stock/report/minTotalPoints/{idpuntoventa}", method = RequestMethod.GET)
 	@ResponseBody
-	public void minTotalPoints(HttpServletResponse response, @PathVariable Integer idpuntoventa)
+	public List<String> minTotalPoints(HttpServletResponse response, @PathVariable Integer idpuntoventa)
 			throws Exception {
+		try {
+			//response.setContentType("text/html");
+			List<String> respuesta = new ArrayList<String>();
+			  byte[] bytes = null; 
+			  String pdfBase64 = "";
+			InputStream jrxmlInput = this.getClass().getResourceAsStream("/StockMinTotalLocal.jrxml");
+			JasperDesign design = JRXmlLoader.load(jrxmlInput);
+			JasperReport jasperReport = JasperCompileManager.compileReport(design);
 
-		response.setContentType("text/html");
-		InputStream jrxmlInput = this.getClass().getResourceAsStream("/StockMinTotalLocal.jrxml");
-		JasperDesign design = JRXmlLoader.load(jrxmlInput);
-		JasperReport jasperReport = JasperCompileManager.compileReport(design);
+			// consulta en ves del list
 
-		// consulta en ves del list
+			Connection cn = jdbcTemplate.getDataSource().getConnection();
 
-		Connection cn = jdbcTemplate.getDataSource().getConnection();
+			Map<String, Object> parametro = new HashMap<String, Object>();
+			parametro.put("logoImagen", "logo1.png");
+			parametro.put("logoKaleth", "KALETH.png");
+			parametro.put("idPuntosVenta", idpuntoventa);
 
-		Map<String, Object> parametro = new HashMap<String, Object>();
-		parametro.put("logoImagen", "logo1.png");
-		parametro.put("logoKaleth", "KALETH.png");
-		parametro.put("idPuntosVenta", idpuntoventa);
+			JasperPrint jasperprint = JasperFillManager.fillReport(jasperReport, parametro, cn);
 
-		JasperPrint jasperprint = JasperFillManager.fillReport(jasperReport, parametro, cn);
-
-		JRPdfExporter pdfExporter = new JRPdfExporter();
-		pdfExporter.setExporterInput(new SimpleExporterInput(jasperprint));
-		ByteArrayOutputStream pdfReportStream = new ByteArrayOutputStream();
-		pdfExporter.setExporterOutput(new SimpleOutputStreamExporterOutput(pdfReportStream));
-		pdfExporter.exportReport();
-
-		response.setContentType("application/pdf");
-		response.setHeader("Content-Length", String.valueOf(pdfReportStream.size()));
-		response.setHeader("Content-Disposition", "inline; filenamejasper.pdf");
-
-		OutputStream responseOutputStream = response.getOutputStream();
-		responseOutputStream.write(pdfReportStream.toByteArray());
-		responseOutputStream.close();
-		pdfReportStream.close();
+			/*
+			 * JRPdfExporter pdfExporter = new JRPdfExporter();
+			 * pdfExporter.setExporterInput(new SimpleExporterInput(jasperprint));
+			 * ByteArrayOutputStream pdfReportStream = new ByteArrayOutputStream();
+			 * pdfExporter.setExporterOutput(new
+			 * SimpleOutputStreamExporterOutput(pdfReportStream));
+			 * pdfExporter.exportReport();
+			 * 
+			 * response.setContentType("application/pdf");
+			 * response.setHeader("Content-Length", String.valueOf(pdfReportStream.size()));
+			 * response.setHeader("Content-Disposition", "inline; filenamejasper.pdf");
+			 * 
+			 * OutputStream responseOutputStream = response.getOutputStream();
+			 * responseOutputStream.write(pdfReportStream.toByteArray());
+			 * responseOutputStream.close(); pdfReportStream.close();
+			 */
+			bytes = JasperExportManager.exportReportToPdf(jasperprint); 
+			  pdfBase64 =
+			  Base64.getEncoder().encodeToString(bytes);
+			  response.setContentType("application/pdf");
+			  respuesta.add(pdfBase64);	
+			  
+			  return  respuesta;
+			
+			
+		} catch (Exception e) {
+			System.out.println("ERROR AL GENERAR reporte minimo total x punto venta"+e);
+			return null;
+		}
+		
 
 	}
 	
