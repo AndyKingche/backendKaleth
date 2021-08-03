@@ -21,11 +21,13 @@ import com.api.kaleth.domain.UsUser;
 import com.api.kaleth.respository.UsuariosRepository;
 
 @RestController
+@CrossOrigin(origins = "/**", methods= {RequestMethod.GET,RequestMethod.POST,RequestMethod.PUT,RequestMethod.DELETE})
 @RequestMapping("/api")
-@CrossOrigin(origins = "*", methods= {RequestMethod.GET,RequestMethod.POST,RequestMethod.PUT,RequestMethod.DELETE})
+
 public class UsuariosController {
 	@Autowired
 	UsuariosRepository UsUserrepository;
+	
 	
 	@GetMapping("/user")
 	public List<UsUser> getUsers(){

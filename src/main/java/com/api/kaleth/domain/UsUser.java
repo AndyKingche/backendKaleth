@@ -45,7 +45,8 @@ public class UsUser implements Serializable {
 	private String password;
 
 	private String telefono;
-
+	
+	private Integer rol;
 	//bi-directional many-to-one association to UsEstadocivil
 	@ManyToOne
 	@JoinColumn(name="ID_ESTADOCIVIL")
@@ -56,18 +57,8 @@ public class UsUser implements Serializable {
 	@JoinColumn(name="ID_GENERO")
 	private UsGenero genero;
 
-	//bi-directional many-to-many association to UsRole
-		@ManyToMany
-		@JoinTable(
-			name="us_rolesxusuarios"
-			, joinColumns={
-				@JoinColumn(name="ID_USUARIO")
-				}
-			, inverseJoinColumns={
-				@JoinColumn(name="ID_ROLES")
-				}
-			)
-		private Set<UsRole> roles = new HashSet<>();
+	
+	
 		
 	public UsUser() {
 	}
@@ -194,16 +185,6 @@ public class UsUser implements Serializable {
 	public void setGenero(UsGenero genero) {
 		this.genero = genero;
 	}
-
-	public Set<UsRole> getRoles() {
-		return roles;
-	}
-
-	public void setRoles(Set<UsRole> roles) {
-		this.roles = roles;
-	}
-
-
 	public String getNombreUsuario() {
 		return nombreUsuario;
 	}
@@ -213,6 +194,17 @@ public class UsUser implements Serializable {
 		this.nombreUsuario = nombreUsuario;
 	}
 
+
+	public Integer getRol() {
+		return rol;
+	}
+
+
+	public void setRol(Integer rol) {
+		this.rol = rol;
+	}
+
+	
 	 
 
 }

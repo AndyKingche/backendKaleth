@@ -25,7 +25,7 @@ public class JWTUserDetailsService implements UserDetailsService{
 	public UserDetails loadUserByUsername(String username)  {
 		///consulta del usuario existente
 		Optional<UsUser> user = userRepository.findByName(username);
-		
+		System.out.print(username);
 		if (user!=null) {
 			
 			  System.out.println("si entre"); 
