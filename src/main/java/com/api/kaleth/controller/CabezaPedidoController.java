@@ -156,7 +156,7 @@ public class CabezaPedidoController {
 			  Base64.getEncoder().encodeToString(bytes);
 			  response.setContentType("application/pdf");
 			  respuesta.add(pdfBase64);	
-			  
+			  cn.close();
 			  return  respuesta;	  
 						  
 			} catch (Exception e) {
