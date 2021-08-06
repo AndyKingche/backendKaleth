@@ -7,6 +7,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Base64;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -54,84 +56,86 @@ import net.sf.jasperreports.export.SimpleOutputStreamExporterOutput;
 
 @RestController
 @RequestMapping("/api")
-@CrossOrigin(origins = "*", methods= {RequestMethod.GET,RequestMethod.POST,RequestMethod.PUT,RequestMethod.DELETE})
+@CrossOrigin(origins = "*", methods = { RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT,
+		RequestMethod.DELETE })
 public class ClientesController {
 
 	@Autowired
 	ClientesRepository VenClienteRepository;
 	@Autowired
 	JdbcTemplate jdbcTemplate;
-	
+
 	@Autowired
 	exportReport exportReport;
-	
+
 	final Logger log = LoggerFactory.getLogger(this.getClass());
-    final ModelAndView model = new ModelAndView();
+	final ModelAndView model = new ModelAndView();
+
 	@GetMapping("/client")
-	public List<VenCliente> getVenCliente(){
+	public List<VenCliente> getVenCliente() {
 		List<VenCliente> VenClientes = VenClienteRepository.findAll();
-		
-	
+
 		return VenClientes;
 	}
-	
+
 	@GetMapping("/client/{id}")
-	public Optional<VenCliente> getCliente(@PathVariable Long id)throws ResourceNotFoundException{
-		
+	public Optional<VenCliente> getCliente(@PathVariable Long id) throws ResourceNotFoundException {
+
 		Optional<VenCliente> VenCliente = VenClienteRepository.findById(id);
 		return VenCliente;
-				
+
 	}
-	
+
 	@PostMapping("/client")
 	public VenCliente createVenCliente(@RequestBody VenCliente VenCliente) {
 		VenCliente newVenCliente = VenClienteRepository.save(VenCliente);
-		
+
 		return newVenCliente;
 	}
-	
+
 	@PutMapping("/client/{id}")
 	public ResponseEntity<String> updateVenCliente(@RequestBody VenCliente VenCliente, @PathVariable Long id)
-	throws ResourceNotFoundException{
-		VenCliente findVenCliente = VenClienteRepository.findById(id).orElseThrow(()-> new ResourceNotFoundException("No encontramos ningun id"));
-		
+			throws ResourceNotFoundException {
+		VenCliente findVenCliente = VenClienteRepository.findById(id)
+				.orElseThrow(() -> new ResourceNotFoundException("No encontramos ningun id"));
+
 		findVenCliente.setNombreCli(VenCliente.getNombreCli());
 		findVenCliente.setApellidoCli(VenCliente.getApellidoCli());
 		findVenCliente.setCedulaCli(VenCliente.getCedulaCli());
 		findVenCliente.setDireccionCli(VenCliente.getDireccionCli());
 		findVenCliente.setEmail(VenCliente.getEmail());
 		findVenCliente.setTelefono(VenCliente.getTelefono());
-		
+
 		VenCliente updateVenCliente = VenClienteRepository.save(findVenCliente);
-		
+
 		return ResponseEntity.ok().header("Content-Type", "application/json")
 				.body("{\"mensaje\": \"La VenCliente se ha actualizado correctamente " + id + "\"}");
 	}
-	
-	
+
 	@DeleteMapping("/client/{id}")
-	public ResponseEntity<String> deleteVenCliente(@PathVariable Long id){
-		
+	public ResponseEntity<String> deleteVenCliente(@PathVariable Long id) {
+
 		VenClienteRepository.deleteById(id);
-		
+
 		return ResponseEntity.ok().header("Content-Type", "application/json")
-		.body("{\"mensaje\": \"La VenCliente se ha eliminado correctamente " + id + "\"}");
+				.body("{\"mensaje\": \"La VenCliente se ha eliminado correctamente " + id + "\"}");
 	}
-	
-	@RequestMapping(value="/client/findcedula/{cedula}", produces = {"application/json"},method= RequestMethod.GET)
-	public List<VenCliente> findbyCedula(@PathVariable("cedula") String cedula){
-		
+
+	@RequestMapping(value = "/client/findcedula/{cedula}", produces = {
+			"application/json" }, method = RequestMethod.GET)
+	public List<VenCliente> findbyCedula(@PathVariable("cedula") String cedula) {
+
 		try {
 			List<VenCliente> clienteencontrado = VenClienteRepository.clientesByCedula(cedula);
 			return clienteencontrado;
-			
-		}catch (Exception e) {
+
+		} catch (Exception e) {
 			// TODO: handle exception
 		}
-		
+
 		return null;
 	}
-	
+
 	/*
 	 * @RequestMapping(value = "/exportPdf", method = RequestMethod.GET) public void
 	 * getVenClientePdf(HttpServletResponse response) throws IOException,
@@ -145,7 +149,7 @@ public class ClientesController {
 	 * 
 	 * }
 	 */
-	
+
 //	@GetMapping("/client/pdfCliente")
 	/*
 	 * @RequestMapping(value = "/client/pdfCliente", produces =
@@ -165,52 +169,63 @@ public class ClientesController {
 	 */
 
 	@GetMapping("/client/pdfCliente")
-    public void generateReport(HttpServletResponse response) throws JRException, SQLException, IOException {
+	public void generateReport(HttpServletResponse response) throws JRException, SQLException, IOException {
 		response.setContentType("/aplication/x-download");
-		 response.setHeader("Content-Disposition",String.format("attachment; filename=\"cliente.pdf\""));
-		  
-		 OutputStream out = response.getOutputStream();
-		 
-		 exportReport.exportReporte(out);
-    }
-	
-	@RequestMapping(value="/client/report",method= RequestMethod.GET)
-	@ResponseBody 
-	public void reporteCliente(HttpServletResponse response) throws Exception{
-		
-		
-		response.setContentType("text/html");
-		InputStream jrxmlInput =  this.getClass().getResourceAsStream("/listaClientes.jrxml");
-		JasperDesign design = JRXmlLoader.load(jrxmlInput);
-		JasperReport jasperReport = JasperCompileManager.compileReport(design);
-		
-		  //consulta en ves del list 
-			
-			  Connection cn = jdbcTemplate.getDataSource().getConnection(); 
-			  Map<String,Object> parametro = new HashMap<String, Object>();
-			  parametro.put("logoImagen", "logo1.png");
-			  parametro.put("logoKaleth", "KALETH.png");
-			  
-			  JasperPrint jasperprint = JasperFillManager.fillReport(jasperReport,
-			  parametro, cn);
-			  
-			  JRPdfExporter pdfExporter = new JRPdfExporter();
-			  pdfExporter.setExporterInput(new SimpleExporterInput(jasperprint));
-			  ByteArrayOutputStream pdfReportStream = new ByteArrayOutputStream();
-			  pdfExporter.setExporterOutput(new
-			  SimpleOutputStreamExporterOutput(pdfReportStream));
-			  pdfExporter.exportReport();
-			  
-			  response.setContentType("application/pdf");
-			  response.setHeader("Content-Length",String.valueOf(pdfReportStream.size()));
-			  response.setHeader("Content-Disposition","inline; filenamejasper.pdf");
-			  
-			  OutputStream responseOutputStream = response.getOutputStream();
-			  responseOutputStream.write(pdfReportStream.toByteArray());
-			  responseOutputStream.close(); pdfReportStream.close();
-			 
+		response.setHeader("Content-Disposition", String.format("attachment; filename=\"cliente.pdf\""));
+
+		OutputStream out = response.getOutputStream();
+
+		exportReport.exportReporte(out);
 	}
-	
-	
-  
+
+	@RequestMapping(value = "/client/report", method = RequestMethod.GET)
+	@ResponseBody
+	public List<String> reporteCliente(HttpServletResponse response) throws Exception {
+		try {
+			List<String> respuesta = new ArrayList<String>();
+			byte[] bytes = null;
+			String pdfBase64 = "";
+
+			response.setContentType("text/html");
+			InputStream jrxmlInput = this.getClass().getResourceAsStream("/listaClientes.jrxml");
+			JasperDesign design = JRXmlLoader.load(jrxmlInput);
+			JasperReport jasperReport = JasperCompileManager.compileReport(design);
+
+			// consulta en ves del list
+
+			Connection cn = jdbcTemplate.getDataSource().getConnection();
+			Map<String, Object> parametro = new HashMap<String, Object>();
+			parametro.put("logoImagen", "logo1.png");
+			parametro.put("logoKaleth", "KALETH.png");
+
+			JasperPrint jasperprint = JasperFillManager.fillReport(jasperReport, parametro, cn);
+
+//			  JRPdfExporter pdfExporter = new JRPdfExporter();
+//			  pdfExporter.setExporterInput(new SimpleExporterInput(jasperprint));
+//			  ByteArrayOutputStream pdfReportStream = new ByteArrayOutputStream();
+//			  pdfExporter.setExporterOutput(new
+//			  SimpleOutputStreamExporterOutput(pdfReportStream));
+//			  pdfExporter.exportReport();
+//			  
+//			  response.setContentType("application/pdf");
+//			  response.setHeader("Content-Length",String.valueOf(pdfReportStream.size()));
+//			  response.setHeader("Content-Disposition","inline; filenamejasper.pdf");
+//			  
+//			  OutputStream responseOutputStream = response.getOutputStream();
+//			  responseOutputStream.write(pdfReportStream.toByteArray());
+//			  responseOutputStream.close(); pdfReportStream.close();
+
+			bytes = JasperExportManager.exportReportToPdf(jasperprint);
+			pdfBase64 = Base64.getEncoder().encodeToString(bytes);
+			response.setContentType("application/pdf");
+			respuesta.add(pdfBase64);
+			cn.close();
+			return respuesta;
+		} catch (Exception e) {
+			System.out.println("ERROR AL GENERAR reporte minimo total x punto venta" + e);
+			return null;
+		}
+
+	}
+
 }
