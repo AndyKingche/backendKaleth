@@ -47,6 +47,9 @@ public class UsUser implements Serializable {
 	private String telefono;
 	
 	private Integer rol;
+	
+	@Column(columnDefinition = "LONGTEXT")
+	private String token;
 	//bi-directional many-to-one association to UsEstadocivil
 	@ManyToOne
 	@JoinColumn(name="ID_ESTADOCIVIL")
@@ -203,6 +206,18 @@ public class UsUser implements Serializable {
 	public void setRol(Integer rol) {
 		this.rol = rol;
 	}
+
+
+	public String getToken() {
+		return token;
+	}
+
+
+	public void setToken(String token) {
+		this.token = token;
+	}
+	
+	
 
 	
 	 

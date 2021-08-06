@@ -69,7 +69,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter implements F
 		// We don't need CSRF for this example
 		httpSecurity.csrf().disable()
 				// dont authenticate this particular request
-				.authorizeRequests().antMatchers("/authenticate","/api/stock/cant","/api/stock/exist/{id}/{incio}/{numeroFilas}").permitAll().
+				.authorizeRequests().antMatchers("/authenticate","/api/stock/cant","/api/stock/exist/{id}/{incio}/{numeroFilas}","/api/gender",
+						"/api/civil-status","/api/user/client/register","/api/user/findemail/{email}","/api/user/resetuserpassword/{password}/{email}").permitAll().
 				// all other requests need to be authenticated
 				anyRequest().authenticated().and().
 				// make sure we use stateless session; session won't be used to
@@ -82,12 +83,14 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter implements F
 	}
 	
 	
-	  @Bean public WebMvcConfigurer corsConfigurer() { return new
-	  WebMvcConfigurer() {
-	  
-	  @Override public void addCorsMappings(CorsRegistry registry) {
-	  registry.addMapping("/**").allowedOrigins("*").allowedMethods("GET",
-	  "POST","PUT", "DELETE"); } }; }
+	/*
+	 * @Bean public WebMvcConfigurer corsConfigurer() { return new
+	 * WebMvcConfigurer() {
+	 * 
+	 * @Override public void addCorsMappings(CorsRegistry registry) {
+	 * registry.addMapping("/**").allowedOrigins("*").allowedMethods("GET",
+	 * "POST","PUT", "DELETE").exposedHeaders("Authorization");; } }; }
+	 */
 	 
 	
 	@Override

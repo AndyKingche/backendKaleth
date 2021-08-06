@@ -17,4 +17,16 @@ import com.api.kaleth.domain.UsUser;
 public interface UsuariosRepository extends JpaRepository<UsUser, Long>{
 	@Query(value = "SELECT * FROM us_user WHERE email=?", nativeQuery = true)
 	Optional<UsUser> findByName(String email);
+	
+	@Query(value = "SELECT * FROM us_user WHERE email=?", nativeQuery = true)
+	List<UsUser> findByEmail(String email);
+	
+	@Query(value = "SELECT * FROM us_user WHERE token=?", nativeQuery = true)
+	List<UsUser> findUserLogged(String token);
+	
+	@Query(value = "UPDATE us_user SET token=? WHERE id_usuario=?", nativeQuery = true)
+	UsUser updateUserLogged(String token,Integer id_usuario);
+	
+	@Query(value = "Update us_user SET password=? WHERE email=?", nativeQuery = true)
+	List<UsUser> UpdateUserReset(String password,String email);
 }

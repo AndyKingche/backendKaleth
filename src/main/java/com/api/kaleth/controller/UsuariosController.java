@@ -23,7 +23,6 @@ import com.api.kaleth.respository.UsuariosRepository;
 @RestController
 @CrossOrigin(origins = "/**", methods= {RequestMethod.GET,RequestMethod.POST,RequestMethod.PUT,RequestMethod.DELETE})
 @RequestMapping("/api")
-
 public class UsuariosController {
 	@Autowired
 	UsuariosRepository UsUserrepository;
@@ -50,6 +49,12 @@ public class UsuariosController {
 		return UsUserrepository.save(user);
 	}
 	
+	@PostMapping("/user/client/register")
+	public UsUser createClient(@RequestBody UsUser user) {
+		
+		return UsUserrepository.save(user);
+	}
+	
 	@PutMapping("/user/{id}")
 	public ResponseEntity<String> updateUser(@RequestBody UsUser user, @PathVariable Long id)
 		throws ResourceNotFoundException{
@@ -67,6 +72,8 @@ public class UsuariosController {
 		findUser.setDireccion(user.getDireccion());
 		findUser.setGenero(user.getGenero());
 		findUser.setEstadocivil(user.getEstadocivil());
+		findUser.setToken(user.getToken());
+		findUser.setRol(user.getRol());
 		
 		UsUser updateUser = UsUserrepository.save(findUser);
 		return ResponseEntity.ok().header("Content-Type", "application/json")
@@ -81,6 +88,63 @@ public class UsuariosController {
 		
 		return ResponseEntity.ok().header("Content-Type", "application/json")
 				.body("{\"mensaje\": \"El Usuario se ha eliminado correctamente " + id + "\"}");
+	}
+	
+	@RequestMapping(value="/user/findemail/{email}",produces = {"application/json"},method= RequestMethod.GET)
+	public List<UsUser> findUserbyEmail(@PathVariable("email") String email) {
+			
+		try {
+			List<UsUser> user = UsUserrepository.findByEmail(email);
+			 System.out.println(user);
+			 
+			 return user;
+		} catch (Exception e) {
+			System.out.println("*************************ERRROR AL CONSULTAR"+e);
+		}
+		return null;
+	}
+	
+	@RequestMapping(value="/user/finduserlogged/{token}",produces = {"application/json"},method= RequestMethod.GET)
+	public List<UsUser> findUserLogin(@PathVariable("token") String token) {
+			
+		try {
+			List<UsUser> user = UsUserrepository.findUserLogged(token);
+			 System.out.println(user);
+			 
+			 return user;
+		} catch (Exception e) {
+			System.out.println("*************************ERRROR AL CONSULTAR"+e);
+		}
+		return null;
+	}
+	
+	@RequestMapping(value="/user/updateuserlogged/{token}/{id_usuario}",produces = {"application/json"},method= RequestMethod.GET)
+	public Boolean updateUserLogin(@PathVariable("token") String token,@PathVariable("id_usuario") Integer id_usuario) {
+			
+		try {
+			UsUser user = UsUserrepository.updateUserLogged(token, id_usuario);
+			 System.out.println(user);
+			 
+			 return true;
+		} catch (Exception e) {
+			System.out.println("*************************ERRROR AL CONSULTAR"+e);
+			return false;
+		}
+		
+	}
+	@RequestMapping(value="/user/resetuserpassword/{password}/{email}",produces = {"application/json"},method= RequestMethod.GET)
+	public Boolean updateUserReset(@PathVariable("password") String password,@PathVariable("email") String email) {
+			
+		try {
+			List<UsUser> user = UsUserrepository.UpdateUserReset(password, email);
+			 System.out.println(user);
+			 
+			 return true;
+		} catch (Exception e) {
+			System.out.println("*************************ERRROR AL CONSULTAR"+e);
+			return false;
+		}
+		
 	}
 	
 }

@@ -1,5 +1,11 @@
 package com.api.kaleth;
 
+import javax.servlet.FilterChain;
+import javax.servlet.ServletRequest;
+import javax.servlet.ServletResponse;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 import org.springframework.context.annotation.Bean;
@@ -23,4 +29,13 @@ public class ServletInitializer extends SpringBootServletInitializer{
         return resolver;
     }
 	
+	  @Bean public WebMvcConfigurer corsConfigurer() { return new
+	  WebMvcConfigurer() {
+	  
+	  @Override public void addCorsMappings(CorsRegistry registry) {
+	  registry.addMapping("/**").allowedOrigins("*").allowedMethods("GET",
+	  "POST","PUT", "DELETE").exposedHeaders("Authorization");; } }; }
+	 
+	 
+			
 }
