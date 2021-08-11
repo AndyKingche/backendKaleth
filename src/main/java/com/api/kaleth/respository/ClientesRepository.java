@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -35,6 +36,7 @@ public interface ClientesRepository extends JpaRepository<VenCliente, Long>{
 	
 	@Query(value="SELECT * FROM ven_cliente WHERE cedula_cli=?", nativeQuery=true)
 	List<VenCliente> clientesByCedula(String cedula);
-	
+	@Query(value = "SELECT * FROM ven_cliente WHERE email=?", nativeQuery = true)
+	List<VenCliente> findClientebyEmail(String email);
 
 }

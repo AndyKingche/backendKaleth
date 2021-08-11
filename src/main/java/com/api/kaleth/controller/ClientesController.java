@@ -227,5 +227,20 @@ public class ClientesController {
 		}
 
 	}
+	
+	@RequestMapping(value = "/client/findemail/{email}", produces = {
+	"application/json" }, method = RequestMethod.GET)
+	public List<VenCliente> findbyEmail(@PathVariable("email") String email) {
+
+			try {
+					List<VenCliente> clienteencontrado = VenClienteRepository.findClientebyEmail(email);
+						return clienteencontrado;
+
+				} catch (Exception e) {
+						System.out.print("********ERROR EL CLIENTE por email NO SE ENCONTRO "+e);
+					}
+
+				return null;
+		}
 
 }

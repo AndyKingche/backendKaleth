@@ -27,6 +27,6 @@ public interface UsuariosRepository extends JpaRepository<UsUser, Long>{
 	@Query(value = "UPDATE us_user SET token=? WHERE id_usuario=?", nativeQuery = true)
 	UsUser updateUserLogged(String token,Integer id_usuario);
 	
-	@Query(value = "Update us_user SET password=? WHERE email=?", nativeQuery = true)
-	List<UsUser> UpdateUserReset(String password,String email);
+	@Query(value = "UPDATE us_user SET password=?, reset_password=false WHERE email=?", nativeQuery = true)
+	UsUser UpdateUserReset(String password,String email);
 }

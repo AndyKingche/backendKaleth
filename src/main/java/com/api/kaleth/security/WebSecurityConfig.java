@@ -1,6 +1,10 @@
 package com.api.kaleth.security;
+import java.io.IOException;
+import java.util.Arrays;
+
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
+import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
@@ -20,15 +24,17 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
 @EnableWebSecurity
-@EnableWebMvc
 @EnableGlobalMethodSecurity(prePostEnabled = true)
-public class WebSecurityConfig extends WebSecurityConfigurerAdapter implements Filter,WebMvcConfigurer{
+public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Autowired
 	private JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
@@ -70,14 +76,14 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter implements F
 		httpSecurity.csrf().disable()
 				// dont authenticate this particular request
 				.authorizeRequests().antMatchers("/authenticate","/api/stock/cant","/api/stock/exist/{id}/{incio}/{numeroFilas}","/api/gender",
-						"/api/civil-status","/api/user/client/register","/api/user/findemail/{email}","/api/user/resetuserpassword/{password}/{email}").permitAll().
+						"/api/civil-status","/api/user/client/register","/api/user/findemail/{email}","/api/user/resetuserpassword/{password}/{email}","/api/user/{id}","/api/user/finduserlogged/{token}","/api/client").permitAll().
 				// all other requests need to be authenticated
 				anyRequest().authenticated().and().
 				// make sure we use stateless session; session won't be used to
 				// store user's state.
 				exceptionHandling().authenticationEntryPoint(jwtAuthenticationEntryPoint).and().sessionManagement()
 				.sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-
+		httpSecurity.cors();
 		// Add a filter to validate the tokens with every request
 		httpSecurity.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
 	}
@@ -93,36 +99,62 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter implements F
 	 */
 	 
 	
-	@Override
-    public void doFilter(ServletRequest req, ServletResponse res, FilterChain chain) {
-      HttpServletResponse response = (HttpServletResponse) res;
-      HttpServletRequest request = (HttpServletRequest) req;
-      System.out.println("WebConfig; "+request.getRequestURI());
-      response.setHeader("Access-Control-Allow-Origin", "*");
-      response.setHeader("Access-Control-Allow-Methods", "POST, PUT, GET, OPTIONS, DELETE");
-      response.setHeader("Access-Control-Allow-Headers", "Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With,observe");
-      response.setHeader("Access-Control-Max-Age", "3600");
-      response.setHeader("Access-Control-Allow-Credentials", "true");
-      response.setHeader("Access-Control-Expose-Headers", "Authorization");
-      response.addHeader("Access-Control-Expose-Headers", "responseType");
-      response.addHeader("Access-Control-Expose-Headers", "observe");
-      System.out.println("Request Method: "+request.getMethod());
-      if (!(request.getMethod().equalsIgnoreCase("OPTIONS"))) {
-          try {
-              chain.doFilter(req, res);
-          } catch(Exception e) {
-              e.printStackTrace();
-          }
-      } else {
-          System.out.println("Pre-flight");
-          response.setHeader("Access-Control-Allow-Origin", "*");
-          response.setHeader("Access-Control-Allow-Methods", "POST,GET,DELETE,PUT");
-          response.setHeader("Access-Control-Max-Age", "3600");
-          response.setHeader("Access-Control-Allow-Headers", "Access-Control-Expose-Headers"+"Authorization, content-type," +
-          "USERID"+"ROLE"+
-                  "access-control-request-headers,access-control-request-method,accept,origin,authorization,x-requested-with,responseType,observe");
-          response.setStatus(HttpServletResponse.SC_OK);
-      }
-
+	/*
+	 * @Override public void doFilter(ServletRequest req, ServletResponse res,
+	 * FilterChain chain) { HttpServletResponse response = (HttpServletResponse)
+	 * res; HttpServletRequest request = (HttpServletRequest) req;
+	 * System.out.println("WebConfig; "+request.getRequestURI());
+	 * response.setHeader("Access-Control-Allow-Origin", "*");
+	 * response.setHeader("Access-Control-Allow-Methods",
+	 * "POST, PUT, GET, OPTIONS, DELETE");
+	 * response.setHeader("Access-Control-Allow-Headers",
+	 * "Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With,observe"
+	 * ); response.setHeader("Access-Control-Max-Age", "3600");
+	 * response.setHeader("Access-Control-Allow-Credentials", "true");
+	 * response.setHeader("Access-Control-Expose-Headers", "Authorization");
+	 * response.addHeader("Access-Control-Expose-Headers", "responseType");
+	 * response.addHeader("Access-Control-Expose-Headers", "observe");
+	 * System.out.println("Request Method: "+request.getMethod()); if
+	 * (!(request.getMethod().equalsIgnoreCase("OPTIONS"))) { try {
+	 * chain.doFilter(req, res); } catch(Exception e) { e.printStackTrace(); } }
+	 * else { System.out.println("Pre-flight");
+	 * response.setHeader("Access-Control-Allow-Origin", "*");
+	 * response.setHeader("Access-Control-Allow-Methods", "POST,GET,DELETE,PUT");
+	 * response.setHeader("Access-Control-Max-Age", "3600");
+	 * response.setHeader("Access-Control-Allow-Headers",
+	 * "Access-Control-Expose-Headers"+"Authorization, content-type," +
+	 * "USERID"+"ROLE"+
+	 * "access-control-request-headers,access-control-request-method,accept,origin,authorization,x-requested-with,responseType,observe"
+	 * ); response.setStatus(HttpServletResponse.SC_OK); }
+	 * 
+	 * }
+	 */
+	
+	
+	/*
+	 * protected void doFilterInternal(HttpServletRequest request,
+	 * HttpServletResponse response, FilterChain filterChain) throws
+	 * ServletException, IOException {
+	 * response.setHeader("Access-Control-Allow-Origin", "*");
+	 * response.setHeader("Access-Control-Allow-Methods",
+	 * "GET, POST, PUT, DELETE, OPTIONS");
+	 * response.setHeader("Access-Control-Max-Age", "3600");
+	 * response.setHeader("Access-Control-Allow-Headers",
+	 * "authorization, content-type, xsrf-token");
+	 * response.addHeader("Access-Control-Expose-Headers", "xsrf-token"); if
+	 * ("OPTIONS".equals(request.getMethod())) {
+	 * response.setStatus(HttpServletResponse.SC_OK); } else {
+	 * filterChain.doFilter(request, response); } }
+	 */
+	@Bean
+	public CorsConfigurationSource corsConfigurationSource() {
+        CorsConfiguration configuration = new CorsConfiguration();
+        configuration.setAllowedOrigins(Arrays.asList("*"));
+        configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"));
+        configuration.setAllowedHeaders(Arrays.asList("authorization", "content-type", "x-auth-token"));
+        configuration.setExposedHeaders(Arrays.asList("x-auth-token"));
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", configuration);
+        return source;
     }
 }

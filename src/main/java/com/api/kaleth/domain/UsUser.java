@@ -48,6 +48,8 @@ public class UsUser implements Serializable {
 	
 	private Integer rol;
 	
+	private Boolean resetPassword;
+	
 	@Column(columnDefinition = "LONGTEXT")
 	private String token;
 	//bi-directional many-to-one association to UsEstadocivil
@@ -215,6 +217,16 @@ public class UsUser implements Serializable {
 
 	public void setToken(String token) {
 		this.token = token;
+	}
+
+
+	public Boolean getResetPassword() {
+		return resetPassword;
+	}
+
+
+	public void setResetPassword(Boolean resetPassword) {
+		this.resetPassword = resetPassword;
 	}
 	
 	

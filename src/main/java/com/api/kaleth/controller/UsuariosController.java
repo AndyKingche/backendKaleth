@@ -74,6 +74,7 @@ public class UsuariosController {
 		findUser.setEstadocivil(user.getEstadocivil());
 		findUser.setToken(user.getToken());
 		findUser.setRol(user.getRol());
+		findUser.setResetPassword(user.getResetPassword());
 		
 		UsUser updateUser = UsUserrepository.save(findUser);
 		return ResponseEntity.ok().header("Content-Type", "application/json")
@@ -136,7 +137,9 @@ public class UsuariosController {
 	public Boolean updateUserReset(@PathVariable("password") String password,@PathVariable("email") String email) {
 			
 		try {
-			List<UsUser> user = UsUserrepository.UpdateUserReset(password, email);
+			System.out.print("password"+password);
+			System.out.print("user"+email);
+			UsUser user = UsUserrepository.UpdateUserReset(password, email);
 			 System.out.println(user);
 			 
 			 return true;
