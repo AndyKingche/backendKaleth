@@ -31,6 +31,9 @@ public class CatPuntosVenta implements Serializable {
 
 	private String telefono;
 
+	@Column(name="url_mapa", columnDefinition = "LONGTEXT")
+	private String urlMapa;
+
 
 	public CatPuntosVenta() {
 	}
@@ -73,6 +76,14 @@ public class CatPuntosVenta implements Serializable {
 
 	public void setTelefono(String telefono) {
 		this.telefono = telefono;
+	}
+
+	public String getUrlMapa() {
+		return urlMapa;
+	}
+
+	public void setUrlMapa(String urlMapa) {
+		this.urlMapa = urlMapa;
 	}
 
 
