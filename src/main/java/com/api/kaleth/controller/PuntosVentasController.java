@@ -59,7 +59,7 @@ public class PuntosVentasController {
 		findCatPuntosVenta.setCiudad(CatPuntosVenta.getCiudad());
 		findCatPuntosVenta.setDireccion(CatPuntosVenta.getDireccion());
 		findCatPuntosVenta.setTelefono(CatPuntosVenta.getTelefono());
-		
+		findCatPuntosVenta.setUrlMapa(CatPuntosVenta.getUrlMapa());
 		CatPuntosVenta updateCatPuntosVenta = CatPuntosVentarepository.save(findCatPuntosVenta);
 		
 		return ResponseEntity.ok().header("Content-Type", "application/json")
