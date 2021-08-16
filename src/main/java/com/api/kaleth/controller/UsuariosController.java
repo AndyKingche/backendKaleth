@@ -6,6 +6,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -26,7 +27,8 @@ import com.api.kaleth.respository.UsuariosRepository;
 public class UsuariosController {
 	@Autowired
 	UsuariosRepository UsUserrepository;
-	
+	@Autowired
+	private PasswordEncoder passwordEncoder;
 	
 	@GetMapping("/user")
 	public List<UsUser> getUsers(){
@@ -46,12 +48,13 @@ public class UsuariosController {
 	@PostMapping("/user")
 	public UsUser createUser(@RequestBody UsUser user) {
 		
+		user.setPassword(passwordEncoder.encode(user.getPassword()));
 		return UsUserrepository.save(user);
 	}
 	
 	@PostMapping("/user/client/register")
 	public UsUser createClient(@RequestBody UsUser user) {
-		
+		user.setPassword(passwordEncoder.encode(user.getPassword()));
 		return UsUserrepository.save(user);
 	}
 	
@@ -66,7 +69,7 @@ public class UsuariosController {
 		findUser.setCedula(user.getCedula());
 		findUser.setTelefono(user.getTelefono());
 		findUser.setEmail(user.getEmail());
-		findUser.setPassword(user.getPassword());
+		findUser.setPassword(passwordEncoder.encode(user.getPassword()));
 		findUser.setEstado(user.getEstado());
 		findUser.setFechanacimiento(user.getFechanacimiento());
 		findUser.setDireccion(user.getDireccion());
@@ -139,7 +142,8 @@ public class UsuariosController {
 		try {
 			System.out.print("password"+password);
 			System.out.print("user"+email);
-			UsUser user = UsUserrepository.UpdateUserReset(password, email);
+			
+			UsUser user = UsUserrepository.UpdateUserReset(passwordEncoder.encode(password), email);
 			 System.out.println(user);
 			 
 			 return true;

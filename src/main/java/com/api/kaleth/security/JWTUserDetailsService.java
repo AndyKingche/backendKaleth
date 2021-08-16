@@ -1,5 +1,6 @@
 package com.api.kaleth.security;
 
+import java.nio.file.ClosedFileSystemException;
 import java.util.ArrayList;
 import java.util.Optional;
 
@@ -24,23 +25,29 @@ public class JWTUserDetailsService implements UserDetailsService{
 	@Override
 	public UserDetails loadUserByUsername(String username)  {
 		///consulta del usuario existente
-		Optional<UsUser> user = userRepository.findByName(username);
-		System.out.print(username);
-		if (user!=null) {
-			
-			  System.out.println("si entre"); 
-			  return new User(username,bcryptEncoder.encode(user.get().getPassword())
-			  , new
-			  ArrayList<>());
-			 
-			
-			/*
-			 * return new
-			 * org.springframework.security.core.userdetails.User(user.get().getNombre(),
-			 * bcryptEncoder.encode(user.get().getPassword()), new ArrayList<>());
-			 */
-		} else {
+		
+		try {
+			Optional<UsUser> user = userRepository.findByName(username);
+			if (user!=null) {
+		 
+				  return new User(username,user.get().getPassword()
+				  , new
+				  ArrayList<>());
+				 
+				
+				/*
+				 * return new
+				 * org.springframework.security.core.userdetails.User(user.get().getNombre(),
+				 * bcryptEncoder.encode(user.get().getPassword()), new ArrayList<>());
+				 */
+			} else {
+				return null;
+			}
+		} catch (Exception e) {
+			// TODO: handle exception
+			System.out.println("erro al generar token"+e);
 			return null;
 		}
+		
 	}
 }

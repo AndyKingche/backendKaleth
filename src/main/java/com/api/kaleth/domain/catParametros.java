@@ -19,7 +19,7 @@ public class catParametros implements Serializable{
 	@GenericGenerator(name="native",strategy = "native")
 	@Column(name="ID_PARAMETROS")
 	private Long idParametros;
-	
+	@Column(columnDefinition = "LONGTEXT")
 	private String textoBanner;
 	
 	private String mensajePuntosVenta;

@@ -32,16 +32,22 @@ public class JwtAuthenticationController {
 	@RequestMapping(value = "/authenticate", method = RequestMethod.POST)
 	public ResponseEntity<?> createAuthenticationToken(@RequestBody JwtRequest authenticationRequest)
 			throws Exception {
+		try {
+			System.out.print(""+authenticationRequest.getPassword());
+			authenticate(authenticationRequest.getUsername(), authenticationRequest.getPassword());
 
-		authenticate(authenticationRequest.getUsername(), authenticationRequest.getPassword());
+			System.out.println("entre");
+			
+			final UserDetails userDetails = jwtInMemoryUserDetailsService
+					.loadUserByUsername(authenticationRequest.getUsername());
 
-		System.out.println("entre");
-		final UserDetails userDetails = jwtInMemoryUserDetailsService
-				.loadUserByUsername(authenticationRequest.getUsername());
+			final String token = jwtTokenUtil.generateToken(userDetails);
 
-		final String token = jwtTokenUtil.generateToken(userDetails);
-
-		return ResponseEntity.ok(new JwtResponse(token));
+			return ResponseEntity.ok(new JwtResponse(token));
+		} catch (Exception e) {
+			return null;
+		}
+		
 	}
 
 	private void authenticate(String username, String password) throws Exception {
