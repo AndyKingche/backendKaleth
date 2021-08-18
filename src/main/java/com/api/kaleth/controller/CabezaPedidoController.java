@@ -160,12 +160,31 @@ public class CabezaPedidoController {
 			  return  respuesta;	  
 						  
 			} catch (Exception e) {
-				System.out.println("Error al gnerar pdf pedido");
+				System.out.println("Error al gnerar pdf pedido"+e);
 				return null;
 			}
 			
 				 
 				 
 		}
+	    
+	    
+	    @RequestMapping(value="/order/deletedetalle/{idCabezaPedido}",method= RequestMethod.GET)
+		@ResponseBody 
+	    public  int deletePedido(@PathVariable(name = "idCabezaPedido") Integer idCabezaPedido)throws ResourceNotFoundException{
+	        
+	        try {
+	        	int delete_detalle = cabezaPedidoRepository.deleteDetallePedido(idCabezaPedido);
+	        	return delete_detalle;
+	        }catch (Exception e) {
+				System.out.println("Error al realizar el delete de detalle pedido"+e);
+				return 0;
+			}
+			/*
+			 * return ResponseEntity.ok().header("Content-Type", "application/json")
+			 * .body("{\"mensaje\": \"El Pedido se elimino correctamente " + "" + "\"}");
+			 */
+
+	    }
 	    
 }

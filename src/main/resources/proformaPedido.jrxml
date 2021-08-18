@@ -263,7 +263,13 @@ cabePe.id_cabeza_pe= $P{idCabezaPedido}]]>
 		<property name="com.jaspersoft.studio.field.label" value="telefono"/>
 		<property name="com.jaspersoft.studio.field.tree.path" value="cat_puntos_venta"/>
 	</field>
-	<field name="COLUMN_40" class="java.lang.Long">
+	<field name="url_mapa" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="url_mapa"/>
+		<property name="com.jaspersoft.studio.field.label" value="url_mapa"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="cat_puntos_venta"/>
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="COLUMN_41" class="java.lang.Long">
 		<property name="com.jaspersoft.studio.field.name" value="id_disenos"/>
 		<property name="com.jaspersoft.studio.field.label" value="id_disenos"/>
 		<property name="com.jaspersoft.studio.field.tree.path" value="cat_disenos"/>
@@ -292,12 +298,12 @@ cabePe.id_cabeza_pe= $P{idCabezaPedido}]]>
 		<property name="com.jaspersoft.studio.field.tree.path" value="cat_disenos"/>
 		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
-	<field name="COLUMN_45" class="java.lang.Long">
+	<field name="COLUMN_46" class="java.lang.Long">
 		<property name="com.jaspersoft.studio.field.name" value="id_categoria"/>
 		<property name="com.jaspersoft.studio.field.label" value="id_categoria"/>
 		<property name="com.jaspersoft.studio.field.tree.path" value="cat_categoria"/>
 	</field>
-	<field name="COLUMN_46" class="java.lang.String">
+	<field name="COLUMN_47" class="java.lang.String">
 		<property name="com.jaspersoft.studio.field.name" value="descripcion"/>
 		<property name="com.jaspersoft.studio.field.label" value="descripcion"/>
 		<property name="com.jaspersoft.studio.field.tree.path" value="cat_categoria"/>
@@ -308,12 +314,12 @@ cabePe.id_cabeza_pe= $P{idCabezaPedido}]]>
 		<property name="com.jaspersoft.studio.field.tree.path" value="cat_categoria"/>
 		<fieldDescription><![CDATA[]]></fieldDescription>
 	</field>
-	<field name="COLUMN_48" class="java.lang.Long">
+	<field name="COLUMN_49" class="java.lang.Long">
 		<property name="com.jaspersoft.studio.field.name" value="id_tallas"/>
 		<property name="com.jaspersoft.studio.field.label" value="id_tallas"/>
 		<property name="com.jaspersoft.studio.field.tree.path" value="cat_tallas"/>
 	</field>
-	<field name="COLUMN_49" class="java.lang.String">
+	<field name="COLUMN_50" class="java.lang.String">
 		<property name="com.jaspersoft.studio.field.name" value="descripcion"/>
 		<property name="com.jaspersoft.studio.field.label" value="descripcion"/>
 		<property name="com.jaspersoft.studio.field.tree.path" value="cat_tallas"/>
