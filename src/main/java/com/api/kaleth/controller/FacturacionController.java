@@ -49,7 +49,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/api")
-@CrossOrigin(origins = "*", methods= {RequestMethod.GET,RequestMethod.POST,RequestMethod.PUT,RequestMethod.DELETE})
+@CrossOrigin(origins = "*", methods = { RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT,
+		RequestMethod.DELETE })
 public class FacturacionController {
 	@Autowired
 	FacturacionRepository VenCabezaFacturarepository;
@@ -118,10 +119,10 @@ public class FacturacionController {
 	@ResponseBody
 	public List<String> reporteCliente(HttpServletResponse response, @PathVariable Integer idfactura) throws Exception {
 		try {
-			//response.setContentType("text/html");
+			// response.setContentType("text/html");
 			List<String> respuesta = new ArrayList<String>();
-			  byte[] bytes = null; 
-			  String pdfBase64 = "";
+			byte[] bytes = null;
+			String pdfBase64 = "";
 			InputStream jrxmlInput = this.getClass().getResourceAsStream("/ticketFactura.jrxml");
 			JasperDesign design = JRXmlLoader.load(jrxmlInput);
 			JasperReport jasperReport = JasperCompileManager.compileReport(design);
@@ -152,32 +153,30 @@ public class FacturacionController {
 			 * responseOutputStream.write(pdfReportStream.toByteArray());
 			 * responseOutputStream.close(); pdfReportStream.close();
 			 */
-			bytes = JasperExportManager.exportReportToPdf(jasperprint); 
-			  pdfBase64 =
-			  Base64.getEncoder().encodeToString(bytes);
-			  response.setContentType("application/pdf");
-			  respuesta.add(pdfBase64);	
-			  cn.close();
-			  return  respuesta;
-			
+			bytes = JasperExportManager.exportReportToPdf(jasperprint);
+			pdfBase64 = Base64.getEncoder().encodeToString(bytes);
+			response.setContentType("application/pdf");
+			respuesta.add(pdfBase64);
+			cn.close();
+			return respuesta;
+
 		} catch (Exception e) {
 			System.out.println("ERROR AL GENERAR FACTURA");
 			return null;
 		}
-		
 
 	}
 
 	@RequestMapping(value = "/bill/reporteFecha/{fechaDesde}/{fechaHasta}/{totalVentas}", method = RequestMethod.GET)
 	@ResponseBody
 	public List<String> reporteFcturacionFecha(HttpServletResponse response,
-			@PathVariable(name = "fechaDesde") String fechaDesde, @PathVariable(name = "fechaHasta") String fechaHasta, @PathVariable(name = "totalVentas") String totalVentas)
-			throws Exception {
+			@PathVariable(name = "fechaDesde") String fechaDesde, @PathVariable(name = "fechaHasta") String fechaHasta,
+			@PathVariable(name = "totalVentas") String totalVentas) throws Exception {
 		try {
-			//response.setContentType("text/html");
+			// response.setContentType("text/html");
 			List<String> respuesta = new ArrayList<String>();
-			  byte[] bytes = null; 
-			  String pdfBase64 = "";
+			byte[] bytes = null;
+			String pdfBase64 = "";
 			InputStream jrxmlInput = this.getClass().getResourceAsStream("/listaFacturasPorfecha.jrxml");
 			JasperDesign design = JRXmlLoader.load(jrxmlInput);
 			JasperReport jasperReport = JasperCompileManager.compileReport(design);
@@ -211,32 +210,32 @@ public class FacturacionController {
 			 * responseOutputStream.write(pdfReportStream.toByteArray());
 			 * responseOutputStream.close(); pdfReportStream.close();
 			 */
-			bytes = JasperExportManager.exportReportToPdf(jasperprint); 
-			  pdfBase64 =
-			  Base64.getEncoder().encodeToString(bytes);
-			  response.setContentType("application/pdf");
-			  respuesta.add(pdfBase64);	
-			  cn.close();
-			  return  respuesta;
-			
+			bytes = JasperExportManager.exportReportToPdf(jasperprint);
+			pdfBase64 = Base64.getEncoder().encodeToString(bytes);
+			response.setContentType("application/pdf");
+			respuesta.add(pdfBase64);
+			cn.close();
+			return respuesta;
+
 		} catch (Exception e) {
 			System.out.println("ERROR AL GENERAR FACTURA por fechas");
 			return null;
 		}
-		
+
 	}
 
-	@RequestMapping(value = "/bill/reporteFechaLocal/{fechaDesde}/{fechaHasta}/{idPuntosVenta}", method = RequestMethod.GET)
+	@RequestMapping(value = "/bill/reporteFechaLocal/{fechaDesde}/{fechaHasta}/{totalVentas}/{idPuntosVenta}", method = RequestMethod.GET)
 	@ResponseBody
 	public List<String> reporteFcturacionFechaLocal(HttpServletResponse response,
 			@PathVariable(name = "fechaDesde") String fechaDesde, @PathVariable(name = "fechaHasta") String fechaHasta,
+			@PathVariable(name = "totalVentas") String totalVentas,
 			@PathVariable(name = "idPuntosVenta") Integer idPuntosVenta) throws Exception {
 
 		try {
-			//response.setContentType("text/html");
+			// response.setContentType("text/html");
 			List<String> respuesta = new ArrayList<String>();
-			  byte[] bytes = null; 
-			  String pdfBase64 = "";
+			byte[] bytes = null;
+			String pdfBase64 = "";
 			InputStream jrxmlInput = this.getClass().getResourceAsStream("/listaFacturasPorfechaLocales.jrxml");
 			JasperDesign design = JRXmlLoader.load(jrxmlInput);
 			JasperReport jasperReport = JasperCompileManager.compileReport(design);
@@ -251,6 +250,7 @@ public class FacturacionController {
 
 			parametro.put("fechaHasta", fechaHasta);
 			parametro.put("idPuntosVenta", idPuntosVenta);
+			parametro.put("totalVentas", totalVentas);
 			JasperPrint jasperprint = JasperFillManager.fillReport(jasperReport, parametro, cn);
 
 			/*
@@ -269,20 +269,17 @@ public class FacturacionController {
 			 * responseOutputStream.write(pdfReportStream.toByteArray());
 			 * responseOutputStream.close(); pdfReportStream.close();
 			 */
-			bytes = JasperExportManager.exportReportToPdf(jasperprint); 
-			  pdfBase64 =
-			  Base64.getEncoder().encodeToString(bytes);
-			  response.setContentType("application/pdf");
-			  respuesta.add(pdfBase64);	
-			  cn.close();
-			  return  respuesta;
-			
-			
+			bytes = JasperExportManager.exportReportToPdf(jasperprint);
+			pdfBase64 = Base64.getEncoder().encodeToString(bytes);
+			response.setContentType("application/pdf");
+			respuesta.add(pdfBase64);
+			cn.close();
+			return respuesta;
+
 		} catch (Exception e) {
-			System.out.println("ERROR AL GENERAR FACTURA por fechasx puntos de venta"+e);
+			System.out.println("ERROR AL GENERAR FACTURA por fechas x puntos de venta locales" + e);
 			return null;
 		}
-		
 
 	}
 
@@ -290,14 +287,34 @@ public class FacturacionController {
 			"application/json" }, method = RequestMethod.GET)
 	public List<VenCabezaFactura> fechainicioFechaFin(@PathVariable("fechainicio") String fechainicio,
 			@PathVariable("fechafin") String fechafin) throws ParseException {
-		
-		SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd"); 
+
+		SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd");
 		Date begin = formato.parse(fechainicio);
 		Date end = formato.parse(fechafin);
 		try {
-			List<VenCabezaFactura> fechaInicioFechaFin = VenCabezaFacturarepository.facturaFechas(begin,
-					end);
-			
+			List<VenCabezaFactura> fechaInicioFechaFin = VenCabezaFacturarepository.facturaFechas(begin, end);
+
+			return fechaInicioFechaFin;
+
+		} catch (Exception e) {
+			System.out.println("*************************ERRRORRRRRRRRRRRRRRRRRRR encontrarproductoStockby_codprod");
+		}
+		return null;
+
+	}
+
+	@RequestMapping(value = "/bill/datesLocal/{fechainicio}/{fechafin}/{idPuntosVenta}", produces = {
+			"application/json" }, method = RequestMethod.GET)
+	public List<VenCabezaFactura> fechainicioFechaFinLocal(@PathVariable("fechainicio") String fechainicio,
+			@PathVariable("fechafin") String fechafin, @PathVariable("idPuntosVenta") Integer idPuntosVenta)
+			throws ParseException {
+
+		SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd");
+		Date begin = formato.parse(fechainicio);
+		Date end = formato.parse(fechafin);
+		try {
+			List<VenCabezaFactura> fechaInicioFechaFin = VenCabezaFacturarepository.facturaFechasLocal(idPuntosVenta,
+					begin, end);
 
 			return fechaInicioFechaFin;
 
