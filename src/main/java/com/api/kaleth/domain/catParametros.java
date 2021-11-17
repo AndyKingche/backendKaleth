@@ -51,6 +51,9 @@ public class catParametros implements Serializable{
 	private String urlFotoBanner2;
 	@Column(columnDefinition = "LONGTEXT")
 	private String urlFotoBanner3;
+	
+	private String idPuntosVentaStock;
+	
 	public Long getIdParametros() {
 		return idParametros;
 	}
@@ -164,6 +167,12 @@ public class catParametros implements Serializable{
 	}
 	public void setUrlFotoBanner3(String urlFotoBanner3) {
 		this.urlFotoBanner3 = urlFotoBanner3;
+	}
+	public String getIdPuntosVentaStock() {
+		return idPuntosVentaStock;
+	}
+	public void setIdPuntosVentaStock(String idPuntosVentaStock) {
+		this.idPuntosVentaStock = idPuntosVentaStock;
 	}
 	
 
