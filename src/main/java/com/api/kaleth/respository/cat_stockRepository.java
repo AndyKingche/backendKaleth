@@ -104,6 +104,63 @@ public interface cat_stockRepository extends JpaRepository<CatStock, Long> {
 	List<CatStock> findProductByAllParametersWhereIdPuntosVenta(Integer id_puntosventa, String consulta,
 			String consulta1, String consulta2, String consulta3, String consulta4, String consulta5);
 	
+	@Query(value = "SELECT * "
+			+"FROM cat_stock s, cat_productos pr, cat_puntos_venta pv, cat_categoria cat, cat_disenos di,cat_tallas ta   "  
+			+"WHERE  s.id_productos=pr.id_productos AND s.id_puntos_venta=pv.id_puntos_venta AND"
+			+"  pr.id_categoria=cat.id_categoria AND  pr.id_disenos=di.id_disenos AND"
+			+"  pr.id_tallas= ta.id_tallas AND s.existe='S' AND "
+			+"   pv.id_puntos_venta=(SELECT id_puntos_venta_stock FROM cat_parametros WHERE id_parametros=1) "
+			+"  AND(cat.nombre_categoria  =?"
+			+"  AND  di.nombre  =? and ta.medida  =? )"
+			+"  ORDER BY (pr.cod_producto);", nativeQuery = true)
+	List<CatStock> findProductFilter1(String categoria,
+			String diseno, String medida);
 	
+	@Query(value = "SELECT * "
+			+"FROM cat_stock s, cat_productos pr, cat_puntos_venta pv, cat_categoria cat, cat_disenos di,cat_tallas ta "  
+			+"WHERE  s.id_productos=pr.id_productos AND s.id_puntos_venta=pv.id_puntos_venta AND"
+			+" pr.id_categoria=cat.id_categoria AND  pr.id_disenos=di.id_disenos AND"
+			+" pr.id_tallas= ta.id_tallas AND s.existe='S' AND "
+			+" pv.id_puntos_venta=(SELECT id_puntos_venta_stock FROM cat_parametros WHERE id_parametros=1) "
+			+" AND(cat.nombre_categoria =? "
+			+" AND  di.nombre  =? )"
+			+" ORDER BY (pr.cod_producto);", nativeQuery = true)
+	List<CatStock> findProductFilter2(String categoria,
+			String diseno);
+	
+	@Query(value = "SELECT * "
+			+"FROM cat_stock s, cat_productos pr, cat_puntos_venta pv, cat_categoria cat, cat_disenos di,cat_tallas ta "  
+			+"WHERE  s.id_productos=pr.id_productos AND s.id_puntos_venta=pv.id_puntos_venta AND"
+			+" pr.id_categoria=cat.id_categoria AND  pr.id_disenos=di.id_disenos AND"
+			+" pr.id_tallas= ta.id_tallas AND s.existe='S' AND "
+			+" pv.id_puntos_venta=(SELECT id_puntos_venta_stock FROM cat_parametros WHERE id_parametros=1) "
+			+" AND(cat.nombre_categoria  =?"
+			+" AND ta.medida  =?)"
+			+" ORDER BY (pr.cod_producto);", nativeQuery = true)
+	List<CatStock> findProductFilter3(String categoria,
+			String talla);
+	
+	@Query(value = "SELECT * "
+			+"FROM cat_stock s, cat_productos pr, cat_puntos_venta pv, cat_categoria cat, cat_disenos di,cat_tallas ta "  
+			+"WHERE  s.id_productos=pr.id_productos AND s.id_puntos_venta=pv.id_puntos_venta AND"
+			+" pr.id_categoria=cat.id_categoria AND  pr.id_disenos=di.id_disenos AND"
+			+" pr.id_tallas= ta.id_tallas AND s.existe='S' AND "
+			+" pv.id_puntos_venta=(SELECT id_puntos_venta_stock FROM cat_parametros WHERE id_parametros=1) "
+			+" AND(ta.medida  =?"
+			+" AND  di.nombre  =?)"
+			+" ORDER BY (pr.cod_producto);", nativeQuery = true)
+	List<CatStock> findProductFilter4(String talla,
+			String diseno);
+	
+	@Query(value = "SELECT * "
+			+ "FROM cat_stock s, cat_productos pr, cat_puntos_venta pv, cat_categoria cat, cat_disenos di,cat_tallas ta   "
+			+ "WHERE  s.id_productos=pr.id_productos AND s.id_puntos_venta=pv.id_puntos_venta AND "
+			+ "		pr.id_categoria=cat.id_categoria AND  pr.id_disenos=di.id_disenos AND  "
+			+ "		pr.id_tallas= ta.id_tallas AND s.existe='S' AND pv.id_puntos_venta=(SELECT id_puntos_venta_stock FROM cat_parametros WHERE id_parametros=1) AND  (  "
+			+ "		pr.cod_producto LIKE %:consulta%  or  cat.nombre_categoria  LIKE %:consulta%  or "
+			+ "		cat.descripcion  LIKE %:consulta%  or  di.nombre  LIKE %:consulta% or "
+			+ "		ta.medida  LIKE %:consulta%  or  ta.descripcion  LIKE %:consulta%) "
+			+ "		ORDER BY (pr.cod_producto );", nativeQuery = true)
+	List<CatStock> findProductFilter5(String consulta);
 	
 }
