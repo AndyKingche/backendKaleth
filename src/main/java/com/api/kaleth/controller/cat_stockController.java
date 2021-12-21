@@ -322,6 +322,59 @@ public class cat_stockController {
 
 		return null;
 	}
+	
+	@RequestMapping(value = "/stock/filter/{categoria}/{diseno}/{medida}", produces = {
+	"application/json" }, method = RequestMethod.GET)
+public List<CatStock> findStockfilter(@PathVariable(name = "categoria") String categoria,@PathVariable(name = "diseno") String diseno,
+	@PathVariable(name = "medida") String medida) {
+		
+try {
+	if(!categoria.equals("vacio") && !diseno.equals("vacio") && !medida.equals("vacio")) {
+		System.out.println(categoria+"-"+medida+"-"+diseno);
+		System.out.println("1 todos");
+		List<CatStock> findStock = cat_stockRepository.findProductFilter1(categoria, diseno, medida);
+		return findStock;
+		
+	}
+if(!categoria.equals("vacio") && !diseno.equals("vacio") && medida.equals("vacio")) {
+	System.out.println(categoria+"-"+diseno);
+	System.out.println("2 todos");
+	List<CatStock> findStock = cat_stockRepository.findProductFilter2(categoria, diseno);
+	return findStock;
+	}
+if(!categoria.equals("vacio") && diseno.equals("vacio") && !medida.equals("vacio")) {
+	System.out.println("3 todos");
+	List<CatStock> findStock = cat_stockRepository.findProductFilter3(categoria, medida);
+	return findStock;
+}
+if(categoria.equals("vacio") && !diseno.equals("vacio") && !medida.equals("vacio")) {
+	System.out.println("4 todos");
+	List<CatStock> findStock = cat_stockRepository.findProductFilter4(medida, diseno);
+	return findStock;
+}
+if(!categoria.equals("vacio") && diseno.equals("vacio") && medida.equals("vacio")) {
+	System.out.println("5 todos");
+	List<CatStock> findStock = cat_stockRepository.findProductFilter5(categoria);
+	return findStock;
+}
+if(categoria.equals("vacio") && !diseno.equals("vacio") && medida.equals("vacio")) {
+	System.out.println("6 todos");
+	List<CatStock> findStock = cat_stockRepository.findProductFilter5(diseno);
+	return findStock;
+}
+if(categoria.equals("vacio") && diseno.equals("vacio") && !medida.equals("vacio")) {
+	System.out.println("7 todos");
+	List<CatStock> findStock = cat_stockRepository.findProductFilter5(medida);
+	return findStock;
+}
+
+} catch (Exception e) {
+	// TODO: handle exception
+	System.out.print("Error al consultar en el stock filter");
+}
+
+return null;
+}
 	@RequestMapping(value = "/stock/demo", produces = { "application/json" }, method = RequestMethod.GET)
 	public String getStockdemo() {
 		return "hOL";
