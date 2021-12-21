@@ -98,7 +98,7 @@ public class cat_stockController {
 
 			return numeroTipo;
 		} catch (Exception e) {
-			System.out.println("*************************ERRRORRRRRRRRRRRRRRRRRRR");
+			System.out.println("*************************ERRRORRRRRRRRRRRRRRRRRRR"+e);
 		}
 		return -1;
 	}
@@ -182,7 +182,7 @@ public class cat_stockController {
 			System.out.println(actualizado);
 			return actualizado;
 		} catch (Exception e) {
-			System.out.println("*************************ERRRORRRRRRRRRRRRRRRRRRR");
+			System.out.println("*************************ERRRORRRRRRRRRRRRRRRRRRR"+e);
 		}
 		return -1;
 	}
