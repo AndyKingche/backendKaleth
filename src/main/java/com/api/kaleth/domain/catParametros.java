@@ -54,6 +54,13 @@ public class catParametros implements Serializable{
 	
 	private String idPuntosVentaStock;
 	
+	@Column(columnDefinition = "LONGTEXT")
+	private String conocenos;
+	@Column(columnDefinition = "LONGTEXT")
+	private String mision;
+	@Column(columnDefinition = "LONGTEXT")
+	private String vision;
+	
 	public Long getIdParametros() {
 		return idParametros;
 	}
@@ -173,6 +180,24 @@ public class catParametros implements Serializable{
 	}
 	public void setIdPuntosVentaStock(String idPuntosVentaStock) {
 		this.idPuntosVentaStock = idPuntosVentaStock;
+	}
+	public String getConocenos() {
+		return conocenos;
+	}
+	public void setConocenos(String conocenos) {
+		this.conocenos = conocenos;
+	}
+	public String getMision() {
+		return mision;
+	}
+	public void setMision(String mision) {
+		this.mision = mision;
+	}
+	public String getVision() {
+		return vision;
+	}
+	public void setVision(String vision) {
+		this.vision = vision;
 	}
 	
 

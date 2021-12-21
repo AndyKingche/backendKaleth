@@ -74,6 +74,10 @@ public class catParametrosController {
 		catParametros.setUrlFotoBanner3(parametros.getUrlFotoBanner3());
 		
 		catParametros.setIdPuntosVentaStock(parametros.getIdPuntosVentaStock());
+		catParametros.setConocenos(parametros.getConocenos());
+		catParametros.setMision(parametros.getMision());
+		catParametros.setVision(parametros.getVision());
+		
 		catParametros updateParametros = catParametrosRepository.save(catParametros);
 		return ResponseEntity.ok().header("Content-Type", "application/json")
 				.body("{\"mensaje\": \"La talla se ha actualizado correctamente " + "" + "\"}");
