@@ -3,7 +3,9 @@ target/
 !.mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/
 !**/src/test/**/target/
-src/**/*application.properties
+# End of https://www.toptal.com/developers/gitignore/api/maven
+/src/main/resources/aplication.properties
+/target/classes/application.properties
 ### STS ###
 .apt_generated
 .classpath
