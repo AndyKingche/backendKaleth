@@ -4,8 +4,8 @@ target/
 !**/src/main/**/target/
 !**/src/test/**/target/
 # End of https://www.toptal.com/developers/gitignore/api/maven
-/src/main/resources/application.properties
-/target/classes/application.properties
+src/main/resources/application.properties
+target/classes/application.properties
 ### STS ###
 .apt_generated
 .classpath
